@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Хранилище CarRentalMVCModelContainer" CdmEntityContainer="CarRentalMVCEntities1">
+    <EntitySetMapping Name="Customer_Tbl">
+      <EntityTypeMapping TypeName="CarRentalMVCModel.Customer_Tbl">
+        <MappingFragment StoreEntitySet="Customer_Tbl">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="FIO" ColumnName="FIO" />
+          <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+          <ScalarProperty Name="Passport_Data" ColumnName="Passport_Data" />
+          <ScalarProperty Name="Drivers_License" ColumnName="Drivers_License" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Car_Tbl">
+      <EntityTypeMapping TypeName="CarRentalMVCModel.Car_Tbl">
+        <MappingFragment StoreEntitySet="Car_Tbl">
+          <ScalarProperty Name="Image" ColumnName="Image" />
+          <ScalarProperty Name="Contition" ColumnName="Contition" />
+          <ScalarProperty Name="Price_Per_Day" ColumnName="Price_Per_Day" />
+          <ScalarProperty Name="Power" ColumnName="Power" />
+          <ScalarProperty Name="Type_Drive" ColumnName="Type_Drive" />
+          <ScalarProperty Name="Type_Transmission" ColumnName="Type_Transmission" />
+          <ScalarProperty Name="Color" ColumnName="Color" />
+          <ScalarProperty Name="Mileage" ColumnName="Mileage" />
+          <ScalarProperty Name="Year_Release" ColumnName="Year_Release" />
+          <ScalarProperty Name="Class" ColumnName="Class" />
+          <ScalarProperty Name="Type_Body" ColumnName="Type_Body" />
+          <ScalarProperty Name="Model" ColumnName="Model" />
+          <ScalarProperty Name="Brand" ColumnName="Brand" />
+          <ScalarProperty Name="WIN_Number" ColumnName="WIN_Number" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Contract">
+      <EntityTypeMapping TypeName="CarRentalMVCModel.Contract">
+        <MappingFragment StoreEntitySet="Contract">
+          <ScalarProperty Name="Notes" ColumnName="Notes" />
+          <ScalarProperty Name="Condition" ColumnName="Condition" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Date_End" ColumnName="Date_End" />
+          <ScalarProperty Name="Date_Start" ColumnName="Date_Start" />
+          <ScalarProperty Name="Additional_Options" ColumnName="Additional_Options" />
+          <ScalarProperty Name="Car_WIN_Number" ColumnName="Car_WIN_Number" />
+          <ScalarProperty Name="Car_Model" ColumnName="Car_Model" />
+          <ScalarProperty Name="Car_Brand" ColumnName="Car_Brand" />
+          <ScalarProperty Name="FIO_Manager" ColumnName="FIO_Manager" />
+          <ScalarProperty Name="FIO_Customer" ColumnName="FIO_Customer" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
