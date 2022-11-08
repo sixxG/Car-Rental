@@ -1,0 +1,338 @@
+﻿@model IEnumerable<CarRental.Models.Car_Tbl>
+
+@{
+    ViewBag.Title = "Index";
+}
+<link href="~/Content/Button.css" rel="stylesheet" />
+<link href="~/Content/Index.css" rel="stylesheet" />
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+
+<!--new nav-->
+@if (User.Identity.IsAuthenticated)
+{
+    if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+    {
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a data-toggle="tab" href="#listCar"><h4>Парк автомобилей</h4></a>
+            </li>
+            <li>
+                <a data-toggle="tab" href="#AddCar"><h4>Добавить авто</h4></a>
+            </li>
+        </ul>
+    }
+}
+<!--new nav-->
+
+
+<div class="tab-content">
+    <div id="listCar" class="tab-pane fade in active">
+
+        <!-- Start search -->
+        <br />
+        <form method="get" asp-action="Index">
+            <p>
+                <input type="search" placeholder="Введите марку автомобиля или модель ...." value="@ViewData["Getcardetails"]" name="Empsearch"
+                        style="width: 40%" />
+                <input type="submit" value="Search" class="btn btn-primary" />
+                @Html.ActionLink("Все автомобили", "Index")
+            </p>
+        </form>
+        <!-- End search -->
+
+        <!-- Gallery item Эконом -->
+        <div class="container">
+            <h2><b>@Html.ActionLink("Эконом", "IndexClass", new { s = "Эконом" })</b></h2>
+            @foreach (var item in Model.Where(x => x.Class.Equals("Эконом")).Take(3))
+            {
+                <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
+                    <div class="bg-info img-rounded shadow-sm">
+
+                        <div style="padding: 15px; margin: 10px">
+                            <img src="@item.Image" width="100%" height="220px" />
+                            <p>
+                                <h4>
+                                    <b>
+                                        @Html.DisplayFor(modelItem => item.Brand)
+                                        @Html.DisplayFor(modelItem => item.Model)
+                                        ,
+                                        @Html.DisplayFor(modelItem => item.Year_Release)
+                                        @Html.DisplayFor(modelItem => item.Class)
+                                    </b>
+                                </h4>
+                            </p>
+                            <hr />
+
+                            <div class="auto-description-start" style=" vertical-align: top; font-size: 14px; width: 35%; display: inline-block; margin-right: 50px;">
+                                <p class="auto-description">Коробка</p>
+                                <p class="auto-description">Привод</p>
+                                <p class="auto-description">Пробег</p>
+                                <p class="auto-description">Мощность</p>
+                                <p class="auto-description">Тип кузова</p>
+                            </div>
+
+                            <div class="auto-description-edn" style=" vertical-align: top; font-size: 14px; width: 47%; display: inline-block; text-align: right;">
+                                <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Transmission)</p>
+                                <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Drive)</p>
+                                <p class="auto-description">&gt;@Html.DisplayFor(modelItem => item.Mileage)</p>
+                                <p class="auto-description">@Html.DisplayFor(modelItem => item.Power) лс.</p>
+                                <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Body)</p>
+                            </div>
+
+                            <div class="bg-info">
+                                <h4><b>от @Html.DisplayFor(modelItem => item.Price_Per_Day)</b> / сутки</h4>
+                            </div>
+
+                            <h4 class="text-success text-uppercase" style="text-align: center">
+                                @if (item.Contition.Equals("Свободна"))
+                                {
+                                    <b style="color: green">@Html.DisplayFor(modelItem => item.Contition)</b>
+                                }
+                                else
+                                {
+                                    <b style="color: red">@Html.DisplayFor(modelItem => item.Contition)</b>
+                                }
+                            </h4>
+
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+                                {
+
+                                    <table class="table" style="margin:0 auto;">
+                                        <tr>
+                                            <td>
+                                                <a class="btn btn-primary btn-sm" onclick="Edit('@Url.Action("Create","Car", new { id = item.id})')">
+                                                    <i class="fa fa-pencil fa-lg"></i>
+                                                </a>
+                                                <a class="btn btn-danger btn-sm">
+                                                    <i class="fa fa-trash fa-lg"></i>
+                                                </a>
+                                                @*<a href='#' class='btn btn-warning' onclick='Edit(" + ContactList[i].Id  + ")'>
+                                                    <span class='glyphicon glyphicon-edit'></span>
+                                                </a>
+                                                @Html.ActionLink("Edit", "Edit", new { id = item.id })
+                                            </td>
+                                            <td>
+                                                <a href='#' class='btn btn-success' onclick='DeleteContactRecord(" + ContactList[i].Id + ")'>
+                                                    <span class='glyphicon glyphicon-info-sign'></span>
+                                                </a>
+                                                @Html.ActionLink("Details", "Details", new { id = item.id })
+                                            </td>
+                                            <td>
+                                                <a href='#' class='btn btn-danger' onclick='DeleteContactRecord(" + ContactList[i].Id + ")'>
+                                                    <span class='glyphicon glyphicon-trash'></span>
+                                                </a>
+                                                @Html.ActionLink("Delete", "Delete", new { id = item.id })*@
+                                            </td>
+                                        </tr>
+                                    </table>
+                                }
+
+                            }
+                            <div style="width:100%; height:100%; text-align:center;">
+                                @Html.ActionLink("Подробнее", "Details", new { id = item.id }, new { @class = "btn-details" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            <br />
+            <!-- End Эконом-->
+        </div>
+
+        <!-- Gallery item Комфорт -->
+        <div class="container">
+            <h2><b>@Html.ActionLink("Комфорт", "IndexClass", new { s = "Комфорт" })</b></h2>
+            @foreach (var item in Model.Where(x => x.Class.Equals("Комфорт")).Take(3))
+             {
+                <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
+                    <div class="bg-info img-rounded shadow-sm">
+
+                        <div style="padding: 15px; margin: 10px">
+                            <img src="@item.Image" width="100%" height="220px" />
+                            <p>
+                                <h4>
+                                    <b>
+                                        @Html.DisplayFor(modelItem => item.Brand)
+                                        @Html.DisplayFor(modelItem => item.Model)
+                                        ,
+                                        @Html.DisplayFor(modelItem => item.Year_Release)
+                                        @Html.DisplayFor(modelItem => item.Class)
+                                    </b>
+                                </h4>
+                            </p>
+                            <hr />
+
+                            <div class="auto-description-start" style=" vertical-align: top; font-size: 14px; width: 35%; display: inline-block; margin-right: 50px;">
+                                <p class="auto-description">Коробка</p>
+                                <p class="auto-description">Привод</p>
+                                <p class="auto-description">Пробег</p>
+                                <p class="auto-description">Мощность</p>
+                                <p class="auto-description">Тип кузова</p>
+                            </div>
+
+                            <div class="auto-description-edn" style=" vertical-align: top; font-size: 14px; width: 47%; display: inline-block; text-align: right;">
+                                <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Transmission)</p>
+                                <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Drive)</p>
+                                <p class="auto-description">&gt;@Html.DisplayFor(modelItem => item.Mileage)</p>
+                                <p class="auto-description">@Html.DisplayFor(modelItem => item.Power) лс.</p>
+                                <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Body)</p>
+                            </div>
+
+                            <div class="bg-info">
+                                <h4><b>от @Html.DisplayFor(modelItem => item.Price_Per_Day)</b> / сутки</h4>
+                            </div>
+
+                            <h4 class="text-success text-uppercase" style="text-align: center">
+                                @if (item.Contition.Equals("Свободна"))
+                                {
+                                    <b style="color: green">@Html.DisplayFor(modelItem => item.Contition)</b>
+                                }
+                                else
+                                {
+                                    <b style="color: red">@Html.DisplayFor(modelItem => item.Contition)</b>
+                                }
+                            </h4>
+
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+                                {
+
+                                    <table class="table" style="margin:0 auto;">
+                                        <tr>
+                                            <td>
+                                                <a href='#' class='btn btn-warning' onclick='Edit(" + ContactList[i].Id  + ")'>
+                                                    <span class='glyphicon glyphicon-edit'></span>
+                                                </a>
+                                                @Html.ActionLink("Edit", "Edit", new { id = item.id })
+                                            </td>
+                                            <td>
+                                                <a href='#' class='btn btn-success' onclick='DeleteContactRecord(" + ContactList[i].Id + ")'>
+                                                    <span class='glyphicon glyphicon-info-sign'></span>
+                                                </a>
+                                                @Html.ActionLink("Details", "Details", new { id = item.id })
+                                            </td>
+                                            <td>
+                                                <a href='#' class='btn btn-danger' onclick='DeleteContactRecord(" + ContactList[i].Id + ")'>
+                                                    <span class='glyphicon glyphicon-trash'></span>
+                                                </a>
+                                                @Html.ActionLink("Delete", "Delete", new { id = item.id })
+                                            </td>
+                                        </tr>
+                                    </table>
+                                }
+
+                            }
+                            <div style="width:100%; height:100%; text-align:center;">
+                                @Html.ActionLink("Подробнее", "Details", new { id = item.id }, new { @class = "btn-details" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+             }
+            <br />
+        </div>
+        <!-- End Комфорт-->
+
+        <!-- Gallery item Бизнес -->
+        <div class="container">
+            <h2><b>@Html.ActionLink("Бизнесс", "IndexClass", new { s = "Бизнесс" })</b></h2>
+            @foreach (var item in Model.Where(x => x.Class.Equals("Бизнесс")).Take(3))
+            {
+                <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
+                    <div class="bg-info img-rounded shadow-sm">
+
+                        <div style="padding: 15px; margin: 10px">
+                            <img src="@item.Image" width="100%" height="220px" />
+                            <p>
+                                <h4>
+                                    <b>
+                                        @Html.DisplayFor(modelItem => item.Brand)
+                                        @Html.DisplayFor(modelItem => item.Model)
+                                        ,
+                                        @Html.DisplayFor(modelItem => item.Year_Release)
+                                        @Html.DisplayFor(modelItem => item.Class)
+                                    </b>
+                                </h4>
+                            </p>
+                            <hr />
+
+                            <div class="auto-description-start" style=" vertical-align: top; font-size: 14px; width: 35%; display: inline-block; margin-right: 50px;">
+                                <p class="auto-description">Коробка</p>
+                                <p class="auto-description">Привод</p>
+                                <p class="auto-description">Пробег</p>
+                                <p class="auto-description">Мощность</p>
+                                <p class="auto-description">Тип кузова</p>
+                            </div>
+
+                            <div class="auto-description-edn" style=" vertical-align: top; font-size: 14px; width: 47%; display: inline-block; text-align: right;">
+                                <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Transmission)</p>
+                                <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Drive)</p>
+                                <p class="auto-description">&gt;@Html.DisplayFor(modelItem => item.Mileage)</p>
+                                <p class="auto-description">@Html.DisplayFor(modelItem => item.Power) лс.</p>
+                                <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Body)</p>
+                            </div>
+
+                            <div class="bg-info">
+                                <h4><b>от @Html.DisplayFor(modelItem => item.Price_Per_Day)</b> / сутки</h4>
+                            </div>
+
+                            <h4 class="text-success text-uppercase" style="text-align: center">
+                                @if (item.Contition.Equals("Свободна"))
+                                {
+                                    <b style="color: green">@Html.DisplayFor(modelItem => item.Contition)</b>
+                                }
+                                else
+                                {
+                                    <b style="color: red">@Html.DisplayFor(modelItem => item.Contition)</b>
+                                }
+                            </h4>
+
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+                                {
+
+                                    <table class="table" style="margin:0 auto;">
+                                        <tr>
+                                            <td>
+                                                <a href='#' class='btn btn-warning' onclick='Edit(" + ContactList[i].Id  + ")'>
+                                                    <span class='glyphicon glyphicon-edit'></span>
+                                                </a>
+                                                @Html.ActionLink("Edit", "Edit", new { id = item.id })
+                                            </td>
+                                            <td>
+                                                <a href='#' class='btn btn-success' onclick='DeleteContactRecord(" + ContactList[i].Id + ")'>
+                                                    <span class='glyphicon glyphicon-info-sign'></span>
+                                                </a>
+                                                @Html.ActionLink("Details", "Details", new { id = item.id })
+                                            </td>
+                                            <td>
+                                                <a href='#' class='btn btn-danger' onclick='DeleteContactRecord(" + ContactList[i].Id + ")'>
+                                                    <span class='glyphicon glyphicon-trash'></span>
+                                                </a>
+                                                @Html.ActionLink("Delete", "Delete", new { id = item.id })
+                                            </td>
+                                        </tr>
+                                    </table>
+                                }
+
+                            }
+                            <div style="width:100%; height:100%; text-align:center;">
+                                @Html.ActionLink("Подробнее", "Details", new { id = item.id }, new { @class = "btn-details" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+             }
+            <br />
+        </div>
+        <!-- End Бизнес-->
+
+    </div>
+    <div id="AddCar" class="tab-pane fade in">
+        @Html.Action("Create")
+    </div>
+</div>

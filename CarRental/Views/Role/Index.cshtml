@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Microsoft.AspNet.Identity.EntityFramework.IdentityRole>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Roles</h2>
+<br /><br />
+
+<div class="section-padding">
+
+    <section class="col-md-6">
+        <table class="table-bordered tab-pane">
+            @Html.ActionLink("Создать роль", "Create", "Role", new { @class = "btn btn-primary btn-sm btn-block" })
+        </table>
+    </section>
+
+    <section class="col-md-6">
+        <table class="table-bordered tab-pane">
+            @*@Html.ActionLink("Установить роль пользователю", "RegisterRole", "Account", new { @class = "btn btn-primary btn-sm btn-block" })*@
+            <button class = "btn btn-default btn-sm btn-block" style="color: white;">
+                @Html.ActionLink("Установить роль пользователю", "RegisterRole", "Account", new { @class = "btn btn-primary btn-sm btn-block text-color-white" }, null)
+            </button>
+        </table>
+    </section>
+
+    <br /><br />
+    <table class="table table-bordered table-hover">
+        <tr>
+            <th>Role Name</th>
+        </tr>
+        @foreach (var item in Model)
+            {
+                <tr>
+                    <th>@item.Name</th>
+                </tr>
+            }
+    </table>
+
+</div>
+

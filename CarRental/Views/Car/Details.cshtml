@@ -1,0 +1,149 @@
+﻿@model CarRental.Models.Car_Tbl
+
+@{
+    ViewBag.Title = Model.Brand + " " + Model.Model;
+}
+<link href="~/Content/Details.css" rel="stylesheet" />
+<link href="~/Content/Button.css" rel="stylesheet" />
+<p>
+    @Html.ActionLink("Назад к списку", "Index")
+
+    @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+    {
+        <div style="width:100%; height:100%; text-align:center;">
+            @Html.ActionLink("Редиктировать", "Edit", new { id = Model.id }, new { @class = "glyphicon glyphicon-edit" })
+        </div>
+    }
+</p>
+<!---->
+<div class="container-fluid bloc">
+    <div class="col-lg-2 bloc-inside bloc-image">
+        <img src="@Url.Content("~" + Model.Image.Substring(2))" width="100%" height="100%" />
+    </div>
+    <div class="col-lg-2 bloc-inside bloc-info">
+        <h3>Период аренды</h3>
+        <div style="display: flex">
+            <div class="col-lg-2 col-lg-label">
+                @Html.Label("Начало: ")
+                <br /><br />
+                @Html.Label("Завершение: ")
+            </div>
+            <div class="col-lg-2 col-lg-text">
+                @Html.TextBox("start", "DateStart", new { @class = "InputDate", type = "date" })
+                @Html.TextBox("start", "TimeStart", new { @class = "InputDate", type = "time" })
+                <br />
+                @Html.TextBox("end", "DateEnd", new { @class = "InputDate", type = "date" })
+                @Html.TextBox("end", "TimeEnd", new { @class = "InputDate", type = "time" })
+            </div>
+        </div>
+        <br />
+        <div style="width:100%; height:100%; text-align:center;">
+            @Html.ActionLink("Арендовать", "Details", new { id = Model.id }, new { @class = "btn-details" })
+        </div>
+        <hr />
+        <span class="period">
+            <b>@Html.DisplayFor(model => model.Price_Per_Day)&nbsp;₽</b>
+            <span style="font-size: 20px">/ сутки</span>
+        </span>
+        <p>
+            Вы пока ни за что не платите. Оформив аренду, можно лично обговорить детали бронирования с менеджером.
+        </p>
+    </div>
+</div>
+<!---->
+<br />
+<div class="col-lg-2 bloc-inside bloc-image" style="height: 100%;">
+    <span class="period">
+        <b>
+            @Html.DisplayFor(model => model.Brand)
+            @Html.DisplayFor(model => model.Model)
+        </b>
+    </span>
+    <p style="font-size: 16px">
+        Граждане РФ. Прописка по России. Стаж от 3 лет. Возраст от 23 лет. Залог 6000 рублей. Лимит 200 км в сутки. Перепробег 8 рублей за км. Режим работы с 9 до 21. Выдача и забор авто в нерабочее время 1000₽.
+    </p>
+</div>
+
+<div class="col-lg-2" style="height: 150px; width: 38%;"></div>
+
+<div class="col-lg-2 bloc-inside bloc-image" style="height: 100%;">
+    <span class="period">
+        <b>
+            Характеристики
+        </b>
+    </span>
+    <br />
+
+    <div class="character">
+        <div style="display: flex; width: 100%;">
+            <div class="col-lg-2 character-label">
+                @Html.LabelFor(model => model.Type_Drive)
+            </div>
+
+            <div class="col-lg-2 character-data">
+                @Html.Label(Model.Type_Drive)
+            </div>
+        </div>
+        <div style="display: flex; width: 100%;">
+            <div class="col-lg-2 character-label">
+                @Html.LabelFor(model => model.Type_Body)
+            </div>
+            <div class="col-lg-2 character-data">
+                @Html.Label(Model.Type_Body)
+            </div>
+        </div>
+        <div style="display: flex; width: 100%;">
+            <div class="col-lg-2 character-label">
+                @Html.LabelFor(model => model.Type_Transmission)
+            </div>
+            <div class="col-lg-2 character-data">
+                @Html.Label(Model.Type_Transmission)
+            </div>
+        </div>
+        <div style="display: flex; width: 100%;">
+            <div class="col-lg-2 character-label">
+                @Html.LabelFor(model => model.Power)
+            </div>
+            <div class="col-lg-2 character-data">
+                @Html.Label(Model.Power.ToString())
+            </div>
+        </div>
+        <div style="display: flex; width: 100%;">
+            <div class="col-lg-2 character-label">
+                @Html.LabelFor(model => model.Class)
+            </div>
+            <div class="col-lg-2 character-data">
+                @Html.Label(Model.Class)
+            </div>
+        </div>
+
+        <div style="display: flex; width: 100%;">
+            <div class="col-lg-2 character-label">
+                @Html.LabelFor(model => model.Color)
+            </div>
+            <div class="col-lg-2 character-data">
+                @Html.Label(Model.Color)
+            </div>
+        </div>
+        <div style="display: flex; width: 100%;">
+            <div class="col-lg-2 character-label">
+                @Html.LabelFor(model => model.Year_Release)
+            </div>
+            <div class="col-lg-2 character-data">
+                @Html.Label(Model.Year_Release.ToString())
+            </div>
+        </div>
+        <div style="display: flex; width: 100%;">
+            <div class="col-lg-2 character-label">
+                @Html.LabelFor(model => model.Mileage)
+            </div>
+            <div class="col-lg-2 character-data">
+                @Html.Label(Model.Mileage.ToString())
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="col-lg-2" style="height: 500px; width: 38%;"></div>
+

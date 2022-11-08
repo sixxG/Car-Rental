@@ -1,0 +1,142 @@
+﻿.section-contacts {
+    overflow: hidden;
+}
+
+.section-contacts-container {
+    position: relative;
+}
+
+    .section-contacts-container::before {
+        content: '';
+        position: absolute;
+        background: url(../img/section-contacts/key.png) no-repeat;
+        background-size: cover;
+        width: 572px;
+        height: 100%;
+        bottom: -60px;
+        right: -50px;
+    }
+
+.section-contacts-title {
+    margin-bottom: 0;
+}
+
+.contacts {
+    display: flex;
+    align-items: center;
+    position: relative;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.contacts-start {
+    width: 50%;
+}
+
+.contacts-end {
+    width: 50%;
+    padding-left: 30px;
+}
+
+.contacts-map {
+    height: 450px;
+    background: #fef0b4;
+}
+
+.contacts-item {
+    margin-bottom: 35px;
+}
+
+    .contacts-item:last-of-type {
+        margin-bottom: 0;
+    }
+
+.contacts-title {
+    margin: 0 0 5px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    font-weight: 900;
+}
+
+.contacts-text {
+    margin: 0;
+    font-size: 18px;
+}
+
+.contacts-phone {
+    color: inherit;
+    text-decoration: none;
+    transition: color .2s;
+}
+
+    .contacts-phone:hover {
+        color: #00FF00;
+    }
+
+@media (max-width: 1400px) {
+    .section-contacts-container::before {
+        width: 400px;
+        right: -10px;
+        bottom: -80px;
+    }
+}
+
+@media (max-width: 1250px) {
+    .section-contacts-container::before {
+        height: 80%;
+        width: 350px;
+        ;
+        right: -20px;
+        bottom: -40px;
+    }
+}
+
+@media (max-width: 1050px) {
+    .section-contacts-container::before {
+        height: 60%;
+        width: 350px;
+        ;
+        right: -20px;
+        bottom: -40px;
+    }
+}
+
+@media (max-width: 1000px) {
+    .section-contacts-container::before {
+        content: none;
+    }
+
+    .contacts-end {
+        justify-content: center;
+        padding-left: 80px;
+    }
+}
+
+@media (max-width: 992px) {
+    .contacts-map {
+        height: 350px;
+    }
+}
+
+@media (max-width: 767px) {
+    .contacts-start {
+        width: 100%;
+        order: 1;
+    }
+
+    .contacts-end {
+        width: 400px;
+        max-width: 100%;
+        margin-bottom: 30px;
+        padding-left: 0;
+    }
+
+    .contacts-map {
+        margin: 0 -20px;
+        height: 300px;
+    }
+
+    .footer-page {
+        margin: 0;
+    }
+}
