@@ -60,6 +60,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
@@ -185,22 +186,25 @@
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CarValidation.cs" />
-    <Compile Include="Models\Car_and_Customer.Context.cs">
+    <Compile Include="Models\Car_Rental_DB_Models.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Car_and_Customer.Context.tt</DependentUpon>
+      <DependentUpon>Car_Rental_DB_Models.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Car_and_Customer.cs">
+    <Compile Include="Models\Car_Rental_DB_Models.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Car_and_Customer.tt</DependentUpon>
+      <DependentUpon>Car_Rental_DB_Models.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Car_Tbl.cs">
-      <DependentUpon>Car_and_Customer.tt</DependentUpon>
+      <DependentUpon>Car_Rental_DB_Models.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Contract.cs">
+      <DependentUpon>Car_Rental_DB_Models.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CustomerValidation.cs" />
     <Compile Include="Models\Customer_Tbl.cs">
-      <DependentUpon>Car_and_Customer.tt</DependentUpon>
+      <DependentUpon>Car_Rental_DB_Models.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -229,21 +233,21 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Image\defaulst.jpeg" />
-    <Content Include="Models\Car_and_Customer.Context.tt">
+    <Content Include="Models\Car_Rental_DB_Models.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Car_and_Customer.edmx</DependentUpon>
-      <LastGenOutput>Car_and_Customer.Context.cs</LastGenOutput>
+      <LastGenOutput>Car_Rental_DB_Models.Context.cs</LastGenOutput>
+      <DependentUpon>Car_Rental_DB.edmx</DependentUpon>
     </Content>
-    <Content Include="Models\Car_and_Customer.tt">
+    <Content Include="Models\Car_Rental_DB_Models.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Car_and_Customer.edmx</DependentUpon>
-      <LastGenOutput>Car_and_Customer.cs</LastGenOutput>
+      <LastGenOutput>Car_Rental_DB_Models.cs</LastGenOutput>
+      <DependentUpon>Car_Rental_DB.edmx</DependentUpon>
     </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <EntityDeploy Include="Models\Car_and_Customer.edmx" />
-    <Content Include="Models\Car_and_Customer.edmx.diagram">
-      <DependentUpon>Car_and_Customer.edmx</DependentUpon>
+    <EntityDeploy Include="Models\Car_Rental_DB.edmx" />
+    <Content Include="Models\Car_Rental_DB.edmx.diagram">
+      <DependentUpon>Car_Rental_DB.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\IndexScript.js" />

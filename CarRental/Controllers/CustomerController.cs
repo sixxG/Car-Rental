@@ -84,7 +84,7 @@ namespace CarRental.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(customer_Tbl).State = EntityState.Modified;
+                db.Entry(customer_Tbl).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

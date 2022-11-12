@@ -130,7 +130,7 @@ namespace CarRental.Controllers
                     }
                     else
                     {
-                        db.Entry(car_Tbl).State = EntityState.Modified;
+                        db.Entry(car_Tbl).State = System.Data.Entity.EntityState.Modified;
                         db.SaveChanges();
                     }
                 }
@@ -210,7 +210,7 @@ namespace CarRental.Controllers
             fileName = Path.Combine(Server.MapPath("../Image/"), fileName);
             car_Tbl.ImageFile.SaveAs(fileName);
 
-            db.Entry(car_Tbl).State = EntityState.Modified;
+            db.Entry(car_Tbl).State = System.Data.Entity.EntityState.Modified;
             db.SaveChanges();
             return RedirectToAction("Details", car_Tbl.id);
             //return View(car_Tbl);
