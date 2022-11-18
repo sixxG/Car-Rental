@@ -1,12 +1,13 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - приложение ASP.NET</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    <link href="~/Content/bootstrap-datetimepicker.min.css" rel="stylesheet" />
 
 </head>
 <body>
@@ -25,6 +26,7 @@
                     <li>@Html.ActionLink("Информация", "About", "Home")</li>
                     <li>@Html.ActionLink("Связаться", "Contact", "Home")</li>
                     <li>@Html.ActionLink("Car", "Index", "Car")</li>
+                    <li>@Html.ActionLink("Contracts", "Index", "Contracts")</li>
 
                     @if (User.Identity.IsAuthenticated)
                     {
@@ -32,8 +34,8 @@
                         {
                             <li>@Html.ActionLink("Customer", "Index", "Customer")</li>
                             <li>@Html.ActionLink("Просмотр ролей", "Index", "Role")</li>
-                            <li>@Html.ActionLink("Создать роль", "Create", "Role")</li>
-                            <li>@Html.ActionLink("Назначить роль", "RegisterRole", "Account")</li>
+                            @*<li>@Html.ActionLink("Создать роль", "Create", "Role")</li>
+                            <li>@Html.ActionLink("Назначить роль", "RegisterRole", "Account")</li>*@
                         }
                         if (User.IsInRole("Manager"))
                         {
@@ -41,7 +43,7 @@
                         }
                         if (User.IsInRole("Client"))
                         {
-                            <li>@Html.ActionLink("Сontract", "Index", "Сontract")</li>
+                            <li>@Html.ActionLink("Contracts", "Index", "Contracts")</li>
                         }
                     }
                 </ul>
@@ -62,5 +64,7 @@
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
     <script src="~/Scripts/IndexScript.js"></script>
+    
+
 </body>
 </html>

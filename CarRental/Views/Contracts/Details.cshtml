@@ -1,0 +1,106 @@
+﻿@model CarRental.Models.Contract
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Contract</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FIO_Customer)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FIO_Customer)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FIO_Manager)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FIO_Manager)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Car_Brand)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Car_Brand)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Car_Model)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Car_Model)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Car_WIN_Number)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Car_WIN_Number)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Additional_Options)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Additional_Options)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Date_Start)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date_Start)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Date_End)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date_End)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Condition)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Condition)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Notes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Notes)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

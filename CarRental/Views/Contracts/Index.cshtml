@@ -1,0 +1,93 @@
+﻿@model IEnumerable<CarRental.Models.Contract>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FIO_Customer)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FIO_Manager)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Car_Brand)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Car_Model)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Car_WIN_Number)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Additional_Options)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date_Start)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date_End)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Condition)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Notes)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.FIO_Customer)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FIO_Manager)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Car_Brand)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Car_Model)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Car_WIN_Number)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Additional_Options)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date_Start)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date_End)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Condition)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Notes)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.id })
+        </td>
+    </tr>
+}
+
+</table>

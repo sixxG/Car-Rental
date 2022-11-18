@@ -131,6 +131,9 @@ C:\Users\Oleg\Desktop\CarRental\bin\System.Web.Mvc.dll
 C:\Users\Oleg\Desktop\CarRental\bin\System.Web.Mvc.xml
 C:\Users\Oleg\Desktop\CarRental\bin\ru\System.Web.Mvc.resources.dll
 C:\Users\Oleg\Desktop\CarRental\obj\Debug\CarRental.csproj.AssemblyReference.cache
+C:\Users\Oleg\Desktop\КП по C#\papka\Car-Rental\CarRental\obj\Debug\Interop.Aec32BitAppServer.dll
+C:\Users\Oleg\Desktop\КП по C#\papka\Car-Rental\CarRental\obj\Debug\CarRental.csproj.ResolveComReference.cache
+C:\Users\Oleg\Desktop\КП по C#\papka\Car-Rental\CarRental\obj\Debug\CarRental.csproj.CoreCompileInputs.cache
 C:\Users\Oleg\Desktop\КП по C#\papka\Car-Rental\CarRental\bin\CarRental.dll.config
 C:\Users\Oleg\Desktop\КП по C#\papka\Car-Rental\CarRental\bin\CarRental.dll
 C:\Users\Oleg\Desktop\КП по C#\papka\Car-Rental\CarRental\bin\CarRental.pdb
@@ -257,9 +260,6 @@ C:\Users\Oleg\Desktop\КП по C#\papka\Car-Rental\CarRental\bin\ru\Microsoft.O
 C:\Users\Oleg\Desktop\КП по C#\papka\Car-Rental\CarRental\bin\ru\Microsoft.Owin.Security.Google.resources.dll
 C:\Users\Oleg\Desktop\КП по C#\papka\Car-Rental\CarRental\bin\ru\Microsoft.Owin.Security.Twitter.resources.dll
 C:\Users\Oleg\Desktop\КП по C#\papka\Car-Rental\CarRental\bin\ru\Microsoft.Owin.Security.MicrosoftAccount.resources.dll
-C:\Users\Oleg\Desktop\КП по C#\papka\Car-Rental\CarRental\obj\Debug\Interop.Aec32BitAppServer.dll
-C:\Users\Oleg\Desktop\КП по C#\papka\Car-Rental\CarRental\obj\Debug\CarRental.csproj.ResolveComReference.cache
-C:\Users\Oleg\Desktop\КП по C#\papka\Car-Rental\CarRental\obj\Debug\CarRental.csproj.CoreCompileInputs.cache
 C:\Users\Oleg\Desktop\КП по C#\papka\Car-Rental\CarRental\obj\Debug\CarRental.csproj.CopyComplete
 C:\Users\Oleg\Desktop\КП по C#\papka\Car-Rental\CarRental\obj\Debug\CarRental.dll
 C:\Users\Oleg\Desktop\КП по C#\papka\Car-Rental\CarRental\obj\Debug\CarRental.pdb
