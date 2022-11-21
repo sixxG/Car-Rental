@@ -263,3 +263,4 @@ C:\Users\Oleg\Desktop\КП по C#\papka\Car-Rental\CarRental\bin\ru\Microsoft.O
 C:\Users\Oleg\Desktop\КП по C#\papka\Car-Rental\CarRental\obj\Debug\CarRental.csproj.CopyComplete
 C:\Users\Oleg\Desktop\КП по C#\papka\Car-Rental\CarRental\obj\Debug\CarRental.dll
 C:\Users\Oleg\Desktop\КП по C#\papka\Car-Rental\CarRental\obj\Debug\CarRental.pdb
+C:\Users\Oleg\Desktop\КП по C#\papka\Car-Rental\CarRental\obj\Debug\CarRental.csproj.AssemblyReference.cache
