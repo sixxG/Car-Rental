@@ -1,7 +1,15 @@
-﻿.footer-page {
+﻿body {
+    height: 100%;
+}
+
+.footer-page {
     background: linear-gradient(to top, #2d2c2c, #1f1f1f);
     padding: 15px 0;
     margin-top: 25px;
+}
+
+.footer-link:hover {
+    color: #42FF00;
 }
 
 .footer-page-text {

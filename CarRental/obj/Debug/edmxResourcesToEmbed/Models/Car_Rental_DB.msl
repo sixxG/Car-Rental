@@ -37,6 +37,7 @@
     <EntitySetMapping Name="Contract">
       <EntityTypeMapping TypeName="CarRentalMVCModel.Contract">
         <MappingFragment StoreEntitySet="Contract">
+          <ScalarProperty Name="id_client" ColumnName="id_client" />
           <ScalarProperty Name="Notes" ColumnName="Notes" />
           <ScalarProperty Name="Condition" ColumnName="Condition" />
           <ScalarProperty Name="Price" ColumnName="Price" />

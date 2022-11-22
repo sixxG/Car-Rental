@@ -5,9 +5,11 @@ using System.Data.Entity;
 using System.Dynamic;
 using System.Linq;
 using System.Net;
+using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
 using CarRental.Models;
+using Microsoft.AspNet.Identity;
 
 namespace CarRental.Controllers
 {
@@ -15,11 +17,66 @@ namespace CarRental.Controllers
     {
         private CarRentalMVCEntities1 db = new CarRentalMVCEntities1();
 
-        // GET: Contracts
+        // GET: User Contracts
         public ActionResult Index()
+        {
+            var userID = User.Identity.GetUserId().ToString();
+            var Contracts = db.Contract.Where(contract => contract.id_client.Equals(userID));
+            int lenght = Contracts.Count();
+            return View(Contracts.ToList());
+        }
+
+        // GET: All Contracts
+        public ActionResult IndexAll()
         {
             return View(db.Contract.ToList());
         }
+
+        // GET: Contracts by Condition
+        public ActionResult IndexByCondition(string condition)
+        {
+            var contracts = new List<Contract>();
+            switch(condition)
+            {
+                case "All":
+                    {
+                        contracts = db.Contract.ToList();
+                        break;
+                    }
+                case "Не подтверждён":
+                    {
+                        contracts = db.Contract.Where(contract => contract.Condition.Equals(condition)).ToList();
+                        break;
+                    }
+                case "Подтверждён":
+                    {
+                        contracts = db.Contract.Where(contract => contract.Condition.Equals(condition)).ToList();
+                        break;
+                    }
+                case "Действует":
+                    {
+                        contracts = db.Contract.Where(contract => contract.Condition.Equals(condition)).ToList();
+                        break;
+                    }
+                case "Ожидает оплаты штрафа":
+                    {
+                        contracts = db.Contract.Where(contract => contract.Condition.Equals(condition)).ToList();
+                        break;
+                    }
+                case "Завершён":
+                    {
+                        contracts = db.Contract.Where(contract => contract.Condition.Equals(condition)).ToList();
+                        break;
+                    }
+                case "Отменён":
+                    {
+                        contracts = db.Contract.Where(contract => contract.Condition.Equals(condition)).ToList();
+                        break;
+                    }
+            }
+            return View(contracts);
+        }
+
 
         // GET: Contracts/Details/5
         public ActionResult Details(int? id)
@@ -78,9 +135,12 @@ namespace CarRental.Controllers
             var car = db.Car_Tbl.Where(auto => auto.id == id).FirstOrDefault();
             if (ModelState.IsValid)
             {
+                string strCurrentUserId = User.Identity.GetUserId().ToString();
+                contract.id_client = strCurrentUserId;
                 contract.Car_Brand = car.Brand;
                 contract.Car_Model = car.Model;
                 contract.Car_WIN_Number = car.WIN_Number;
+                contract.Condition = "Не подтверждён";
                 db.Contract.Add(contract);
                 db.SaveChanges();
                 return RedirectToAction("Index");

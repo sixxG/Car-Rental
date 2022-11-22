@@ -18,7 +18,7 @@
     <Property Name="Power" Type="int" Nullable="false" />
     <Property Name="Price_Per_Day" Type="int" Nullable="false" />
     <Property Name="Contition" Type="varchar" MaxLength="50" Nullable="false" />
-    <Property Name="Image" Type="varchar(max)" Nullable="false" />
+    <Property Name="Image" Type="varchar(max)" Nullable="false" StoreGeneratedPattern="None" />
   </EntityType>
   <EntityType Name="Contract">
     <Key>
@@ -36,6 +36,7 @@
     <Property Name="Price" Type="float" Nullable="false" />
     <Property Name="Condition" Type="varchar" MaxLength="50" />
     <Property Name="Notes" Type="nvarchar" MaxLength="150" />
+    <Property Name="id_client" Type="nvarchar(max)" />
   </EntityType>
   <EntityType Name="Customer_Tbl">
     <Key>

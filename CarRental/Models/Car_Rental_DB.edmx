@@ -23,7 +23,7 @@
           <Property Name="Power" Type="int" Nullable="false" />
           <Property Name="Price_Per_Day" Type="int" Nullable="false" />
           <Property Name="Contition" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Image" Type="varchar(max)" Nullable="false" />
+          <Property Name="Image" Type="varchar(max)" Nullable="false" StoreGeneratedPattern="None" />
         </EntityType>
         <EntityType Name="Contract">
           <Key>
@@ -41,6 +41,7 @@
           <Property Name="Price" Type="float" Nullable="false" />
           <Property Name="Condition" Type="varchar" MaxLength="50" />
           <Property Name="Notes" Type="nvarchar" MaxLength="150" />
+          <Property Name="id_client" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="Customer_Tbl">
           <Key>
@@ -105,7 +106,7 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="FIO_Customer" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="FIO_Manager" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="Car_Brand" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Car_Brand" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Car_Model" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Car_WIN_Number" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Additional_Options" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
@@ -114,6 +115,7 @@
           <Property Name="Price" Type="Double" Nullable="false" />
           <Property Name="Condition" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Notes" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="id_client" Type="String" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -157,6 +159,7 @@
           <EntitySetMapping Name="Contract">
             <EntityTypeMapping TypeName="CarRentalMVCModel.Contract">
               <MappingFragment StoreEntitySet="Contract">
+                <ScalarProperty Name="id_client" ColumnName="id_client" />
                 <ScalarProperty Name="Notes" ColumnName="Notes" />
                 <ScalarProperty Name="Condition" ColumnName="Condition" />
                 <ScalarProperty Name="Price" ColumnName="Price" />

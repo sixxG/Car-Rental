@@ -26,5 +26,6 @@ namespace CarRental.Models
         public double Price { get; set; }
         public string Condition { get; set; }
         public string Notes { get; set; }
+        public string id_client { get; set; }
     }
 }

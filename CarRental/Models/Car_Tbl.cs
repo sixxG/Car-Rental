@@ -31,6 +31,7 @@ namespace CarRental.Models
         public int Price_Per_Day { get; set; }
         public string Contition { get; set; }
         public string Image { get; set; }
+
         [NotMapped]
         public HttpPostedFileBase ImageFile { get; set; }
 

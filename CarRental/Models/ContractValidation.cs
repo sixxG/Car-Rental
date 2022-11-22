@@ -63,6 +63,10 @@ namespace CarRental.Models
             [DisplayName("Примечания")]
             [Column(TypeName = "string")]
             public string Notes { get; set; }
+
+            [DisplayName("ID клиента")]
+            [Column(TypeName = "string")]
+            public string id_client { get; set; }
         }
     }
 }

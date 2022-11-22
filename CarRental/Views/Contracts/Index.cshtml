@@ -4,7 +4,9 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<br />
+
+<h2>Аренды</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -44,50 +46,56 @@
         <th>
             @Html.DisplayNameFor(model => model.Notes)
         </th>
-        <th></th>
+        <th>
+            @Html.DisplayNameFor(model => model.id_client)
+        </th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.FIO_Customer)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FIO_Manager)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Car_Brand)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Car_Model)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Car_WIN_Number)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Additional_Options)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Date_Start)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Date_End)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Price)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Condition)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Notes)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FIO_Customer)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FIO_Manager)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Car_Brand)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Car_Model)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Car_WIN_Number)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Additional_Options)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date_Start)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date_End)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Condition)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Notes)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.id_client)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.id })
+            </td>
+        </tr>
+    }
 
 </table>
