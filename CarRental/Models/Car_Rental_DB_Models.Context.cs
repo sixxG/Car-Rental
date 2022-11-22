@@ -28,5 +28,7 @@ namespace CarRental.Models
         public DbSet<Customer_Tbl> Customer_Tbl { get; set; }
         public DbSet<Car_Tbl> Car_Tbl { get; set; }
         public DbSet<Contract> Contract { get; set; }
+        public DbSet<Manager_Tbl> Manager_Tbl { get; set; }
+        public DbSet<Admin_Tbl> Admin_Tbl { get; set; }
     }
 }

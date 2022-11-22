@@ -8,7 +8,8 @@ using System.Web;
 using System.Web.Mvc;
 using CarRental.Models;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.AspNetCore.Identity;
 
 namespace CarRental.Controllers
 {
@@ -37,6 +38,23 @@ namespace CarRental.Controllers
             return View(customer_Tbl);
         }
 
+
+
+        private ApplicationUserManager _userManager;
+
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
+
+
         // GET: Customer/Create
         public ActionResult Create()
         {
@@ -48,26 +66,32 @@ namespace CarRental.Controllers
         // Дополнительные сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,FIO,BirthDate,Passport_Data,Drivers_License,Address")] Customer_Tbl customer_Tbl)
+        public ActionResult Create([Bind(Include = "Id,FIO,BirthDate,Passport_Data,Drivers_License,Address,Login,Password,user_ID")] Customer_Tbl customer_Tbl)
         {
             if (ModelState.IsValid)
             {
+                var userID = User.Identity.GetUserId().ToString();
+                var login = User.Identity.GetUserName();
+                var role = UserManager.GetRoles(User.Identity.GetUserId());
+                customer_Tbl.user_ID = userID;
+                customer_Tbl.Login = login.ToString();
+                customer_Tbl.Password = role.First().ToString();
                 db.Customer_Tbl.Add(customer_Tbl);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return View(customer_Tbl);
             }
 
             return View(customer_Tbl);
         }
 
         // GET: Customer/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Customer_Tbl customer_Tbl = db.Customer_Tbl.Find(id);
+            Customer_Tbl customer_Tbl = db.Customer_Tbl.Where(customer => customer.user_ID.Equals(id)).First();
             if (customer_Tbl == null)
             {
                 return HttpNotFound();
@@ -80,7 +104,7 @@ namespace CarRental.Controllers
         // Дополнительные сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,FIO,BirthDate,Passport_Data,Drivers_License,Address")] Customer_Tbl customer_Tbl)
+        public ActionResult Edit([Bind(Include = "Id,FIO,BirthDate,Passport_Data,Drivers_License,Address,Login,Password,user_ID")] Customer_Tbl customer_Tbl)
         {
             if (ModelState.IsValid)
             {

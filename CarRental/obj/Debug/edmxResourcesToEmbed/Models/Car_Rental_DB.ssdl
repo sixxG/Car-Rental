@@ -1,5 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="Хранилище CarRentalMVCModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Admin_Tbl">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FIO" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Login" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="user_ID" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
   <EntityType Name="Car_Tbl">
     <Key>
       <PropertyRef Name="id" />
@@ -18,7 +28,7 @@
     <Property Name="Power" Type="int" Nullable="false" />
     <Property Name="Price_Per_Day" Type="int" Nullable="false" />
     <Property Name="Contition" Type="varchar" MaxLength="50" Nullable="false" />
-    <Property Name="Image" Type="varchar(max)" Nullable="false" StoreGeneratedPattern="None" />
+    <Property Name="Image" Type="varchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="Contract">
     <Key>
@@ -27,7 +37,7 @@
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="FIO_Customer" Type="nvarchar" MaxLength="150" Nullable="false" />
     <Property Name="FIO_Manager" Type="nvarchar" MaxLength="150" />
-    <Property Name="Car_Brand" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Car_Brand" Type="varchar" MaxLength="50" />
     <Property Name="Car_Model" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="Car_WIN_Number" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="Additional_Options" Type="nvarchar" MaxLength="150" />
@@ -48,10 +58,25 @@
     <Property Name="Passport_Data" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="Drivers_License" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="Address" Type="varchar" MaxLength="150" Nullable="false" />
+    <Property Name="Login" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="user_ID" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Manager_Tbl">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FIO" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Login" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="user_ID" Type="nvarchar" MaxLength="50" Nullable="false" />
   </EntityType>
   <EntityContainer Name="Хранилище CarRentalMVCModelContainer">
+    <EntitySet Name="Admin_Tbl" EntityType="Self.Admin_Tbl" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Car_Tbl" EntityType="Self.Car_Tbl" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Contract" EntityType="Self.Contract" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Customer_Tbl" EntityType="Self.Customer_Tbl" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Manager_Tbl" EntityType="Self.Manager_Tbl" Schema="dbo" store:Type="Tables" />
   </EntityContainer>
 </Schema>

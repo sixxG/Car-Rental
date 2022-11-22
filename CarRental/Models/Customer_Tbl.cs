@@ -20,5 +20,8 @@ namespace CarRental.Models
         public string Passport_Data { get; set; }
         public string Drivers_License { get; set; }
         public string Address { get; set; }
+        public string Login { get; set; }
+        public string Password { get; set; }
+        public string user_ID { get; set; }
     }
 }

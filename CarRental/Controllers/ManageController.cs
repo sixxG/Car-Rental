@@ -52,6 +52,7 @@ namespace CarRental.Controllers
 
         //
         // GET: /Manage/Index
+        private CarRentalMVCEntities1 db = new CarRentalMVCEntities1();
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
@@ -62,6 +63,15 @@ namespace CarRental.Controllers
                 : message == ManageMessageId.AddPhoneSuccess ? "Ваш номер телефона добавлен."
                 : message == ManageMessageId.RemovePhoneSuccess ? "Ваш номер телефона удален."
                 : "";
+            var userID = User.Identity.GetUserId().ToString();
+            ViewBag.UserID = userID;
+            var CustomerExists = db.Customer_Tbl.Where(customer => customer.user_ID.Equals(userID)).ToList();
+            var ManagerExists = db.Manager_Tbl.Where(manager => manager.user_ID.Equals(userID)).ToList();
+            var AdminExists = db.Admin_Tbl.Where(admin => admin.user_ID.Equals(userID)).ToList();
+
+            ViewBag.IfCustomerExists = CustomerExists.Count() > 0 ? true : false;
+            ViewBag.ifManagerExists = ManagerExists.Count() > 0 ? true : false;
+            ViewBag.ifAdminExists = AdminExists.Count() > 0 ? true : false;
 
             var userId = User.Identity.GetUserId();
             var model = new IndexViewModel

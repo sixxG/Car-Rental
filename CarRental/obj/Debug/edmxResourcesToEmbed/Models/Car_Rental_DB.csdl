@@ -10,11 +10,16 @@
     <Property Name="Passport_Data" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="Drivers_License" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="Address" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Login" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="user_ID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityContainer Name="CarRentalMVCEntities1" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="Customer_Tbl" EntityType="Self.Customer_Tbl" />
     <EntitySet Name="Car_Tbl" EntityType="CarRentalMVCModel.Car_Tbl" />
     <EntitySet Name="Contract" EntityType="CarRentalMVCModel.Contract" />
+    <EntitySet Name="Manager_Tbl" EntityType="CarRentalMVCModel.Manager_Tbl" />
+    <EntitySet Name="Admin_Tbl" EntityType="CarRentalMVCModel.Admin_Tbl" />
   </EntityContainer>
   <EntityType Name="Car_Tbl">
     <Key>
@@ -43,7 +48,7 @@
     <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="FIO_Customer" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
     <Property Name="FIO_Manager" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-    <Property Name="Car_Brand" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Car_Brand" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="Car_Model" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="Car_WIN_Number" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="Additional_Options" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
@@ -52,6 +57,26 @@
     <Property Name="Price" Type="Double" Nullable="false" />
     <Property Name="Condition" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="Notes" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-    <Property Name="id_client" Type="String" />
+    <Property Name="id_client" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Manager_Tbl">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FIO" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Login" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="user_ID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Admin_Tbl">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FIO" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Login" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="user_ID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
 </Schema>
