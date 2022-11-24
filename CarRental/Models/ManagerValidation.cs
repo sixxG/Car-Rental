@@ -21,7 +21,7 @@ namespace CarRental.Models
             [DisplayName("Login")]
             [Required]
             public string Login { get; set; }
-            [DisplayName("Password")]
+            [DisplayName("Role")]
             [Required]
             public string Password { get; set; }
             public string user_ID { get; set; }

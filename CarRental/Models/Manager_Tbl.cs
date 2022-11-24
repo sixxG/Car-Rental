@@ -11,12 +11,14 @@ namespace CarRental.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel;
+
     public partial class Manager_Tbl
     {
         public int id { get; set; }
         public string FIO { get; set; }
         public string Login { get; set; }
+        [DisplayName("Role")]
         public string Password { get; set; }
         public string user_ID { get; set; }
     }

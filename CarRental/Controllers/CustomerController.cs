@@ -72,10 +72,10 @@ namespace CarRental.Controllers
             {
                 var userID = User.Identity.GetUserId().ToString();
                 var login = User.Identity.GetUserName();
-                var role = UserManager.GetRoles(User.Identity.GetUserId());
+                var password = UserManager.GetRoles(User.Identity.GetUserId());
                 customer_Tbl.user_ID = userID;
                 customer_Tbl.Login = login.ToString();
-                customer_Tbl.Password = role.First().ToString();
+                customer_Tbl.Password = password.First().ToString();
                 db.Customer_Tbl.Add(customer_Tbl);
                 db.SaveChanges();
                 return View(customer_Tbl);

@@ -14,7 +14,7 @@
     <!---->
 
 </head>
-<body>
+<body style="padding-bottom: 0px">
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -35,7 +35,7 @@
                     {
                         if (User.IsInRole("Admin"))
                         {
-                            <li>@Html.ActionLink("Customer", "Index", "Customer")</li>
+                            <li>@Html.ActionLink("Users", "Index", "Customer")</li>
                             <li>@Html.ActionLink("Просмотр ролей", "Index", "Role")</li>
                             <li>@Html.ActionLink("Аренды", "IndexAll", "Contracts")</li>
                             @*<li>@Html.ActionLink("Создать роль", "Create", "Role")</li>

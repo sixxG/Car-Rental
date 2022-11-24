@@ -292,16 +292,17 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Button.css" />
     <Content Include="Content\Contact_CSS.css" />
+    <Content Include="Content\ContractDetails.css" />
     <Content Include="Content\Details.css" />
     <Content Include="Content\Foother.css" />
     <Content Include="Content\Index.css" />
     <Content Include="Content\Info_CSS.css" />
     <Content Include="Content\jquery-ui.min.css" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="Content\Site.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
     <Content Include="Image\defaulst.jpeg" />
     <Content Include="Models\Car_Rental_DB_Models.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -397,6 +398,9 @@
     <Content Include="Views\Manager\Edit.cshtml" />
     <Content Include="Views\Admin\Create.cshtml" />
     <Content Include="Views\Admin\Edit.cshtml" />
+    <Content Include="Views\Customer\Index.cshtml" />
+    <Content Include="Views\Manager\Index.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

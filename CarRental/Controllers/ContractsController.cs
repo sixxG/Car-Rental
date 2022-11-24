@@ -9,6 +9,7 @@ using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
 using CarRental.Models;
+using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
 
 namespace CarRental.Controllers
@@ -55,7 +56,7 @@ namespace CarRental.Controllers
                     }
                 case "Действует":
                     {
-                        contracts = db.Contract.Where(contract => contract.Condition.Equals(condition)).ToList();
+                        contracts = db.Contract.Where(contract => contract.Condition.Equals("Действует")).ToList();
                         break;
                     }
                 case "Ожидает оплаты штрафа":
@@ -81,16 +82,116 @@ namespace CarRental.Controllers
         // GET: Contracts/Details/5
         public ActionResult Details(int? id)
         {
+            Contract contract = db.Contract.Find(id);
+
+            var user = db.Customer_Tbl.Where(customer => customer.user_ID.Equals(contract.id_client)).First();
+            var BirthDate = user.BirthDate;
+            var Login = user.Login;
+            var Passport = user.Passport_Data;
+            var LicenseNumber = user.Drivers_License;
+            var Address = user.Address;
+
+            ViewBag.BD = BirthDate;
+            ViewBag.Login = Login;
+            ViewBag.Passport = Passport;
+            ViewBag.LicenseNumber = LicenseNumber;
+            ViewBag.Address = Address;
+
+            var car = db.Car_Tbl.Where(auto => auto.WIN_Number.Equals(contract.Car_WIN_Number)).First();
+            var Image = car.Image;
+            var Brand = car.Brand;
+            var Model = car.Model;
+            var Year = car.Year_Release;
+            var WIN = car.WIN_Number;
+
+            ViewBag.Image = Image;
+            ViewBag.Brand = Brand;
+            ViewBag.Model = Model;
+            ViewBag.Year = Year;
+            ViewBag.WIN = WIN;
+            ViewBag.RentalDate = (contract.Date_End - contract.Date_Start).TotalDays;
+            ViewBag.DateStart = contract.Date_Start.ToString("dd MMMM");
+            ViewBag.DateEnd = contract.Date_End.ToString("dd MMMM");
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Contract contract = db.Contract.Find(id);
             if (contract == null)
             {
                 return HttpNotFound();
             }
             return View(contract);
+        }
+
+        //Confirm Rental
+        //[HttpPost, ActionName("Confirm")]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Confirm(int id)
+        //{
+        //    var contract = db.Contract.Where(model => model.id == id).First();
+        //    contract.Condition = "Подтверждён";
+
+        //    db.Entry(contract).State = System.Data.Entity.EntityState.Modified;
+
+        //    db.SaveChanges();
+        //    return RedirectToAction("Index");
+        //}
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Confirm(int id)
+        {
+            var contract = db.Contract.Where(model => model.id == id).First();
+            contract.Condition = "Подтверждён";
+
+            db.Entry(contract).State = System.Data.Entity.EntityState.Modified;
+
+            db.SaveChanges();
+            return RedirectToAction("IndexAll");
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Canceled(int id)
+        {
+            var contract = db.Contract.Where(model => model.id == id).First();
+            contract.Condition = "Отменён";
+
+            db.Entry(contract).State = System.Data.Entity.EntityState.Modified;
+
+            db.SaveChanges();
+            return RedirectToAction("IndexAll");
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Finished(int id)
+        {
+            var contract = db.Contract.Where(model => model.id == id).First();
+            contract.Condition = "Завершён";
+
+            db.Entry(contract).State = System.Data.Entity.EntityState.Modified;
+
+            db.SaveChanges();
+
+            if(User.IsInRole("Client"))
+            {
+                return RedirectToAction("Index");
+            }else
+            {
+                return RedirectToAction("IndexAll");
+            }
+        }
+
+        
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Start(int id)
+        {
+            var contract = db.Contract.Where(model => model.id == id).First();
+            contract.Condition = "Действует";
+
+            db.Entry(contract).State = System.Data.Entity.EntityState.Modified;
+
+            db.SaveChanges();
+            return RedirectToAction("IndexAll");
         }
 
         // GET: Contracts/Create

@@ -15,6 +15,7 @@ using PagedList.Mvc;
 using PagedList;
 using System.Data.Entity.Validation;
 using System.Diagnostics;
+using Microsoft.AspNet.Identity;
 
 namespace CarRental.Controllers
 {
@@ -26,8 +27,15 @@ namespace CarRental.Controllers
         // GET: Car
         public ActionResult Index()
         {
-            //ViewBag.TotalPages = Math.Ceiling(db.Car_Tbl.ToList().Count() / 10.0);
-            return View(db.Car_Tbl.ToList());
+            string strCurrentUserId = User.Identity.GetUserId().ToString();
+            var userRole = User.IsInRole("Client");
+            if (userRole)
+            {
+                return View(db.Car_Tbl.Where(car => car.Contition.Equals("Свободна")).ToList());
+            } else
+            {
+                return View(db.Car_Tbl.ToList());
+            }
         }
 
         // GET: Car
@@ -35,10 +43,10 @@ namespace CarRental.Controllers
         {
             var cars = db.Car_Tbl.ToList().Where(x => x.Class.Equals(s));
 
-            ViewBag.TotalPages = Math.Ceiling(cars.Count() / 3.0);
+            ViewBag.TotalPages = Math.Ceiling(cars.Count() / 15.0);
             ViewBag.PageNumber = PageNumber;
 
-            cars = cars.Skip((PageNumber - 1) * 3).Take(3).ToList();
+            cars = cars.Skip((PageNumber - 1) * 15).Take(15).ToList();
 
             ViewBag.Class = s;
             return View(cars);
@@ -82,7 +90,7 @@ namespace CarRental.Controllers
             Car_Tbl car = new Car_Tbl();
             var listType_Drive = new List<String>() { "Передний", "Задний", "Полный"};
             var listType_Body = new List<String>() { "Купэ", "Универсал", "Кабриолет", "Седан", "Лимузин", "Внедорожник", "Хетчбэк", "Пикап", "Мини-вэн" };
-            var listClass = new List<String>() { "Эконом", "Комфорт", "Бизнесс", "Premium", "Внедорожники", "Минивэны", "Уникальные авто"};
+            var listClass = new List<String>() { "Эконом", "Комфорт", "Бизнес", "Premium", "Внедорожники", "Минивэны", "Уникальные авто"};
             var listType_Transmission = new List<String>() { "Механическая", "Автоматическая", "Робот" };
             ViewBag.listType_Drive = listType_Drive;
             ViewBag.listType_Body = listType_Body;
