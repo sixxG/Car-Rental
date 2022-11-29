@@ -3,6 +3,8 @@
 <link href="~/Content/ContractDetails.css" rel="stylesheet" />
 
 <br />
+<br />
+<br />
 
 <div style="text-align: center; width: 100%;">
     @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
@@ -35,28 +37,44 @@
 
         <p style="font-size: 24px; color: black; width: 100%; text-align:center; margin: 0;">Данные клиента</p>
         <hr style="color: #5394FD; margin: 5px" />
+        <!---->
+        <div style="display: flex;">
+            <div style="padding: 0; display: inline-block; width: 35%; height: 100%">
+                <label style="display:block; margin-bottom: 22px; margin-top: 5px;">ФИО</label>
+                <label style="display: block; margin-bottom: 22px">Дата рождения</label>
+                <label style="display: block; margin-bottom: 22px">Логин</label>
+                <label style="display: block; margin-bottom: 22px">Паспорт</label>
+                <label style="display: block; margin-bottom: 22px">Номер ВУ</label>
+                <label style="display: block; margin-bottom: 22px">Адрес</label>
+                <label style="display: block; margin-bottom: 22px">ФИО</label>
+            </div>
 
-        <div>
-            <input class="input" type="text" value="@Html.DisplayFor(model => model.FIO_Customer)" readonly>
+            <div style="padding: 0; display: inline-block; text-align: center; width: 75%;">
+                <div>
+                    <input class="input" type="text" value="@Html.DisplayFor(model => model.FIO_Customer)" readonly>
+                </div>
+                <div>
+                    <input class="input" type="text" value="@ViewBag.BD" readonly>
+                </div>
+                <div>
+                    <input class="input" type="text" value="@ViewBag.Login" readonly>
+                </div>
+                <div>
+                    <input class="input" type="text" value="@ViewBag.Passport" readonly>
+                </div>
+                <div>
+                    <input class="input" type="text" value="@ViewBag.LicenseNumber" readonly>
+                </div>
+                <div>
+                    <input class="input" type="text" value="@ViewBag.Address" readonly>
+                </div>
+                <div>
+                    <input class="input" type="text" value="@Html.DisplayFor(model => model.FIO_Customer)" readonly>
+                </div>
+            </div>
         </div>
-        <div>
-            <input class="input" type="text" value="@ViewBag.BD" readonly>
-        </div>
-        <div>
-            <input class="input" type="text" value="@ViewBag.Login" readonly>
-        </div>
-        <div>
-            <input class="input" type="text" value="@ViewBag.Passport" readonly>
-        </div>
-        <div>
-            <input class="input" type="text" value="@ViewBag.LicenseNumber" readonly>
-        </div>
-        <div>
-            <input class="input" type="text" value="@ViewBag.Address" readonly>
-        </div>
-        <div>
-            <input class="input" type="text" value="@Html.DisplayFor(model => model.FIO_Customer)" readonly>
-        </div>
+        <!---->
+
 
         <p style="font-size: 24px; color: black; width: 100%; text-align:center; margin: 0;">Дополнительные опции</p>
         <hr style="color: #5394FD; margin: 5px" />
@@ -105,7 +123,14 @@
 
         <div style="display: flex;">
             <div style="padding: 0; display: inline-block; width: 50%">
-                <p style="font-size: 16px; color: black; margin: 0; text-align:left;">Аренда на @ViewBag.RentalDate дней</p>
+                @if (ViewBag.RentalHours == null)
+                {
+                    <p style="font-size: 16px; color: black; margin: 0; text-align:left;">Аренда на @ViewBag.RentalDate дней</p>
+                }
+                else
+                {
+                    <p style="font-size: 16px; color: black; margin: 0; text-align:left;">Аренда на @ViewBag.RentalDate дней @ViewBag.RentalHours мин</p>
+                }
                 <p style="color: rgba(40,40,40, 0.5); margin: 0; ">@ViewBag.DateStart - @ViewBag.DateEnd</p>
             </div>
 
@@ -177,4 +202,3 @@
     </div>
 </div>
 <!---->
-

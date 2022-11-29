@@ -1,96 +1,145 @@
 ﻿@model IEnumerable<CarRental.Models.Contract>
 
-@{
-    ViewBag.Title = "Index";
-}
+<link href="~/Content/Index.css" rel="stylesheet" />
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<br />
+
+<h2>Активная</h2>
+
+<hr style="color: #5394FD; margin: 5px; background: #5394FD; border: 0.5px solid #5394FD " />
+
+
+<div style="display: flex; background: rgba(40,40,40,0.15); width: 100%; height: 100%; border-radius: 15px; padding: 10px">
+    <div style="padding: 0; display: inline-block; width: 50%">
+        @Html.ActionLink("Автомобиль", "Details", "Car", new { id = ViewBag.CarId }, new { @class = "btn-details", @style= "font-size: 32px; color: black; text-decoration: none;" })
+        <img src="@Url.Content("~" + @ViewBag.Img)" style="width: 260px; height:160px; border-radius: 15px" />
+        <p style="font-size: 24px; color: black;">@ViewBag.CarBrand @ViewBag.CarModel, @ViewBag.Caryear  </p>
+    </div>
+
+    <div style="padding: 0; display: inline-block; text-align: center; width: 50%;">
+        <p style="font-size: 32px; color: black;">Дата получения</p>
+        <p style="font-size: 32px; color: #404040;">@ViewBag.DateStart</p>
+        <p style="font-size: 32px; color: black;">Доп. опции</p>
+        <p style="font-size: 20px; color: #404040;">@ViewBag.Options</p>
+    </div>
+
+    <div style="padding: 0; display: inline-block; text-align: center; width: 50%;">
+        <p style="font-size: 32px; color: black;">Дата возврата</p>
+        <p style="font-size: 32px; color: #404040;">@ViewBag.DateEnd</p>
+        <p style="font-size: 32px; color: black;">Примечания</p>
+        <p style="font-size: 20px; color: #404040;">@ViewBag.Notes</p>
+    </div>
+
+    <div style="padding: 0; display: inline-block; text-align: center; width: 50%;">
+        <p style="font-size: 32px; color: black;">Осталось</p>
+        <p style="font-size: 32px; color: red;">@ViewBag.DayStay д. @ViewBag.HoursStay часов</p>
+        <button style="font-size: 30px; background: #46F046; padding: 50px 15px 50px 15px; border-radius: 15px; border: 2px solid #46F046">
+            Завершить
+        </button>
+    </div>
+</div>
 
 <br />
 
-<h2>Аренды</h2>
+<hr style="color: #5394FD; margin: 5px; background: #5394FD; border: 0.5px solid #5394FD " />
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.FIO_Customer)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FIO_Manager)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Car_Brand)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Car_Model)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Car_WIN_Number)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Additional_Options)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Date_Start)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Date_End)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Price)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Condition)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Notes)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.id_client)
-        </th>
-    </tr>
+<h2 style="width: 100%; text-align:center">История аренд</h2>
 
-    @foreach (var item in Model)
-    {
+<ul class="nav nav-tabs">
+    <li class="active">
+        <a data-toggle="tab" href="#ALL" style="font-size: 36px; color: black; padding: 10px 5px 5px 5px;"><h4>Все</h4></a>
+    </li>
+    <li>
+        <a data-toggle="tab" href="#NotConfirm" style=" padding: 10px 5px 5px 5px;"><h4>Отменённые</h4></a>
+    </li>
+    <li>
+        <a data-toggle="tab" href="#Confirm" style=" padding: 10px 5px 5px 5px;"><h4>Завершённые</h4></a>
+    </li>
+</ul>
+
+@*<table class="table">
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FIO_Customer)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FIO_Manager)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Car_Brand)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Car_Model)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Car_WIN_Number)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Additional_Options)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date_Start)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date_End)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Condition)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Notes)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.id_client)
-            </td>
-            <td>
-                @Html.ActionLink("Details", "Details", new { id = item.id })
-            </td>
+            <th>
+                @Html.DisplayNameFor(model => model.FIO_Customer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FIO_Manager)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Car_Brand)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Car_Model)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Car_WIN_Number)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Additional_Options)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date_Start)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date_End)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Condition)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Notes)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.id_client)
+            </th>
         </tr>
-    }
 
-</table>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FIO_Customer)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FIO_Manager)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Car_Brand)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Car_Model)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Car_WIN_Number)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Additional_Options)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date_Start)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date_End)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Condition)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Notes)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.id_client)
+                </td>
+                <td>
+                    @Html.ActionLink("Details", "Details", new { id = item.id })
+                </td>
+            </tr>
+        }
+
+    </table>*@

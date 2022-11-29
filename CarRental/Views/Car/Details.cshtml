@@ -39,11 +39,18 @@
         </div>
         <br />
         <div style="width:100%; height:100%; text-align:center;">
-            @Html.ActionLink("Арендовать", "Create", "Contracts", new { id = Model.id }, new { @class = "btn-details" })
+            @if (User.Identity.IsAuthenticated)
+            {
+                @Html.ActionLink("Арендовать", "Create", "Contracts", new { id = Model.id }, new { @class = "btn-details" })
+            }
+            else
+            {
+                @Html.ActionLink("Арендовать", "Login", "Account", new { id = Model.id }, new { @class = "btn-details" })
+            }
             <!--Popup menu-->
             <!--<button type="button" class="btn btn-details" data-toggle="modal" data-target="#myModal">
-                Арендовать
-            </button>-->
+        Арендовать
+    </button>-->
             <!--Popup menu-->
         </div>
         <hr />

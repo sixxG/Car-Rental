@@ -5,6 +5,7 @@
 }
 <link href="~/Content/Index.css" rel="stylesheet" />
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
 <h2>Create</h2>
 
 <ul class="nav nav-tabs">
@@ -15,6 +16,8 @@
         <a data-toggle="tab" href="#CarDetails"><h4>Авто</h4></a>
     </li>
 </ul>
+
+<br />
 
 <div class="tab-content">
     <div id="contract" class="tab-pane fade in active">
@@ -29,27 +32,27 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.FIO_Customer, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.FIO_Customer, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.FIO_Customer, new { htmlAttributes = new { @class = "form-control", @style = "width: 50%;" } })
                             @Html.ValidationMessageFor(model => model.FIO_Customer, "", new { @class = "text-danger" })
                         </div>
                     </div>
 
                     @*<div class="form-group">
-                        @Html.LabelFor(model => model.FIO_Manager, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.FIO_Manager, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.FIO_Manager, "", new { @class = "text-danger" })
-                        </div>
-                    </div>*@
+                            @Html.LabelFor(model => model.FIO_Manager, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.FIO_Manager, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.FIO_Manager, "", new { @class = "text-danger" })
+                            </div>
+                        </div>*@
 
                     <div class="form-group">
                         @Html.LabelFor(model => model.Car_Brand, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
                             @*<label class="form-control text-box single-line">@ViewBag.Brand</label>*@
 
-                            @Html.TextBoxFor(model => model.Car_Brand, new { htmlAttributes = new { @class = "form-control" }, Value = @ViewBag.Brand, disabled = "disabled", @readonly = "readonly" })
+                            @*@Html.TextBoxFor(model => model.Car_Brand, new { htmlAttributes = new { @class = "form-control" }, Value = @ViewBag.Brand, disabled = "disabled", @readonly = "readonly" })*@
 
-                            @*@Html.EditorFor(model => model.Car_Brand, new { Value = @ViewBag.Brand, @readonly = "readonly", htmlAttributes = new { @class = "form-control" } })*@
+                            @Html.EditorFor(model => model.Car_Brand, new { htmlAttributes = new { Value = @ViewBag.Brand, @class = "form-control", @readonly = "readonly", @style = "width: 50%;" } })
                             @Html.ValidationMessageFor(model => model.Car_Brand, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -60,8 +63,8 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.Car_Model, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.TextBoxFor(model => model.Car_Model, new { Value = @ViewBag.Model, disabled = "disabled", @readonly = "readonly", htmlAttributes = new { @class = "form-control" } })
-                            @*@Html.EditorFor(model => model.Car_Model, new { htmlAttributes = new { @class = "form-control" } })*@
+                            @*@Html.TextBoxFor(model => model.Car_Model, new { Value = @ViewBag.Model, disabled = "disabled", @readonly = "readonly", htmlAttributes = new { @class = "form-control" } })*@
+                            @Html.EditorFor(model => model.Car_Model, new { htmlAttributes = new { Value = @ViewBag.Model, @class = "form-control", @readonly = "readonly", @style = "width: 50%;" } })
                             @Html.ValidationMessageFor(model => model.Car_Model, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -69,8 +72,8 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.Car_WIN_Number, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.TextBoxFor(model => model.Car_WIN_Number, new { Value = @ViewBag.WIN, disabled = "disabled", @readonly = "readonly", htmlAttributes = new { @class = "form-control" } })
-                            @*@Html.EditorFor(model => model.Car_WIN_Number, new { htmlAttributes = new { @class = "form-control" } })*@
+                            @*@Html.TextBoxFor(model => model.Car_WIN_Number, new { Value = @ViewBag.WIN, disabled = "disabled", @readonly = "readonly", htmlAttributes = new { @class = "form-control" } })*@
+                            @Html.EditorFor(model => model.Car_WIN_Number, new { htmlAttributes = new { Value = @ViewBag.WIN, @class = "form-control", @readonly = "readonly", @style = "width: 50%;" } })
                             @Html.ValidationMessageFor(model => model.Car_WIN_Number, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -78,15 +81,15 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.Additional_Options, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.Additional_Options, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.Additional_Options, new { htmlAttributes = new { @class = "form-control", @style = "width: 50%;" } })
                             @Html.ValidationMessageFor(model => model.Additional_Options, "", new { @class = "text-danger" })
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Date_Start, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="form-group dateStart">
+                        @Html.LabelFor(model => model.Date_Start, htmlAttributes: new { @class = "control-label col-md-2 " })
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.Date_Start, new { htmlAttributes = new { Value = DateTime.Now.ToString("dd-MM-yyyy hh-mm"), @class = "form-control datepicker", @type = "datetime-local" } })
+                            @Html.EditorFor(model => model.Date_Start, new { htmlAttributes = new { Value = DateTime.Now.ToString("yyyy-MM-ddThh:mm"), @class = "form-control datepicker", @type = "datetime-local", @style = "width: 50%;" } })
 
                             @*@Html.TextBoxFor(model => model.Date_Start, "{0:d MMM yyyy}", new {@Value =  DateTime.Now.Date, htmlAttributes = new { @class = "input-large" } })*@
 
@@ -94,34 +97,34 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group dateEnd-block">
                         @Html.LabelFor(model => model.Date_End, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.Date_End, new { htmlAttributes = new { @class = "form-control datepicker", @type = "datetime-local" } })
+                            @Html.EditorFor(model => model.Date_End, new { htmlAttributes = new { @class = "form-control datepicker", @type = "datetime-local", @style = "width: 50%;", min = (DateTime.Now.AddDays(1)) } })
                             @Html.ValidationMessageFor(model => model.Date_End, "", new { @class = "text-danger" })
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group" id="price-block">
                         @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.Price, new { htmlAttributes = new { Value = ViewBag.Price, @class = "form-control price", @readonly = "readonly", @style = "width: 50%;" } })
                             @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
                         </div>
                     </div>
 
                     @*<div class="form-group">
-                        @Html.LabelFor(model => model.Condition, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.Condition, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.Condition, "", new { @class = "text-danger" })
-                        </div>
-                    </div>*@
+                            @Html.LabelFor(model => model.Condition, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Condition, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Condition, "", new { @class = "text-danger" })
+                            </div>
+                        </div>*@
 
                     <div class="form-group">
                         @Html.LabelFor(model => model.Notes, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.Notes, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.Notes, new { htmlAttributes = new { @class = "form-control", @style = "width: 50%;" } })
                             @Html.ValidationMessageFor(model => model.Notes, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -135,6 +138,10 @@
                 </div>
 
             </div>
+
+            <div style="display: none;">
+                    <input type="number" value="@ViewBag.Price" id="PricePerDay" readonly="readonly"/>
+                </div>
         }
     </div>
     <div id="CarDetails" class="tab-pane fade in">
@@ -146,3 +153,65 @@
 <div>
     @Html.ActionLink("TO Cars", "Index", "Car")
 </div>
+
+
+<script>
+
+    ($('#Date_End')).on("change keyup paste", function () {
+        var dateStart = $('#Date_Start').val();
+        var dateEnd = $('#Date_End').val();
+
+        var Start = Date.parse(dateStart);
+        var End = Date.parse(dateEnd);
+
+        var timeRental = (End - Start) / (1000 * 60 * 60 * 24);
+        var price = $('#PricePerDay').val();
+
+        console.log(dateStart);
+        console.log(dateEnd);
+        console.log(Start);
+        console.log(End);
+        console.log("Время аренды: " + timeRental);
+        console.log("Price: " + price);
+
+        document.getElementById("Price").setAttribute('value', roundNumber(timeRental * price, 2));
+        /*$('#Price').val = timeRental;*/
+    });
+
+    ($('#Date_Start')).on("change keyup paste", function () {
+        var dateStart = $('#Date_Start').val();
+        var dateEnd = $('#Date_End').val();
+
+        var Start = Date.parse(dateStart);
+        var End = Date.parse(dateEnd);
+
+        var timeRental = (End - Start) / (1000 * 60 * 60 * 24);
+        var price = $('#PricePerDay').val();
+
+        console.log(dateStart);
+        console.log(dateEnd);
+        console.log(Start);
+        console.log(End);
+        console.log("Время аренды: " + timeRental);
+        console.log("Price: " + price);
+
+        document.getElementById("Price").setAttribute('value', roundNumber(timeRental * price, 2));
+        /*$('#Price').val = timeRental;*/
+    })
+
+    function roundNumber(number, digits) {
+        var multiple = Math.pow(10, digits);
+        var rndedNum = Math.round(number * multiple) / multiple;
+        return parseFloat(rndedNum);
+    }
+    //function getValue() {
+    //    var dateStart = $('#Date_Start').val();
+    //    var dateEnd = $('#Date_End').val();
+    //    alert(dateStart);
+    //    alert(dateEnd);
+
+    //    console.log(dateStart);
+    //    console.log(dateEnd);
+    //}
+
+</script>

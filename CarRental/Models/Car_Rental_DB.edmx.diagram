@@ -7,9 +7,9 @@
       <Diagram DiagramId="9b0283ef00a3489ea2fe6dbd052804a5" Name="Diagram1" ZoomLevel="74">
         <EntityTypeShape EntityType="CarRentalMVCModel.Customer_Tbl" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="CarRentalMVCModel.Car_Tbl" Width="1.5" PointX="0.5" PointY="0.5" />
-        <EntityTypeShape EntityType="CarRentalMVCModel.Contract" Width="1.5" PointX="5.375" PointY="0.875" />
-        <EntityTypeShape EntityType="CarRentalMVCModel.Manager_Tbl" Width="1.5" PointX="2.75" PointY="3.875" />
-        <EntityTypeShape EntityType="CarRentalMVCModel.Admin_Tbl" Width="1.5" PointX="4.75" PointY="4.5" />
+        <EntityTypeShape EntityType="CarRentalMVCModel.Contract" Width="1.5" PointX="5.125" PointY="0.5" />
+        <EntityTypeShape EntityType="CarRentalMVCModel.Manager_Tbl" Width="1.5" PointX="7.25" PointY="3" />
+        <EntityTypeShape EntityType="CarRentalMVCModel.Admin_Tbl" Width="1.5" PointX="7.25" PointY="0.5" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

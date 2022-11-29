@@ -23,6 +23,34 @@ namespace CarRental.Controllers
         {
             var userID = User.Identity.GetUserId().ToString();
             var Contracts = db.Contract.Where(contract => contract.id_client.Equals(userID));
+
+            var contractActive = Contracts.Where(contr => contr.Condition.Equals("Не подтверждён") 
+                                                            || contr.Condition.Equals("Подтверждён") 
+                                                            || contr.Condition.Equals("Действует")
+                                                            || contr.Condition.Equals("Ожидает оплаты штрафа")).FirstOrDefault();
+
+            var Car = db.Car_Tbl.Where(auto => auto.WIN_Number.Equals(contractActive.Car_WIN_Number)).First();
+
+            ViewBag.CarId = Car.id;
+            ViewBag.Img = Car.Image.Substring(2);
+            ViewBag.CarBrand = Car.Brand;
+            ViewBag.CarModel = Car.Model;
+            ViewBag.Caryear = Car.Year_Release;
+
+            ViewBag.DateStart = contractActive.Date_Start;
+            ViewBag.DateEnd = contractActive.Date_End;
+            ViewBag.Notes = contractActive.Notes;
+            ViewBag.Options = contractActive.Additional_Options;
+
+            var HowStay = contractActive.Date_End - contractActive.Date_Start;
+            var HowDayStay = HowStay.Days;
+            var HowHoursStay = HowStay.Hours;
+
+
+            ViewBag.DayStay = HowDayStay;
+            ViewBag.HoursStay = HowHoursStay;
+
+
             int lenght = Contracts.Count();
             return View(Contracts.ToList());
         }
@@ -109,7 +137,14 @@ namespace CarRental.Controllers
             ViewBag.Model = Model;
             ViewBag.Year = Year;
             ViewBag.WIN = WIN;
-            ViewBag.RentalDate = (contract.Date_End - contract.Date_Start).TotalDays;
+            ViewBag.RentalDate = (contract.Date_End - contract.Date_Start).Duration().ToString("dd");
+            if ((contract.Date_End - contract.Date_Start).Hours == 0 && (contract.Date_End - contract.Date_Start).Minutes == 0) {
+                ViewBag.RentalHours = null;
+            }
+            else
+            {
+                ViewBag.RentalHours = (contract.Date_End - contract.Date_Start).Duration().ToString().Substring(2, 5);
+            }
             ViewBag.DateStart = contract.Date_Start.ToString("dd MMMM");
             ViewBag.DateEnd = contract.Date_End.ToString("dd MMMM");
 
@@ -144,6 +179,10 @@ namespace CarRental.Controllers
             var contract = db.Contract.Where(model => model.id == id).First();
             contract.Condition = "Подтверждён";
 
+            var managerID = User.Identity.GetUserId();
+            var managerFIO = db.Manager_Tbl.Where(manager => manager.user_ID.Equals(managerID)).First().FIO;
+            contract.FIO_Manager = managerFIO;
+
             db.Entry(contract).State = System.Data.Entity.EntityState.Modified;
 
             db.SaveChanges();
@@ -169,7 +208,6 @@ namespace CarRental.Controllers
             contract.Condition = "Завершён";
 
             db.Entry(contract).State = System.Data.Entity.EntityState.Modified;
-
             db.SaveChanges();
 
             if(User.IsInRole("Client"))
@@ -210,6 +248,7 @@ namespace CarRental.Controllers
             var Power = car.Power;
             var Price = car.Price_Per_Day;
             var Image = car.Image;
+            //double price = (Mode- contract.Date_Start).TotalDays * contract.Price;
 
             ViewBag.ID = ID;
             ViewBag.WIN = WIN;
@@ -236,12 +275,14 @@ namespace CarRental.Controllers
             var car = db.Car_Tbl.Where(auto => auto.id == id).FirstOrDefault();
             if (ModelState.IsValid)
             {
+                //double price = (contract.Date_End - contract.Date_Start).TotalDays * contract.Price;
                 string strCurrentUserId = User.Identity.GetUserId().ToString();
                 contract.id_client = strCurrentUserId;
                 contract.Car_Brand = car.Brand;
                 contract.Car_Model = car.Model;
                 contract.Car_WIN_Number = car.WIN_Number;
                 contract.Condition = "Не подтверждён";
+                //contract.Price = Double.Parse(contract.Price);
                 db.Contract.Add(contract);
                 db.SaveChanges();
                 return RedirectToAction("Index");

@@ -44,7 +44,7 @@ namespace CarRental.Models
 
             [DisplayName("Дата начала аренды")]
             [DataType(DataType.DateTime)]
-            [DisplayFormat(DataFormatString = "{0:dd-MMMM-yyyy hh-mm}", ApplyFormatInEditMode = true)]
+           //DisplayFormat(DataFormatString = "{dd-MMMM-yyyy hh-mm}", ApplyFormatInEditMode = true)]
             public System.DateTime Date_Start { get; set; }
 
             [DisplayName("Дата окончания аренды")]

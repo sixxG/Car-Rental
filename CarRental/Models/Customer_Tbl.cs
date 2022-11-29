@@ -11,8 +11,7 @@ namespace CarRental.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
-
+    
     public partial class Customer_Tbl
     {
         public int Id { get; set; }
@@ -22,7 +21,6 @@ namespace CarRental.Models
         public string Drivers_License { get; set; }
         public string Address { get; set; }
         public string Login { get; set; }
-        [DisplayName("Role")]
         public string Password { get; set; }
         public string user_ID { get; set; }
     }
