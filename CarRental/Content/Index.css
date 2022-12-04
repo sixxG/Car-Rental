@@ -79,3 +79,30 @@ ul.nav.nav-tabs li.active a {
 .tab-content input {
     width: 50%;
 }
+
+#FinishedBTN:hover {
+    background: rgba(40,40,40,0.25);
+    border-radius: 2px;
+}
+
+.btnDetails_Contract {
+    color: black;
+    display: block;
+    text-decoration: none;
+    margin-top: 25px;
+    font-size: 30px;
+    background: #46F046;
+    padding: 25px;
+    border-radius: 15px;
+    border: 2px solid #46F046;
+    position: inherit;
+    text-align: center;
+    border: 2px solid #46F046;
+}
+
+    .btnDetails_Contract:hover {
+        text-decoration: none;
+        color: black;
+        opacity: 75%;
+        border: 2px solid #404040;
+    }

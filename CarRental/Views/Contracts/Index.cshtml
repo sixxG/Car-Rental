@@ -8,36 +8,60 @@
 
 <hr style="color: #5394FD; margin: 5px; background: #5394FD; border: 0.5px solid #5394FD " />
 
+@if (ViewBag.IfExsistActive)
+{
+    <div style="display: flex; background: rgba(40,40,40,0.15); width: 100%; height: 100%; border-radius: 15px; padding: 10px">
+        <div style="padding: 0; display: inline-block; width: 50%" id="Renta">
+            @Html.ActionLink("Автомобиль", "Details", "Car", new { id = ViewBag.CarId }, new { @class = "btn-details", @style = "font-size: 32px; color: black; text-decoration: none;", @id = "FinishedBTN" })
+            <img src="@Url.Content("~" + @ViewBag.Img)" style="width: 260px; height:160px; border-radius: 15px" />
+            <p style="font-size: 24px; color: black;">@ViewBag.CarBrand @ViewBag.CarModel, @ViewBag.Caryear  </p>
+        </div>
 
-<div style="display: flex; background: rgba(40,40,40,0.15); width: 100%; height: 100%; border-radius: 15px; padding: 10px">
-    <div style="padding: 0; display: inline-block; width: 50%">
-        @Html.ActionLink("Автомобиль", "Details", "Car", new { id = ViewBag.CarId }, new { @class = "btn-details", @style= "font-size: 32px; color: black; text-decoration: none;" })
-        <img src="@Url.Content("~" + @ViewBag.Img)" style="width: 260px; height:160px; border-radius: 15px" />
-        <p style="font-size: 24px; color: black;">@ViewBag.CarBrand @ViewBag.CarModel, @ViewBag.Caryear  </p>
-    </div>
+        <div style="padding: 0; display: inline-block; text-align: center; width: 50%;">
+            <p style="font-size: 32px; color: black;">Дата получения</p>
+            <p style="font-size: 32px; color: #404040;">@ViewBag.DateStart</p>
+            <p style="font-size: 32px; color: black;">Доп. опции</p>
+            <p style="font-size: 20px; color: #404040;">@ViewBag.Options</p>
+        </div>
 
-    <div style="padding: 0; display: inline-block; text-align: center; width: 50%;">
-        <p style="font-size: 32px; color: black;">Дата получения</p>
-        <p style="font-size: 32px; color: #404040;">@ViewBag.DateStart</p>
-        <p style="font-size: 32px; color: black;">Доп. опции</p>
-        <p style="font-size: 20px; color: #404040;">@ViewBag.Options</p>
-    </div>
+        <div style="padding: 0; display: inline-block; text-align: center; width: 50%;">
+            <p style="font-size: 32px; color: black;">Дата возврата</p>
+            <p style="font-size: 32px; color: #404040;">@ViewBag.DateEnd</p>
+            <p style="font-size: 32px; color: black;">Примечания</p>
+            <p style="font-size: 20px; color: #404040;">@ViewBag.Notes</p>
+        </div>
 
-    <div style="padding: 0; display: inline-block; text-align: center; width: 50%;">
-        <p style="font-size: 32px; color: black;">Дата возврата</p>
-        <p style="font-size: 32px; color: #404040;">@ViewBag.DateEnd</p>
-        <p style="font-size: 32px; color: black;">Примечания</p>
-        <p style="font-size: 20px; color: #404040;">@ViewBag.Notes</p>
+        <div style="padding: 0; display: inline-block; text-align: center; width: 50%;">
+            <p style="font-size: 32px; color: black;">Осталось</p>
+            <p style="font-size: 32px; color: red;">@ViewBag.DayStay д. @ViewBag.HoursStay часов</p>
+            <p style="font-size: 32px; color: black;">Состояние</p>
+            <p style="font-size: 20px; color: #404040;">@ViewBag.Condition</p>
+            @if (ViewBag.Condition.Equals("Действует"))
+            {
+                using (Ajax.BeginForm("Finished", new { id = ViewBag.ContractID }, new AjaxOptions() { UpdateTargetId = "Finished", HttpMethod = "Post" }))
+                {
+                    <div id="Finished"></div>
+                    <input type="submit" value="Завершить" style="font-size: 30px; background: #46F046; padding: 10px; border-radius: 15px; border: 2px solid #46F046" />
+                }
+            }
+            @if (!ViewBag.Condition.Equals("Действует"))
+            {
+                <div id="Finished"></div>
+                <button style="font-size: 30px; background: #46F046; padding: 10px; border-radius: 15px; border: 2px solid #46F046" onclick="NotFinish()">
+                    Завершить1
+                </button>
+                <p id="notFinish" style="color: red;"></p>
+            }
+            @*<button style="font-size: 30px; background: #46F046; padding: 10px; border-radius: 15px; border: 2px solid #46F046">
+                    Завершить
+                </button>*@
+        </div>
     </div>
-
-    <div style="padding: 0; display: inline-block; text-align: center; width: 50%;">
-        <p style="font-size: 32px; color: black;">Осталось</p>
-        <p style="font-size: 32px; color: red;">@ViewBag.DayStay д. @ViewBag.HoursStay часов</p>
-        <button style="font-size: 30px; background: #46F046; padding: 50px 15px 50px 15px; border-radius: 15px; border: 2px solid #46F046">
-            Завершить
-        </button>
-    </div>
-</div>
+}
+else
+{
+    <h1 style="text-align:center;">Активных аренд нет(</h1>
+}
 
 <br />
 
@@ -50,96 +74,31 @@
         <a data-toggle="tab" href="#ALL" style="font-size: 36px; color: black; padding: 10px 5px 5px 5px;"><h4>Все</h4></a>
     </li>
     <li>
-        <a data-toggle="tab" href="#NotConfirm" style=" padding: 10px 5px 5px 5px;"><h4>Отменённые</h4></a>
+        <a data-toggle="tab" href="#Canceled" style=" padding: 10px 5px 5px 5px;"><h4>Отменённые</h4></a>
     </li>
     <li>
-        <a data-toggle="tab" href="#Confirm" style=" padding: 10px 5px 5px 5px;"><h4>Завершённые</h4></a>
+        <a data-toggle="tab" href="#Finished" style=" padding: 10px 5px 5px 5px;"><h4>Завершённые</h4></a>
     </li>
 </ul>
 
-@*<table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FIO_Customer)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FIO_Manager)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Car_Brand)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Car_Model)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Car_WIN_Number)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Additional_Options)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Date_Start)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Date_End)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Condition)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Notes)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.id_client)
-            </th>
-        </tr>
 
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FIO_Customer)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FIO_Manager)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Car_Brand)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Car_Model)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Car_WIN_Number)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Additional_Options)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Date_Start)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Date_End)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Price)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Condition)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Notes)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.id_client)
-                </td>
-                <td>
-                    @Html.ActionLink("Details", "Details", new { id = item.id })
-                </td>
-            </tr>
+
+<div class="tab-content">
+    <div id="ALL" class="tab-pane fade in active">
+        @Html.Action("IndexByConditionToClient", "Contracts", new { condition = "All" })
+    </div>
+    <div id="Canceled" class="tab-pane fade in">
+        @Html.Action("IndexByConditionToClient", "Contracts", new { condition = "Отменён" })
+    </div>
+    <div id="Finished" class="tab-pane fade in">
+        @Html.Action("IndexByConditionToClient", "Contracts", new { condition = "Завершён" })
+    </div>
+</div>
+
+
+    <script>
+        function NotFinish() {
+            var p = document.getElementById('notFinish');
+            p.innerHTML = 'Вы не можите завершить аренду т.к. она ещё не активна.';
         }
-
-    </table>*@
+    </script>

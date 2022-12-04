@@ -9,6 +9,7 @@ using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
 using CarRental.Models;
+using log4net;
 using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
 
@@ -16,8 +17,8 @@ namespace CarRental.Controllers
 {
     public class ContractsController : Controller
     {
-        private CarRentalMVCEntities1 db = new CarRentalMVCEntities1();
 
+        private CarRentalMVCEntities1 db = new CarRentalMVCEntities1();
         // GET: User Contracts
         public ActionResult Index()
         {
@@ -29,26 +30,42 @@ namespace CarRental.Controllers
                                                             || contr.Condition.Equals("Действует")
                                                             || contr.Condition.Equals("Ожидает оплаты штрафа")).FirstOrDefault();
 
-            var Car = db.Car_Tbl.Where(auto => auto.WIN_Number.Equals(contractActive.Car_WIN_Number)).First();
+            var ifExsistActiveRent = false;
 
-            ViewBag.CarId = Car.id;
-            ViewBag.Img = Car.Image.Substring(2);
-            ViewBag.CarBrand = Car.Brand;
-            ViewBag.CarModel = Car.Model;
-            ViewBag.Caryear = Car.Year_Release;
+            if(contractActive != null)
+            {
+                ifExsistActiveRent = true;
+            }
 
-            ViewBag.DateStart = contractActive.Date_Start;
-            ViewBag.DateEnd = contractActive.Date_End;
-            ViewBag.Notes = contractActive.Notes;
-            ViewBag.Options = contractActive.Additional_Options;
+            if(ifExsistActiveRent)
+            {
+                var Car = db.Car_Tbl.Where(auto => auto.WIN_Number.Equals(contractActive.Car_WIN_Number)).FirstOrDefault();
 
-            var HowStay = contractActive.Date_End - contractActive.Date_Start;
-            var HowDayStay = HowStay.Days;
-            var HowHoursStay = HowStay.Hours;
+                ViewBag.CarId = Car.id;
+                ViewBag.Img = Car.Image.Substring(2);
+                ViewBag.CarBrand = Car.Brand;
+                ViewBag.CarModel = Car.Model;
+                ViewBag.Caryear = Car.Year_Release;
+
+                ViewBag.DateStart = contractActive.Date_Start;
+                ViewBag.DateEnd = contractActive.Date_End;
+                ViewBag.Notes = contractActive.Notes;
+                ViewBag.Options = contractActive.Additional_Options;
+                ViewBag.Condition = contractActive.Condition;
+                ViewBag.ContractID = contractActive.id;
+
+                var HowStay = contractActive.Date_End - contractActive.Date_Start;
+                var HowDayStay = HowStay.Days;
+                var HowHoursStay = HowStay.Hours;
 
 
-            ViewBag.DayStay = HowDayStay;
-            ViewBag.HoursStay = HowHoursStay;
+                ViewBag.DayStay = HowDayStay;
+                ViewBag.HoursStay = HowHoursStay;
+            }
+            else
+            {
+                ViewBag.IfExsistActive = false;
+            }
 
 
             int lenght = Contracts.Count();
@@ -107,6 +124,35 @@ namespace CarRental.Controllers
         }
 
 
+        public ActionResult IndexByConditionToClient(string condition)
+        {
+            var userID = User.Identity.GetUserId();
+            var contracts = new List<Contract>();
+            var IfExsist = false;
+            switch (condition)
+            {
+                case "All":
+                    {
+                        contracts = db.Contract.ToList().Where(contr => contr.id_client.Equals(userID)).ToList();
+                        if (contracts.Count != 0) IfExsist = true;
+                        break;
+                    }
+                case "Отменён":
+                    {
+                        contracts = db.Contract.Where(contr => contr.Condition.Equals(condition) && contr.id_client.Equals(userID)).ToList();
+                        if (contracts.Count != 0) IfExsist = true;
+                        break;
+                    }
+                case "Завершён":
+                    {
+                        contracts = db.Contract.Where(contr => contr.Condition.Equals(condition) && contr.id_client.Equals(userID)).ToList();
+                        if (contracts.Count != 0) IfExsist = true;
+                        break;
+                    }
+            }
+            ViewBag.IfExsist = IfExsist;
+            return View(contracts);
+        }
         // GET: Contracts/Details/5
         public ActionResult Details(int? id)
         {
@@ -132,6 +178,7 @@ namespace CarRental.Controllers
             var Year = car.Year_Release;
             var WIN = car.WIN_Number;
 
+            ViewBag.CarId = car.id;
             ViewBag.Image = Image;
             ViewBag.Brand = Brand;
             ViewBag.Model = Model;

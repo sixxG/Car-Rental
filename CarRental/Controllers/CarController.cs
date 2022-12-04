@@ -16,6 +16,7 @@ using PagedList;
 using System.Data.Entity.Validation;
 using System.Diagnostics;
 using Microsoft.AspNet.Identity;
+using log4net;
 
 namespace CarRental.Controllers
 {
@@ -24,9 +25,14 @@ namespace CarRental.Controllers
         private CarRentalMVCEntities1 db = new CarRentalMVCEntities1();
         private Car_Tbl context = new Car_Tbl();
 
+        //log4net
+        private static readonly ILog Log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        //log4net
+
         // GET: Car
         public ActionResult Index()
         {
+            Log.Info("Начал выполняться метод Index контроллера CarController");
             string strCurrentUserId = User.Identity.GetUserId().ToString();
             var userRole = User.IsInRole("Client");
             if (userRole)
@@ -38,9 +44,41 @@ namespace CarRental.Controllers
             }
         }
 
+        public ActionResult FindCar(int? PriceOT, int? PriceDO, string ListBrand, string ListTypeTransmition)
+        {
+            ViewData["Getcardetails"] = PriceOT;
+            ViewData["Getcardetails"] = PriceDO;
+            ViewData["Getcardetails"] = ListBrand;
+            ViewData["Getcardetails"] = ListTypeTransmition;
+
+
+            var empquery = from x in db.Car_Tbl select x;
+            if (!String.IsNullOrEmpty(ListBrand) && !String.IsNullOrEmpty(ListTypeTransmition) && PriceDO != null && PriceOT != null)
+            {
+                empquery = empquery.Where(x => x.Brand.Contains(ListBrand)
+                    && x.Type_Transmission.Contains(ListTypeTransmition)
+                    && x.Price_Per_Day <= PriceDO
+                    && x.Price_Per_Day >= PriceOT);
+            } else if (!String.IsNullOrEmpty(ListBrand) && !String.IsNullOrEmpty(ListTypeTransmition))
+            {
+                empquery = empquery.Where(x => x.Brand.Contains(ListBrand)
+                   && x.Type_Transmission.Contains(ListTypeTransmition));
+            } else if (!String.IsNullOrEmpty(ListBrand))
+            {
+                empquery = empquery.Where(x => x.Brand.Contains(ListBrand));
+            } else if (PriceOT >= 0 && PriceDO <= 100000)
+            {
+                empquery = empquery.Where(x => x.Price_Per_Day >= PriceOT && x.Price_Per_Day <= PriceOT);
+            }
+            int count = empquery.Count();
+
+            return View("Index", empquery.ToList());
+        }
+
         // GET: Car
         public ActionResult IndexClass(string s, int PageNumber = 1)
         {
+            Log.Info("Начал выполняться метод IndexClass контроллера CarController");
             var cars = db.Car_Tbl.ToList().Where(x => x.Class.Equals(s));
 
             ViewBag.TotalPages = Math.Ceiling(cars.Count() / 15.0);
@@ -49,6 +87,7 @@ namespace CarRental.Controllers
             cars = cars.Skip((PageNumber - 1) * 15).Take(15).ToList();
 
             ViewBag.Class = s;
+            Log.Info("Закончил выполняться метод IndexClass контроллера CarController");
             return View(cars);
         }
 
@@ -56,6 +95,7 @@ namespace CarRental.Controllers
         [HttpGet]
         public async Task<ActionResult> Index(string Empsearch)
         {
+            Log.Info("Начал выполняться метод Index(string Empsearch) контроллера CarController");
             ViewData["Getcardetails"] = Empsearch;
 
             var empquery = from x in db.Car_Tbl select x;
@@ -64,6 +104,7 @@ namespace CarRental.Controllers
                 empquery = empquery.Where(x => x.Brand.Contains(Empsearch)
                     || x.Model.Contains(Empsearch));
             }
+            Log.Info("Закончил выполняться метод Index(string Empsearch) контроллера CarController");
             return View(await empquery.AsNoTracking().ToListAsync());
         }
 

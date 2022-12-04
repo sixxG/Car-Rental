@@ -1,9 +1,15 @@
-﻿@{
+﻿@model IEnumerable<CarRental.Models.Car_Tbl>
+
+@{
     ViewBag.Title = "Home Page";
 }
 
+
+<link href="~/Content/Contact_CSS.css" rel="stylesheet" />
+<link href="~/Content/Button.css" rel="stylesheet" />
+
 <!--Slider-->
-<div id="myCarousel" class="carousel slide" data-ride="carousel" >
+<div id="myCarousel" class="carousel slide" data-ride="carousel">
     <!-- Indicators -->
     <ol class="carousel-indicators">
         <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
@@ -49,121 +55,313 @@
     </a>
 </div>
 <!--Slider-->
-<!-- Footer 3
-==================================================================== -->
-<footer id="footer-section-3" class="footer-page white-section footer" style="background: #404040; margin-top: 25px;">
-    <!-- Section Container -->
-    <div class="section-container" style=" width: 100%;">
+
+<p class="headerSelect">Выберите авто для себя</p>
 
 
-        <!-- container -->
-        <div class="container" style=" width: 100%;  height: 100%; align-content: center">
-            <!-- row -->
-            <!-- Widget Block ( Text ) -->
-            <div class="col-md-2 widget-block text-widget-block" style="text-align: left; width: 25%;">
-                <!-- Widget Block Container -->
-                <div class="widget-block-container">
+<!-- Start search -->
+<form method="get" action="@Url.Action("FindCar", "Car")">
+    <div style="display: flex; width: 100%;">
 
-                    <!-- Widget Block Content -->
-                    <div class="widget-block-content" style="color: white; font-size: 16px; align-content: center; padding: 20px 20px 0px;">
+        <div style="padding: 0; display: inline-block; text-align: left; width: 50%;">
+            <label>
+                <input type="number" class="inputPrice" placeholder="Цена от" value="@ViewData["Getcardetails"]" name="PriceOT" />
+                <input type="number" class="inputPrice" placeholder="Цена до" value="@ViewData["Getcardetails"]" name="PriceDO" />
+            </label>
+        </div>
 
-                        <!-- Description -->
-                        <p>Beta business plan growth hacking low hanging fruit ecosystem hypotheses investor ramen.</p>
-
-                    </div><!-- /End Widget Block Content -->
-
-
-                </div><!-- /End Widget Block Container -->
-            </div><!-- /End Widget Block ( Text ) -->
-            <!-- Widget Block ( Link ) -->
-            <div class="col-md-2 widget-block link-widget-block" style="width: 17%;">
-                <!-- Widget Block Container -->
-                <div class="widget-block-container">
-
-
-                    <!-- Widget Block Title -->
-                    <div class="widget-block-title" style="color: white;">
-                        <h4>Информация</h4>
-                    </div><!-- /End Widget Block Title -->
-                    <!-- Widget Block Content -->
-                    <div class="widget-block-content">
-                        <a href="https://localhost:44347/Home/About" class="footer-link" style="text-decoration: none; color: white; display: block">О нас</a>
-                        <a href="https://lpbuilder.pro/" class="footer-link" style="text-decoration: none; color: white; display: block">Контакты</a>
-                        <a href="https://localhost:44347/Car" class="footer-link" style="text-decoration: none; color: white; display: block">Автопарк</a>
-                    </div><!-- /End Widget Block Content -->
+        <div style="padding: 0; display: inline-block; text-align: center; width: 90%;">
+            @Html.DropDownList("ListBrand", null, "Марка авто", new { @class = "inputCar" })
+            @*<select class="inputCar" value="@ViewData["Getcardetails"]" name="CarBrand">
+            <option>Марка</option>
+            <option>Пункт 2</option>
+        </select>*@
+            @Html.DropDownList("ListTypeTransmition", null, "Тип КП", new { @class = "inputCar" })
+            @*<select class="inputCar" value="@ViewData["Getcardetails"]" name="TypeKPP">
+            <option>Коробка передач</option>
+            <option>Пункт 2</option>
+        </select>*@
+        </div>
 
 
-                </div><!-- /End Widget Block Container -->
-            </div><!-- /End Widget Block ( Link ) -->
-            <!-- Widget Block ( Link ) -->
-            <div class="col-md-2 widget-block link-widget-block" style="width: 19%;">
-                <!-- Widget Block Container -->
-                <div class="widget-block-container">
+        <div style="padding: 0; display: inline-block; text-align: center; width: 50%;">
+            @*<button style="font-size: 24px; background: #46F046; padding: 10px; border-radius: 15px; border: 2px solid #46F046">
+                    Найти автомобиль
+                </button>*@
+            <input type="submit" value="Найти автомобиль" style="font-size: 24px; background: #46F046; padding: 10px; border-radius: 15px; border: 2px solid #46F046" />
+        </div>
+
+    </div>
+</form>
+<!-- End search -->
 
 
-                    <!-- Widget Block Title -->
-                    <div class="widget-block-title" style="color: white;">
-                        <h4>Личный кабинет</h4>
-                    </div><!-- /End Widget Block Title -->
-                    <!-- Widget Block Content -->
-                    <div class="widget-block-content">
-                        <a href="https://localhost:44347/Account/Register" style="text-decoration: none; color: white; display: block">Регистрация</a>
-                        <a href="https://localhost:44347/Account/Login" style="text-decoration: none; color: white; display: block">Авторизация</a>
-                    </div><!-- /End Widget Block Content -->
+<br />
+<br />
+
+<div style="display: flex; width: 100%; justify-content:center;">
+
+    <a class="carLink" href="/Car/IndexClass?s=Эконом">
+        <div>
+            <img src="~/Image/економ.png" loading="lazy" class="car-image" style="width: 130px; height: 80px;">
+        </div>
+        <div>
+            <div class="type">Эконом</div>
+            <div style="color: #000000; text-align: center">700 ₽ - 2999 ₽</div>
+        </div>
+    </a>
+
+    <a href="/Car/IndexClass?s=Комфорт" class="carLink">
+        <div>
+            <img src="~/Image/Комфорт.png" loading="lazy" class="car-image" style="width: 130px; height: 80px;">
+        </div>
+        <div>
+            <div class="type">Комфорт</div>
+            <div style="color: #000000; text-align: center">700 ₽ - 2999 ₽</div>
+        </div>
+    </a>
 
 
-                </div><!-- /End Widget Block Container -->
-            </div><!-- /End Widget Block ( Link ) -->
-            <!-- Widget Block ( Связь ) -->
-            <div class="col-md-2 widget-block social-widget-block" style="width: 19%;">
-                <!-- Widget Block Container -->
-                <div class="widget-block-container">
+    <a href="/Car/IndexClass?s=Бизнес" class="carLink">
+        <div>
+            <img src="~/Image/Бизнес.png" loading="lazy" class="car-image" style="width: 130px; height: 80px;">
+        </div>
+        <div>
+            <div class="type">Бизнес</div>
+            <div style="color: #000000; text-align: center">700 ₽ - 2999 ₽</div>
+        </div>
+    </a>
+
+    <a href="/Car/IndexClass?s=Premium" class="carLink">
+        <div>
+            <img src="~/Image/Premium.png" loading="lazy" class="car-image" style="width: 130px; height: 80px;">
+        </div>
+        <div>
+            <div class="type">Premium</div>
+            <div style="color: #000000; text-align: center">700 ₽ - 2999 ₽</div>
+        </div>
+    </a>
+
+    <a href="/Car/IndexClass?s=Внедорожники" class="carLink">
+        <div>
+            <img src="~/Image/Внедорожники.png" loading="lazy" class="car-image" style="width: 130px; height: 80px;">
+        </div>
+        <div>
+            <div class="type">Внедорожники</div>
+            <div style="color: #000000; text-align: center">700 ₽ - 2999 ₽</div>
+        </div>
+    </a>
+
+    <a href="/Car/IndexClass?s=Минивэны" class="carLink">
+        <div>
+            <img src="~/Image/Минивены.png" loading="lazy" class="car-image" style="width: 130px; height: 80px;">
+        </div>
+        <div>
+            <div class="type">Минивэны</div>
+            <div style="color: #000000; text-align: center">700 ₽ - 2999 ₽</div>
+        </div>
+    </a>
+
+    <a href="/Car/IndexClass?s=Уникальные авто" class="carLink">
+        <div>
+            <img src="~/Image/Уникальные_авто.png" loading="lazy" class="car-image" style="width: 130px; height: 80px;">
+        </div>
+        <div>
+            <div class="type">Уникальные авто</div>
+            <div style="color: #000000; text-align: center">700 ₽ - 2999 ₽</div>
+        </div>
+    </a>
+</div>
+
+<br />
+<br />
+
+<!--Popular cars-->
+
+<a href="/Car" class="popularCarHeader">Популярные авто →</a>
+
+<div>
+    @foreach (var item in Model)
+    {
+        <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
+            <div class="bg-info img-rounded shadow-sm">
+
+                <div style="padding: 15px; margin: 10px">
+                    <img src="@item.Image" width="100%" height="220px" />
+                    <p>
+                        <h4>
+                            <b>
+                                @Html.DisplayFor(modelItem => item.Brand)
+                                @Html.DisplayFor(modelItem => item.Model)
+                                ,
+                                @Html.DisplayFor(modelItem => item.Year_Release)
+                                @Html.DisplayFor(modelItem => item.Class)
+                            </b>
+                        </h4>
+                    </p>
+                    <hr />
+
+                    <div class="auto-description-start" style=" vertical-align: top; font-size: 14px; width: 35%; display: inline-block; margin-right: 50px;">
+                        <p class="auto-description">Коробка</p>
+                        <p class="auto-description">Привод</p>
+                        <p class="auto-description">Пробег</p>
+                        <p class="auto-description">Мощность</p>
+                        <p class="auto-description">Тип кузова</p>
+                    </div>
+
+                    <div class="auto-description-edn" style=" vertical-align: top; font-size: 14px; width: 47%; display: inline-block; text-align: right;">
+                        <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Transmission)</p>
+                        <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Drive)</p>
+                        <p class="auto-description">&gt;@Html.DisplayFor(modelItem => item.Mileage)</p>
+                        <p class="auto-description">@Html.DisplayFor(modelItem => item.Power) лс.</p>
+                        <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Body)</p>
+                    </div>
+
+                    <div class="bg-info">
+                        <h4><b>от @Html.DisplayFor(modelItem => item.Price_Per_Day)</b> / сутки</h4>
+                    </div>
+
+                    <h4 class="text-success text-uppercase" style="text-align: center">
+                    </h4>
+                    <div style="width:100%; height:100%; text-align:center;">
+                        @Html.ActionLink("Подробнее", "Details", "Car", new { id = item.id }, new { @class = "btn-details" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<!--Popular cars-->
+<!--Why us-->
+
+<h1 class="whyUsHeader">Почемму стоит выбрать нас?</h1>
+
+<!--Why us-->
 
 
-                    <!-- Widget Block Title -->
-                    <div class="widget-block-title" style="color: white;">
-                        <h4>Связаться с нами</h4>
-                    </div><!-- /End Widget Block Title -->
-                    <!-- Widget Block Content -->
-                    <div class="widget-block-content">
 
-                        <!-- Social Icons Block -->
-                        <div class="social-icons-block social-icons-block-md social-icons-block-style-1">
-                            <a style="color: white; text-decoration: none; font-size: 18px; display: block" href="tel:+78005553535">+7 (800) 555-35-35</a>
-                            <p style="text-decoration: none; color: white; display: block">9:00 - 18:00 ежедневно</p>
-                            <a style="color: white; text-decoration: none; display: block" href="mailto:CarRental@mail.ru">CarRental@mail.ru</a>
-                        </div><!-- /End Social Icons Block -->
-
-                    </div><!-- /End Widget Block Content -->
+<div class="container navbar-header">
+    <!-- Footer 3
+    ==================================================================== -->
+    <footer id="footer-section-3" class="footer-page white-section footer" style="background: #404040; margin-top: 25px;">
+        <!-- Section Container -->
+        <div class="section-container" style=" width: 100%;">
 
 
-                </div><!-- /End Widget Block Container -->
-            </div><!-- /End Widget Block ( Social ) -->
-            <!-- Widget Block ( Social ) -->
-            <div class="col-md-2 widget-block social-widget-block" style="width: 19%;">
-                <!-- Widget Block Container -->
-                <div class="widget-block-container">
+            <!-- container -->
+            <div class="container" style=" width: 100%;  height: 100%; align-content: center">
+                <!-- row -->
+                <!-- Widget Block ( Text ) -->
+                <div class="col-md-2 widget-block text-widget-block" style="text-align: left; width: 25%;">
+                    <!-- Widget Block Container -->
+                    <div class="widget-block-container">
+
+                        <!-- Widget Block Content -->
+                        <div class="widget-block-content" style="color: white; font-size: 16px; align-content: center; padding: 20px 20px 0px;">
+
+                            <!-- Description -->
+                            <p>Beta business plan growth hacking low hanging fruit ecosystem hypotheses investor ramen.</p>
+
+                        </div><!-- /End Widget Block Content -->
 
 
-                    <!-- Widget Block Title -->
-                    <div class="widget-block-title" style="color: white;">
-                        <h4>Мы в соц. сетях</h4>
-                    </div><!-- /End Widget Block Title -->
-                    <!-- Widget Block Content -->
-                    <div class="widget-block-content">
-
-                        <!-- Social Icons Block -->
-                        <div class="social-icons-block social-icons-block-md social-icons-block-style-1">
-
-                        </div><!-- /End Social Icons Block -->
-
-                    </div><!-- /End Widget Block Content -->
+                    </div><!-- /End Widget Block Container -->
+                </div><!-- /End Widget Block ( Text ) -->
+                <!-- Widget Block ( Link ) -->
+                <div class="col-md-2 widget-block link-widget-block" style="width: 17%;">
+                    <!-- Widget Block Container -->
+                    <div class="widget-block-container">
 
 
-                </div><!-- /End Widget Block Container -->
-            </div><!-- /End Widget Block ( Social ) -->
+                        <!-- Widget Block Title -->
+                        <div class="widget-block-title" style="color: white;">
+                            <h4>Информация</h4>
+                        </div><!-- /End Widget Block Title -->
+                        <!-- Widget Block Content -->
+                        <div class="widget-block-content">
+                            <a href="https://localhost:44347/Home/About" class="footer-link" style="text-decoration: none; color: white; display: block">О нас</a>
+                            <a href="https://lpbuilder.pro/" class="footer-link" style="text-decoration: none; color: white; display: block">Контакты</a>
+                            <a href="https://localhost:44347/Car" class="footer-link" style="text-decoration: none; color: white; display: block">Автопарк</a>
+                        </div><!-- /End Widget Block Content -->
 
 
-        </div><!-- /End row -->
-    </div><!-- /End container -->
-</footer><!-- /End Footer 3 -->
+                    </div><!-- /End Widget Block Container -->
+                </div><!-- /End Widget Block ( Link ) -->
+                <!-- Widget Block ( Link ) -->
+                <div class="col-md-2 widget-block link-widget-block" style="width: 19%;">
+                    <!-- Widget Block Container -->
+                    <div class="widget-block-container">
+
+
+                        <!-- Widget Block Title -->
+                        <div class="widget-block-title" style="color: white;">
+                            <h4>Личный кабинет</h4>
+                        </div><!-- /End Widget Block Title -->
+                        <!-- Widget Block Content -->
+                        <div class="widget-block-content">
+                            <a href="https://localhost:44347/Account/Register" style="text-decoration: none; color: white; display: block">Регистрация</a>
+                            <a href="https://localhost:44347/Account/Login" style="text-decoration: none; color: white; display: block">Авторизация</a>
+                        </div><!-- /End Widget Block Content -->
+
+
+                    </div><!-- /End Widget Block Container -->
+                </div><!-- /End Widget Block ( Link ) -->
+                <!-- Widget Block ( Связь ) -->
+                <div class="col-md-2 widget-block social-widget-block" style="width: 19%;">
+                    <!-- Widget Block Container -->
+                    <div class="widget-block-container">
+
+
+                        <!-- Widget Block Title -->
+                        <div class="widget-block-title" style="color: white;">
+                            <h4>Связаться с нами</h4>
+                        </div><!-- /End Widget Block Title -->
+                        <!-- Widget Block Content -->
+                        <div class="widget-block-content">
+
+                            <!-- Social Icons Block -->
+                            <div class="social-icons-block social-icons-block-md social-icons-block-style-1">
+                                <a style="color: white; text-decoration: none; font-size: 18px; display: block" href="tel:+78005553535">+7 (800) 555-35-35</a>
+                                <p style="text-decoration: none; color: white; display: block">9:00 - 18:00 ежедневно</p>
+                                <a style="color: white; text-decoration: none; display: block" href="mailto:CarRental@mail.ru">CarRental@mail.ru</a>
+                            </div><!-- /End Social Icons Block -->
+
+                        </div><!-- /End Widget Block Content -->
+
+
+                    </div><!-- /End Widget Block Container -->
+                </div><!-- /End Widget Block ( Social ) -->
+                <!-- Widget Block ( Social ) -->
+                <div class="col-md-2 widget-block social-widget-block" style="width: 19%;">
+                    <!-- Widget Block Container -->
+                    <div class="widget-block-container">
+
+
+                        <!-- Widget Block Title -->
+                        <div class="widget-block-title" style="color: white;">
+                            <h4>Мы в соц. сетях</h4>
+                        </div><!-- /End Widget Block Title -->
+                        <!-- Widget Block Content -->
+                        <div class="widget-block-content">
+
+                            <!-- Social Icons Block -->
+                            <div class="social-icons-block social-icons-block-md social-icons-block-style-1">
+
+                            </div><!-- /End Social Icons Block -->
+
+                        </div><!-- /End Widget Block Content -->
+
+
+                    </div><!-- /End Widget Block Container -->
+                </div><!-- /End Widget Block ( Social ) -->
+
+
+            </div><!-- /End row -->
+        </div><!-- /End container -->
+    </footer><!-- /End Footer 3 -->
+</div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>

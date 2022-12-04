@@ -63,8 +63,9 @@ namespace CarRental.Controllers
                 : message == ManageMessageId.AddPhoneSuccess ? "Ваш номер телефона добавлен."
                 : message == ManageMessageId.RemovePhoneSuccess ? "Ваш номер телефона удален."
                 : "";
-            var userID = User.Identity.GetUserId().ToString();
+            var userID = User.Identity.GetUserId();
             ViewBag.UserID = userID;
+
             var CustomerExists = db.Customer_Tbl.Where(customer => customer.user_ID.Equals(userID)).ToList();
             var ManagerExists = db.Manager_Tbl.Where(manager => manager.user_ID.Equals(userID)).ToList();
             var AdminExists = db.Admin_Tbl.Where(admin => admin.user_ID.Equals(userID)).ToList();
