@@ -1,11 +1,12 @@
 ﻿@model IEnumerable<CarRental.Models.Car_Tbl>
 
 @{
-    ViewBag.Title = "IndexClass";
+    ViewBag.Title = Model.First().Class;
 }
 
 <link href="~/Content/Button.css" rel="stylesheet" />
-<link href="~/Content/Index.css" rel="stylesheet" />
+<link href="~/Content/About.css" rel="stylesheet" />
+<link href="~/Content/Contact_CSS.css" rel="stylesheet" />
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
 <!--new nav-->
 
@@ -15,7 +16,7 @@
 {
     if (User.IsInRole("Admin") || User.IsInRole("Manager"))
     {
-        <ul class="nav nav-tabs">
+        <ul class="nav nav-tabs" style="margin-top: 5%;">
             <li class="active">
                 <a data-toggle="tab" href="#listCar"><h4>Парк автомобилей</h4></a>
             </li>
@@ -28,18 +29,144 @@
 <!--new nav-->
 
 
-<div class="tab-content">
-    <div id="listCar" class="tab-pane fade in active">
+<div class="tab-content" style="width: 100%; margin-top: 1%;">
+    <div id="listCar" class="tab-pane fade in active" style="width: 100%;">
+
         <!-- Start search -->
-        <form method="get" asp-action="Index">
-            <p>
-                <input type="search" placeholder="Введите марку автомобиля или модель ...." value="@ViewData["Getcardetails"]" name="Empsearch"
-                       style="width: 40%" />
-                <input type="submit" value="Search" class="btn btn-primary" />
-                @Html.ActionLink("Все автомобили", "Index")
-            </p>
+
+        <form method="get" action="@Url.Action("FindCar")">
+
+            <div style="width: 100%; text-align: center;">
+                @Html.ActionLink("Все авто", "IndexClass", new { s = "All" }, new { @class = "AllCar" })
+            </div>
+            <br />
+            <br />
+
+
+            <div style="display: flex; width: 100%;">
+
+                <div style="padding: 0; display: inline-block; text-align: center; width: 50%;">
+                    <label>
+                        <input type="number" class="inputPrice" placeholder="Цена от" value="@ViewData["Getcardetails"]" name="PriceOT" />
+                        <input type="number" class="inputPrice" placeholder="Цена до" value="@ViewData["Getcardetails"]" name="PriceDO" />
+                    </label>
+                </div>
+
+                <div style="padding: 0; display: inline-block; text-align: center; width: 63%;">
+                    @Html.DropDownList("ListBrand", null, "Марка авто", new { @class = "inputCar" })
+
+                    @Html.DropDownList("ListTypeTransmition", null, "Тип КП", new { @class = "inputCar" })
+
+                </div>
+
+
+                <div style="padding: 0; display: inline-block; text-align: center; width: 50%;">
+                    <input type="submit" value="Найти автомобиль" style="font-size: 24px; background: #46F046; padding: 10px; border-radius: 15px; border: 2px solid #46F046" />
+                </div>
+
+                @if (Model.Count() > 1)
+                {
+                    if (Model.First().Class.Equals(Model.Last().Class))
+                    {
+                        <input type="text" style="display: none;" value="@Model.First().Class" name="carClass" />
+                    }
+                    else
+                    {
+                        <input type="text" style="display: none;" value="All" name="carClass" />
+                    }
+                }
+                else
+                {
+                    <input type="text" style="display: none;" value="All" name="carClass" />
+                }
+
+            </div>
         </form>
+        <br />
         <!-- End search -->
+
+        <!--Car by Class-->
+        <div style="display: flex; width: 100%; justify-content:center;">
+
+            <a class="carLink" href="/Car/IndexClass?s=Эконом">
+                <div>
+                    <img src="~/Image/економ.png" loading="lazy" class="car-image" style="width: 130px; height: 80px;">
+                </div>
+                <div>
+                    <div class="type">Эконом</div>
+                    <div style="color: #000000; text-align: center">700 ₽ - 2999 ₽</div>
+                </div>
+            </a>
+
+            <a href="/Car/IndexClass?s=Комфорт" class="carLink">
+                <div>
+                    <img src="~/Image/Комфорт.png" loading="lazy" class="car-image" style="width: 130px; height: 80px;">
+                </div>
+                <div>
+                    <div class="type">Комфорт</div>
+                    <div style="color: #000000; text-align: center">700 ₽ - 2999 ₽</div>
+                </div>
+            </a>
+
+
+            <a href="/Car/IndexClass?s=Бизнес" class="carLink">
+                <div>
+                    <img src="~/Image/Бизнес.png" loading="lazy" class="car-image" style="width: 130px; height: 80px;">
+                </div>
+                <div>
+                    <div class="type">Бизнес</div>
+                    <div style="color: #000000; text-align: center">700 ₽ - 2999 ₽</div>
+                </div>
+            </a>
+
+            <a href="/Car/IndexClass?s=Premium" class="carLink">
+                <div>
+                    <img src="~/Image/Premium.png" loading="lazy" class="car-image" style="width: 130px; height: 80px;">
+                </div>
+                <div>
+                    <div class="type">Premium</div>
+                    <div style="color: #000000; text-align: center">700 ₽ - 2999 ₽</div>
+                </div>
+            </a>
+
+            <a href="/Car/IndexClass?s=Внедорожники" class="carLink">
+                <div>
+                    <img src="~/Image/Внедорожники.png" loading="lazy" class="car-image" style="width: 130px; height: 80px;">
+                </div>
+                <div>
+                    <div class="type">Внедорожники</div>
+                    <div style="color: #000000; text-align: center">700 ₽ - 2999 ₽</div>
+                </div>
+            </a>
+
+            <a href="/Car/IndexClass?s=Минивэны" class="carLink">
+                <div>
+                    <img src="~/Image/Минивены.png" loading="lazy" class="car-image" style="width: 130px; height: 80px;">
+                </div>
+                <div>
+                    <div class="type">Минивэны</div>
+                    <div style="color: #000000; text-align: center">700 ₽ - 2999 ₽</div>
+                </div>
+            </a>
+
+            <a href="/Car/IndexClass?s=Уникальные авто" class="carLink">
+                <div>
+                    <img src="~/Image/Уникальные_авто.png" loading="lazy" class="car-image" style="width: 130px; height: 80px;">
+                </div>
+                <div>
+                    <div class="type">Уникальные авто</div>
+                    <div style="color: #000000; text-align: center">700 ₽ - 2999 ₽</div>
+                </div>
+            </a>
+        </div>
+        <!--Car by Class-->
+        <br>
+
+        @if (Model.Count() == 0)
+        {
+            <h1 style="text-align: center; margin-bottom: 25%;">К сожалению не удалось найти авто по заданным критериям :( измените критерии поиска и повторите снова</h1>
+        }
+
         <!-- Gallery item  -->
         <div class="container">
 
@@ -104,28 +231,12 @@
                                         <table class="table" style="margin:0 auto;">
                                             <tr>
                                                 <td>
-                                                    <a class="btn btn-primary btn-sm" onclick="Edit('@Url.Action("Create", "Car", new { id = item.id })')">
+                                                    <a class="btn btn-primary btn-sm" onclick="Edit('@Url.Action("Edit", "Car", new { id = item.id })')">
                                                         <i class="fa fa-pencil fa-lg"></i>
                                                     </a>
-                                                    <a class="btn btn-danger btn-sm">
+                                                    <a class="btn btn-danger btn-sm" href="@Url.Action("Delete", "Car", new { id = item.id })">
                                                         <i class="fa fa-trash fa-lg"></i>
                                                     </a>
-                                                    @*<a href='#' class='btn btn-warning' onclick='Edit(" + ContactList[i].Id  + ")'>
-                                                                <span class='glyphicon glyphicon-edit'></span>
-                                                            </a>
-                                                            @Html.ActionLink("Edit", "Edit", new { id = item.id })
-                                                        </td>
-                                                        <td>
-                                                            <a href='#' class='btn btn-success' onclick='DeleteContactRecord(" + ContactList[i].Id + ")'>
-                                                                <span class='glyphicon glyphicon-info-sign'></span>
-                                                            </a>
-                                                            @Html.ActionLink("Details", "Details", new { id = item.id })
-                                                        </td>
-                                                        <td>
-                                                            <a href='#' class='btn btn-danger' onclick='DeleteContactRecord(" + ContactList[i].Id + ")'>
-                                                                <span class='glyphicon glyphicon-trash'></span>
-                                                            </a>
-                                                            @Html.ActionLink("Delete", "Delete", new { id = item.id })*@
                                                 </td>
                                             </tr>
                                         </table>
@@ -201,10 +312,10 @@
                                         <table class="table" style="margin:0 auto;">
                                             <tr>
                                                 <td>
-                                                    <a class="btn btn-primary btn-sm" onclick="Edit('@Url.Action("Create", "Car", new { id = item.id })')">
+                                                    <a class="btn btn-primary btn-sm" onclick="Edit('@Url.Action("Edit", "Car", new { id = item.id })')">
                                                         <i class="fa fa-pencil fa-lg"></i>
                                                     </a>
-                                                    <a class="btn btn-danger btn-sm">
+                                                    <a class="btn btn-danger btn-sm" href="@Url.Action("Delete", "Car", new { id = item.id })">
                                                         <i class="fa fa-trash fa-lg"></i>
                                                     </a>
                                                 </td>

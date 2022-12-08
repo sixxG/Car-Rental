@@ -1,135 +1,53 @@
 ﻿@{
-    ViewBag.Title = "Contact";
+    ViewBag.Title = "Контакты";
 }
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
-<link href="~/Content/Contact_CSS.css" rel="stylesheet" />
-<link href="~/Content/Info_CSS.css" rel="stylesheet" />
-<link href="~/Content/Foother.css" rel="stylesheet" />
-@*<address>
-        One Microsoft Way<br />
-        Redmond, WA 98052-6399<br />
-        <abbr title="Phone">P:</abbr>
-        425.555.0100
-    </address>
 
-    <address>
-        <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
-        <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-    </address>*@
+<link href="~/Content/About.css" rel="stylesheet" />
 
-<!-- section info -->
-<section class="section section-info" id="info">
-    <header class="section-header">
-        <h2 class="section-info-title">О нас</h2>
-    </header>
-    <div class="info">
-        <div class="info-item">
-            <div class="info-content">
-                <h3 class="info-title">Условия аренды</h3>
-                <img src="~/App_Data/imgs/1.jpg" alt="" style="width: 100%; height: 50%;">
-                <p class="info-description">
-                    Наша компания предоставляет максимально прозрачные и понятные условия аренды автомобилей.
-                    Оформление всех необходимых документов занимает не более 10 минут! При повторной аренде автомобиля,
-                    Вы сможете арендовать машину по телефону или через наш сайт!
-                    Более полную информацию Вы найдете в разделе "Условия аренды".
-                </p>
-            </div>
-        </div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-        <div class="info-item">
-            <div class="info-content">
-                <h3 class="info-title">Наши преимущества</h3>
-                <p class="info-description">
-                    НИЗКИЕ ЦЕНЫ <br>
-                    Мы гарантируем одни из самых низких цен на аренду автомобилей! <br>
-                    Так, самый доступный автомобиль для аренды всего от 1 000 рублей/сутки!!! <br>
-                    Скидки и бонусы постоянным клиентам! <br>
-                    ТЕХНИЧЕСКОЕ СОСТОЯНИЕ <br>
-                    Машины регулярно проходят ТО и мы гарантируем отличное техническое состояние арендованного Вами автомобиля! <br>
-                    КЛИЕНТООРИЕНТИРОВАННОСТЬ <br>
-                    Наша компания ценит своих клиентов, поэтому мы предалгаем простые и понятные правила при аренде автомобиля! <br>
-                    МНОГОЛЕТНИЙ ОПЫТ <br>
-                    Компании Прокат авто уже более 10 лет на рыке! За эти годы нашими услугами воспользовались более 20 000 клиентов!
-                </p>
-            </div>
-        </div>
+<h1 class="RentalIF" style="margin-top: 5%;">Контакты</h1>
 
-        <div class="info-item">
-            <div class="info-content">
-                <h3 class="info-title">Аксесуары</h3>
-                <img src="~/App_Data/imgs/2.1.jpg" alt="" style="width: 100%; height: 45%;">
-                <p class="info-description">
-                    В нашей компании Вы также можете взять в аренду навигатор (100 рублей/сутки),
-                    детское кресло (150 рублей/сутки) для комфорта и бехопасности тех, кто вам дорог.
-                </p>
-            </div>
-        </div>
 
+<div style="display: flex; width: 100%;">
+    <div  style="display: flex; width: 60%; border-radius: 15px;">
+        <script type="text/javascript"
+                charset="utf-8" async
+                src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A132120a355fa3a00db687aecb43156d2251e5957ae6ef0cb31ff458a636a7e6d&amp;width=700&amp;height=600&amp;lang=ru_RU&amp;scroll=true">
+        </script>
     </div>
-</section>
-<!-- section info -->
-<br>
-<!-- section-contacts-->
-<section class="section section-contacts" id="contacts">
-    <div class="container section-contacts-container">
-        <header class="section-header">
-            <h2 class="page-title section-contacts-title">Контакты</h2>
-        </header>
-        <div class="contacts">
-            <div class="contacts-start">
-                <div class="contacts-map" id="ymap"></div>
+
+    <div>
+        <div style="color: black; padding: 10px; margin-top: 30%;">
+            <div>
+                <h3 style="font-size: 32px; font-weight: 600;">Адресс</h3>
+                <p style="font-size: 16px;">Владимир, Проспект Строителей 7Б, стр. 14,</p>
             </div>
-            <div class="contacts-end">
-                <div class="contacts-item">
-                    <h3 class="contacts-title">Адресс</h3>
-                    <p class="contacts-text">г. Москва, Красная площадь, 8</p>
+            <div class="contacts-item">
+                <h3 style="font-size: 32px; font-weight: 600;">Телефон</h3>
+                <p class="contacts-text">
+                    <a style="text-decoration: none; color: #00ff00; font-weight: 900; font-size: 20px;" href="tel:+78005553535">+7 (800) 555-35-35</a>
+                </p>
+            </div>
+            <div class="contacts-item">
+                <h3 style="font-size: 32px; font-weight: 600;">Социальные сети</h3>
+
+                <div class="social vk">
+                    <a href="#" target="_blank"><i class="fa fa-vk fa-2x"></i></a>
                 </div>
-                <div class="contacts-item">
-                    <h3 class="contacts-title">Телефон</h3>
-                    <p class="contacts-text">
-                        <a class="contacts-phone" href="tel:+78005553535">+7 (800) 555-35-35</a>
-                    </p>
+
+                <div class="social youtube">
+                    <a href="#" target="_blank"><i class="fa fa-youtube fa-2x"></i></a>
                 </div>
-                <div class="contacts-item">
-                    <h3 class="contacts-title">Социальные сети</h3>
-                    <ul class="socials">
-                        <li class="socials-item">
-                            <a href="#" class="socials-link" target="_blank">
-                                <svg class="socials-icon socials-icon-vk" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 112.2 112.2" width="35" height="35">
-                                    <g>
-                                        <circle cx="56.1" cy="56.1" r="56.1" />
-                                        <path class="socials-logo" d="M54,80.7h4.4a3.33,3.33,0,0,0,2-.9,3.37,3.37,0,0,0,.6-1.9s-.1-5.9,2.7-6.8,6.2,5.7,9.9,8.2c2.8,1.9,4.9,1.5,4.9,1.5l9.8-.1s5.1-.3,2.7-4.4c-.2-.3-1.4-3-7.3-8.5-6.2-5.7-5.3-4.8,2.1-14.7,4.5-6,6.3-9.7,5.8-11.3s-3.9-1.1-3.9-1.1l-11.1.1a2.32,2.32,0,0,0-1.4.3,3.58,3.58,0,0,0-1,1.2A60,60,0,0,1,70,50.9c-4.9,8.4-6.9,8.8-7.7,8.3-1.9-1.2-1.4-4.9-1.4-7.5,0-8.1,1.2-11.5-2.4-12.4a17.68,17.68,0,0,0-5.2-.5c-4,0-7.3,0-9.2.9-1.3.6-2.2,2-1.6,2.1a5.05,5.05,0,0,1,3.3,1.6c1.1,1.5,1.1,5,1.1,5s.7,9.6-1.5,10.7c-1.5.8-3.5-.8-7.9-8.4a67.05,67.05,0,0,1-4-8.2,2.82,2.82,0,0,0-.9-1.2,5.13,5.13,0,0,0-1.7-.7l-10.5.1s-1.6,0-2.2.7,0,1.9,0,1.9,8.2,19.3,17.6,29c8.5,9,18.2,8.4,18.2,8.4Z" />
-                                    </g>
-                                </svg>
-                            </a>
-                        </li>
-                        <li class="socials-item">
-                            <a href="#" class="socials-link" target="_blank">
-                                <svg class="socials-icon socials-icon-fb" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 112.2 112.2" width="35" height="35">
-                                    <g>
-                                        <circle cx="56.1" cy="56.1" r="56.1" />
-                                        <path class="socials-logo" d="M70.2,58.3h-10V95H45V58.3H37.8V45.4H45V37.1c0-6,2.8-15.3,15.3-15.3H71.5V34.3H63.3c-1.3,0-3.2.7-3.2,3.5v7.6H71.4Z" />
-                                    </g>
-                                </svg>
-                            </a>
-                        </li>
-                        <li class="socials-item">
-                            <a href="#" class="socials-link" target="_blank">
-                                <svg class="socials-icon socials-icon-inst" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="35" height="35">
-                                    <g>
-                                        <path d="M332.3,136.2H179.7a44.21,44.21,0,0,0-44.2,44.2V333a44.21,44.21,0,0,0,44.2,44.2H332.3A44.21,44.21,0,0,0,376.5,333V180.4A44.21,44.21,0,0,0,332.3,136.2ZM256,336a79.3,79.3,0,1,1,79.3-79.3A79.42,79.42,0,0,1,256,336Zm81.9-142.2A18.8,18.8,0,1,1,356.7,175,18.78,18.78,0,0,1,337.9,193.8Z" />
-                                        <path d="M256,210.9a45.8,45.8,0,1,0,45.8,45.8A45.86,45.86,0,0,0,256,210.9Z" />
-                                        <path d="M256,0C114.6,0,0,114.6,0,256S114.6,512,256,512,512,397.4,512,256,397.4,0,256,0ZM410,333a77.78,77.78,0,0,1-77.7,77.7H179.7A77.78,77.78,0,0,1,102,333V180.4a77.84,77.84,0,0,1,77.7-77.7H332.3A77.84,77.84,0,0,1,410,180.4Z" />
-                                    </g>
-                                </svg>
-                            </a>
-                        </li>
-                    </ul>
+
+                <div class="social telegram">
+                    <a href="#" target="_blank"><i class="fa fa-paper-plane fa-2x"></i></a>
                 </div>
+
             </div>
         </div>
     </div>
-</section>
-<!-- section-contacts-->
+</div>
+
+
 

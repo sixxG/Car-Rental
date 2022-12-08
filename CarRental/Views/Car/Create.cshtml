@@ -3,14 +3,18 @@
 @{
     ViewBag.Title = "Добавить авто";
 }
-@*, onSubmit = "return jQueryAjaxPost(this);"*@
 
-@using (Html.BeginForm("Create", "Car", FormMethod.Post, new { enctype = "multipart/form-data", data_restUrl = Url.Action("Create", "Car", new { id = 0}) }))
+@{
+    Layout = "~/Views/Shared/_LayoutWithoutFoother.cshtml";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("Create", "Car", FormMethod.Post, new { enctype = "multipart/form-data", data_restUrl = Url.Action("Create", "Car", new { id = 0 }) }))
 
 {
     @Html.AntiForgeryToken()
 
-    <div class="row">
+    <div class="row" style="margin-top: 3%;">
         <div class="form-horizontal">
             @Html.ValidationSummary(true)
             @Html.HiddenFor(model => model.id)

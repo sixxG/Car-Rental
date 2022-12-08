@@ -54,18 +54,17 @@ namespace CarRental.Controllers
                 ViewBag.Condition = contractActive.Condition;
                 ViewBag.ContractID = contractActive.id;
 
-                var HowStay = contractActive.Date_End - contractActive.Date_Start;
+                var HowStay = contractActive.Date_End - DateTime.Now;
                 var HowDayStay = HowStay.Days;
                 var HowHoursStay = HowStay.Hours;
+                var HowMinutesStay = HowStay.Minutes;
 
 
                 ViewBag.DayStay = HowDayStay;
                 ViewBag.HoursStay = HowHoursStay;
+                ViewBag.HowMinutessStay = HowMinutesStay;
             }
-            else
-            {
-                ViewBag.IfExsistActive = false;
-            }
+            ViewBag.IfExsistActive = ifExsistActiveRent;
 
 
             int lenght = Contracts.Count();
@@ -76,51 +75,6 @@ namespace CarRental.Controllers
         public ActionResult IndexAll()
         {
             return View(db.Contract.ToList());
-        }
-
-        // GET: Contracts by Condition
-        public ActionResult IndexByCondition(string condition)
-        {
-            var contracts = new List<Contract>();
-            switch(condition)
-            {
-                case "All":
-                    {
-                        contracts = db.Contract.ToList();
-                        break;
-                    }
-                case "Не подтверждён":
-                    {
-                        contracts = db.Contract.Where(contract => contract.Condition.Equals(condition)).ToList();
-                        break;
-                    }
-                case "Подтверждён":
-                    {
-                        contracts = db.Contract.Where(contract => contract.Condition.Equals(condition)).ToList();
-                        break;
-                    }
-                case "Действует":
-                    {
-                        contracts = db.Contract.Where(contract => contract.Condition.Equals("Действует")).ToList();
-                        break;
-                    }
-                case "Ожидает оплаты штрафа":
-                    {
-                        contracts = db.Contract.Where(contract => contract.Condition.Equals(condition)).ToList();
-                        break;
-                    }
-                case "Завершён":
-                    {
-                        contracts = db.Contract.Where(contract => contract.Condition.Equals(condition)).ToList();
-                        break;
-                    }
-                case "Отменён":
-                    {
-                        contracts = db.Contract.Where(contract => contract.Condition.Equals(condition)).ToList();
-                        break;
-                    }
-            }
-            return View(contracts);
         }
 
 
@@ -157,6 +111,15 @@ namespace CarRental.Controllers
         public ActionResult Details(int? id)
         {
             Contract contract = db.Contract.Find(id);
+
+            string[] subs = contract.Additional_Options.Split(' ');
+            var ifVideoRegistrator = subs.Length >= 1 ? true : false;
+            var ifAutoBox = subs.Length >= 2 ? true : false;
+            var ifChildChes = subs.Length == 3 ? subs.Last().Last().ToString() : "нет";
+
+            ViewBag.ifVideoRegistrator = ifVideoRegistrator;
+            ViewBag.ifAutoBox = ifAutoBox;
+            ViewBag.ifChildChes = ifChildChes;
 
             var user = db.Customer_Tbl.Where(customer => customer.user_ID.Equals(contract.id_client)).First();
             var BirthDate = user.BirthDate;
@@ -206,19 +169,6 @@ namespace CarRental.Controllers
             return View(contract);
         }
 
-        //Confirm Rental
-        //[HttpPost, ActionName("Confirm")]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Confirm(int id)
-        //{
-        //    var contract = db.Contract.Where(model => model.id == id).First();
-        //    contract.Condition = "Подтверждён";
-
-        //    db.Entry(contract).State = System.Data.Entity.EntityState.Modified;
-
-        //    db.SaveChanges();
-        //    return RedirectToAction("Index");
-        //}
 
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Confirm(int id)
@@ -241,6 +191,10 @@ namespace CarRental.Controllers
         {
             var contract = db.Contract.Where(model => model.id == id).First();
             contract.Condition = "Отменён";
+
+            var managerID = User.Identity.GetUserId();
+            var managerFIO = db.Manager_Tbl.Where(manager => manager.user_ID.Equals(managerID)).First().FIO;
+            contract.FIO_Manager = managerFIO;
 
             db.Entry(contract).State = System.Data.Entity.EntityState.Modified;
 
@@ -296,6 +250,18 @@ namespace CarRental.Controllers
             var Price = car.Price_Per_Day;
             var Image = car.Image;
             //double price = (Mode- contract.Date_Start).TotalDays * contract.Price;
+            var userID = User.Identity.GetUserId();
+            var user = db.Customer_Tbl.Where(usr => usr.user_ID.Equals(userID)).FirstOrDefault();
+
+            ViewBag.IfUserDataExist = user == null;
+
+            if(user != null)
+            {
+                ViewBag.UserFIO = user.FIO;
+            }else
+            {
+                ViewBag.UserFIO = "";
+            }
 
             ViewBag.ID = ID;
             ViewBag.WIN = WIN;
@@ -330,6 +296,8 @@ namespace CarRental.Controllers
                 contract.Car_WIN_Number = car.WIN_Number;
                 contract.Condition = "Не подтверждён";
                 //contract.Price = Double.Parse(contract.Price);
+                car.Contition = "Забронирована";
+                db.Entry(car).State = System.Data.Entity.EntityState.Modified;
                 db.Contract.Add(contract);
                 db.SaveChanges();
                 return RedirectToAction("Index");

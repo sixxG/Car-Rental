@@ -299,6 +299,7 @@
     <Content Include="App_Data\imgs\2.jpg" />
     <Content Include="App_Data\imgs\3.jpg" />
     <Content Include="App_Data\imgs\key.png" />
+    <Content Include="Content\About.css" />
     <Content Include="Content\bootstrap-datetimepicker.css" />
     <Content Include="Content\bootstrap-datetimepicker.min.css" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -308,18 +309,27 @@
     <Content Include="Content\Button.css" />
     <Content Include="Content\Contact_CSS.css" />
     <Content Include="Content\ContractDetails.css" />
+    <Content Include="Content\CreatContract.css" />
     <Content Include="Content\Details.css" />
     <Content Include="Content\Foother.css" />
     <Content Include="Content\Index.css" />
-    <Content Include="Content\Info_CSS.css" />
     <Content Include="Content\jquery-ui.min.css" />
+    <Content Include="Content\LogIN_OUT.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\Site.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Image\1.jpg" />
+    <Content Include="Image\2.1.jpg" />
+    <Content Include="Image\3.jpg" />
+    <Content Include="Image\Arenda-avtomobilya.jpg" />
     <Content Include="Image\defaulst.jpeg" />
+    <Content Include="Image\key.png" />
+    <Content Include="Image\Log.jpg" />
+    <Content Include="Image\maxresdefault.jpg" />
     <Content Include="Image\Premium.png" />
+    <Content Include="Image\Аксессуары.jpg" />
     <Content Include="Image\Бизнес.png" />
     <Content Include="Image\Внедорожники.png" />
     <Content Include="Image\економ.png" />
@@ -425,6 +435,7 @@
     <Content Include="Views\Manager\Index.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Contracts\IndexByConditionToClient.cshtml" />
+    <Content Include="Views\Shared\_LayoutWithoutFoother.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

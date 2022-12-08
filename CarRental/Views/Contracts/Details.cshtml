@@ -1,13 +1,14 @@
 ﻿@model CarRental.Models.Contract
 
+@{
+    Layout = "~/Views/Shared/_LayoutWithoutFoother.cshtml";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
 <link href="~/Content/ContractDetails.css" rel="stylesheet" />
 <link href="~/Content/Index.css" rel="stylesheet" />
 
-<br />
-<br />
-<br />
-
-<div style="text-align: center; width: 100%;">
+<div style="text-align: center; width: 100%; margin-top: 6%;">
     @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
     {
         @Html.ActionLink("к списку", "IndexAll")
@@ -89,9 +90,23 @@
             </div>
 
             <div style="padding: 0; display: inline-block; text-align: center; width: 50%;">
-                <p style="color: rgba(40,40,40, 0.5); margin: 0;">n</p>
-                <p style="color: rgba(40,40,40, 0.5); margin: 0; ">n</p>
-                <p style="color: rgba(40,40,40, 0.5); margin: 0; ">n</p>
+                <p style="color: rgba(40,40,40, 0.5); margin: 0; ">@ViewBag.ifChildChes</p>
+                @if (ViewBag.ifVideoRegistrator)
+                {
+                    <p style="color: rgba(40,40,40, 0.5); margin: 0;">1</p>
+                }
+                else
+                {
+                    <p style="color: rgba(40,40,40, 0.5); margin: 0;">нет</p>
+                }
+                @if (ViewBag.ifAutoBox)
+                {
+                    <p style="color: rgba(40,40,40, 0.5); margin: 0; ">1</p>
+                }
+                else
+                {
+                    <p style="color: rgba(40,40,40, 0.5); margin: 0; ">нет</p>
+                }
             </div>
         </div>
 

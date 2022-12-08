@@ -1,5 +1,11 @@
 ﻿@model IEnumerable<CarRental.Models.Contract>
 
+@{
+    ViewBag.Title = "Мои аренды";
+    Layout = "~/Views/Shared/_LayoutWithoutFoother.cshtml";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
 <link href="~/Content/Index.css" rel="stylesheet" />
 
 @if (!ViewBag.IfExsist)
@@ -8,46 +14,6 @@
 }
 else
 {
-    @*<table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FIO_Customer)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FIO_Manager)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Car_Brand)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Car_Model)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Car_WIN_Number)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Additional_Options)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Date_Start)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Date_End)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Condition)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Notes)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.id_client)
-            </th>
-            <th></th>
-        </tr>*@
 
     foreach (var item in Model)
     {
@@ -55,7 +21,7 @@ else
             <div style="padding: 0; display: inline-block; width: 50%" id="Renta">
                 <p style="font-size: 32px; color: black;">Автомобиль</p>
                 <p style="font-size: 24px; color: black;">@item.Car_Brand @item.Car_Model</p>
-                @Html.ActionLink("Details", "Details", new { id = item.id}, new { @class = "btnDetails_Contract" })
+                @Html.ActionLink("Details", "Details", new { id = item.id }, new { @class = "btnDetails_Contract" })
             </div>
 
             <div style="padding: 0; display: inline-block; text-align: center; width: 50%;">
@@ -81,49 +47,10 @@ else
 
         </div>
 
-        @*<tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FIO_Customer)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FIO_Manager)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Car_Brand)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Car_Model)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Car_WIN_Number)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Additional_Options)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Date_Start)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Date_End)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Price)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Condition)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Notes)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.id_client)
-                </td>
-                <td>
-                    @Html.ActionLink("Details", "Details", new { id = item.id })
-                </td>
-            </tr>*@
+        <br />
+
+       
     }
 
-    @*</table>*@
 }
 

@@ -3,23 +3,32 @@
 @{
     ViewBag.Title = Model.Brand + " " + Model.Model;
 }
+
+@{
+    Layout = "~/Views/Shared/_LayoutWithoutFoother.cshtml";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
 <link href="~/Content/Details.css" rel="stylesheet" />
 <link href="~/Content/Button.css" rel="stylesheet" />
+<link href="~/Content/Contact_CSS.css" rel="stylesheet" />
 
-<p>
-    @Html.ActionLink("Назад к списку", "Index")
+<p style="margin-top: 5%;">
 
-    @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+    @Html.ActionLink("Список авто", "Index", new { @class = "btn-details" })
+
+    @if (User.Identity.IsAuthenticated)
     {
-        <div style="width:100%; height:100%; text-align:center;">
-            @Html.ActionLink("Редиктировать", "Edit", new { id = Model.id }, new { @class = "glyphicon glyphicon-edit" })
-        </div>
+        if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+        {
+            @Html.ActionLink("Редaктировать", "Edit", new { id = Model.id }, new { @style = "display: block;font-size: 25px;width: 100%;text-align: center;text-decoration: none;color: black;font-weight: 600;" })
+        }
     }
-</p>
+    </p>
 <!---->
 <div class="container-fluid bloc">
     <div class="col-lg-2 bloc-inside bloc-image">
-        <img src="@Url.Content("~" + Model.Image.Substring(2))" width="100%" height="100%" />
+        <img src="@Url.Content("~" + Model.Image.Substring(2))" width="100%" height="100%" style="border-radius: 15px;" />
     </div>
     <div class="col-lg-2 bloc-inside bloc-info">
         <h3>Период аренды</h3>
@@ -41,7 +50,14 @@
         <div style="width:100%; height:100%; text-align:center;">
             @if (User.Identity.IsAuthenticated)
             {
-                @Html.ActionLink("Арендовать", "Create", "Contracts", new { id = Model.id }, new { @class = "btn-details" })
+                if (ViewBag.Clients_ActiveRental == true)
+                {
+                    @Html.ActionLink("Арендовать", "Create", "Contracts", new { id = Model.id }, new { @class = "btn-details" })
+                } else
+                {
+                    <button class = "btn-details" onclick="NoneRental()">Арендовать</button>
+                    <p id="notFinish" style="color: red;"></p>
+                }
             }
             else
             {
@@ -64,7 +80,7 @@
     </div>
 </div>
 <!---->
-<br />
+
 <div class="col-lg-2 bloc-inside bloc-image" style="height: 100%;">
     <span class="period">
         <b>
@@ -72,12 +88,15 @@
             @Html.DisplayFor(model => model.Model)
         </b>
     </span>
+
+    <hr style="color: #5394FD; margin: 5px; padding: 0.5px; background: #5394FD;" />
+
     <p style="font-size: 16px">
         Граждане РФ. Прописка по России. Стаж от 3 лет. Возраст от 23 лет. Залог 6000 рублей. Лимит 200 км в сутки. Перепробег 8 рублей за км. Режим работы с 9 до 21. Выдача и забор авто в нерабочее время 1000₽.
     </p>
 </div>
 
-<div class="col-lg-2" style="height: 150px; width: 38%;"></div>
+@*<div class="col-lg-2" style="height: 150px; width: 38%;"></div>*@
 
 <div class="col-lg-2 bloc-inside bloc-image" style="height: 100%;">
     <span class="period">
@@ -158,4 +177,13 @@
 
 </div>
 
-<div class="col-lg-2" style="height: 500px; width: 38%;"></div>
+@*<div class="col-lg-2" style="height: 500px; width: 38%;"></div>*@
+
+<script>
+
+    function NoneRental() {
+        var p = document.getElementById('notFinish');
+        p.innerHTML = 'Вы не можете арендовать новоем авто т.к. у вас уже есть активная аренда.';
+    };
+
+</script>

@@ -32,54 +32,173 @@ namespace CarRental.Controllers
         // GET: Car
         public ActionResult Index()
         {
-            Log.Info("Начал выполняться метод Index контроллера CarController");
-            string strCurrentUserId = User.Identity.GetUserId().ToString();
-            var userRole = User.IsInRole("Client");
-            if (userRole)
+
+            var cars = db.Car_Tbl.ToList();
+            List<String> carsBrand = new List<String>();
+
+            for (int i = 0; i < cars.Count; i++)
             {
-                return View(db.Car_Tbl.Where(car => car.Contition.Equals("Свободна")).ToList());
-            } else
-            {
-                return View(db.Car_Tbl.ToList());
+                carsBrand.Add(cars[i].Brand.ToString());
             }
+
+            carsBrand = carsBrand.Distinct().ToList();
+
+            List<SelectListItem> ListBrand = new List<SelectListItem>();
+
+            for (int i = 0; i < carsBrand.Count; i++)
+            {
+                ListBrand.Add(new SelectListItem { Text = carsBrand[i].ToString(), Value = carsBrand[i].ToString() });
+            }
+
+            List<SelectListItem> ListTypeTransmition = new List<SelectListItem>();
+
+            ListTypeTransmition.Add(new SelectListItem { Text = "Механическая", Value = "Механическая" });
+            ListTypeTransmition.Add(new SelectListItem { Text = "Автоматическая", Value = "Автоматическая" });
+            ListTypeTransmition.Add(new SelectListItem { Text = "Робот", Value = "Робот" });
+
+            ViewBag.ListBrand = ListBrand;
+            ViewBag.ListTypeTransmition = ListTypeTransmition;
+
+            Log.Info("Начал выполняться метод Index контроллера CarController");
+
+            if(User.Identity.GetUserId() != null)
+            {
+                string strCurrentUserId = User.Identity.GetUserId().ToString();
+                var userRole = User.IsInRole("Client");
+
+                if (userRole)
+                {
+                    return View(db.Car_Tbl.Where(car => car.Contition.Equals("Свободна")).ToList());
+                }
+                else
+                {
+                    return View(db.Car_Tbl.ToList());
+                }
+            }
+            return View(db.Car_Tbl.Where(car => car.Contition.Equals("Свободна")).ToList());
         }
 
-        public ActionResult FindCar(int? PriceOT, int? PriceDO, string ListBrand, string ListTypeTransmition)
+        public ActionResult FindCar(int? PriceOT, int? PriceDO, string ListBrand, string ListTypeTransmition, string carClass)
         {
+
+            var cars = db.Car_Tbl.ToList();
+            List<String> carsBrand = new List<String>();
+
+            for (int i = 0; i < cars.Count; i++)
+            {
+                carsBrand.Add(cars[i].Brand.ToString());
+            }
+
+            carsBrand = carsBrand.Distinct().ToList();
+
+            List<SelectListItem> ListBrand1 = new List<SelectListItem>();
+
+            for (int i = 0; i < carsBrand.Count; i++)
+            {
+                ListBrand1.Add(new SelectListItem { Text = carsBrand[i].ToString(), Value = carsBrand[i].ToString() });
+            }
+
+            List<SelectListItem> ListTypeTransmition2 = new List<SelectListItem>();
+
+            ListTypeTransmition2.Add(new SelectListItem { Text = "Механическая", Value = "Механическая" });
+            ListTypeTransmition2.Add(new SelectListItem { Text = "Автоматическая", Value = "Автоматическая" });
+            ListTypeTransmition2.Add(new SelectListItem { Text = "Робот", Value = "Робот" });
+
+            ViewBag.ListBrand = ListBrand1;
+            ViewBag.ListTypeTransmition = ListTypeTransmition2;
+
+            ViewBag.PriceOT = PriceOT;
+
             ViewData["Getcardetails"] = PriceOT;
             ViewData["Getcardetails"] = PriceDO;
             ViewData["Getcardetails"] = ListBrand;
             ViewData["Getcardetails"] = ListTypeTransmition;
+            ViewData["Getcardetails"] = carClass;
 
+            List<Car_Tbl> empquery;
 
-            var empquery = from x in db.Car_Tbl select x;
+            if (carClass != null && !carClass.Equals("All"))
+            {
+                empquery = cars.Where(car => car.Class.Equals(carClass)).ToList();
+            } else
+            {
+                empquery = cars.ToList();
+            }
+
             if (!String.IsNullOrEmpty(ListBrand) && !String.IsNullOrEmpty(ListTypeTransmition) && PriceDO != null && PriceOT != null)
             {
                 empquery = empquery.Where(x => x.Brand.Contains(ListBrand)
                     && x.Type_Transmission.Contains(ListTypeTransmition)
                     && x.Price_Per_Day <= PriceDO
-                    && x.Price_Per_Day >= PriceOT);
+                    && x.Price_Per_Day >= PriceOT).ToList();
             } else if (!String.IsNullOrEmpty(ListBrand) && !String.IsNullOrEmpty(ListTypeTransmition))
             {
                 empquery = empquery.Where(x => x.Brand.Contains(ListBrand)
-                   && x.Type_Transmission.Contains(ListTypeTransmition));
+                   && x.Type_Transmission.Contains(ListTypeTransmition)).ToList();
             } else if (!String.IsNullOrEmpty(ListBrand))
             {
-                empquery = empquery.Where(x => x.Brand.Contains(ListBrand));
-            } else if (PriceOT >= 0 && PriceDO <= 100000)
-            {
-                empquery = empquery.Where(x => x.Price_Per_Day >= PriceOT && x.Price_Per_Day <= PriceOT);
+                empquery = empquery.Where(x => x.Brand.Contains(ListBrand)).ToList();
             }
-            int count = empquery.Count();
+            else if (!String.IsNullOrEmpty(ListTypeTransmition))
+            {
+                empquery = empquery.Where(x => x.Type_Transmission.Contains(ListTypeTransmition)).ToList();
+            }
+            else if (PriceOT >= 0 && PriceDO <= 100000)
+            {
+                empquery = empquery.Where(x => x.Price_Per_Day >= PriceOT && x.Price_Per_Day <= PriceDO).ToList();
+            } else if (PriceOT != null)
+            {
+                empquery = empquery.Where(x => x.Price_Per_Day >= PriceOT).ToList();
+            } else if (PriceDO != null)
+            {
+                empquery = empquery.Where(x => x.Price_Per_Day <= PriceDO).ToList();
+            }
 
-            return View("Index", empquery.ToList());
+            ViewBag.TotalPages = Math.Ceiling(empquery.Count() / 15.0);
+            ViewBag.PageNumber = 1;
+
+            return View("IndexClass", empquery);
         }
 
         // GET: Car
         public ActionResult IndexClass(string s, int PageNumber = 1)
         {
-            Log.Info("Начал выполняться метод IndexClass контроллера CarController");
-            var cars = db.Car_Tbl.ToList().Where(x => x.Class.Equals(s));
+
+            var cars1 = db.Car_Tbl.ToList();
+            List<String> carsBrand = new List<String>();
+
+            for (int i = 0; i < cars1.Count; i++)
+            {
+                carsBrand.Add(cars1[i].Brand.ToString());
+            }
+
+            carsBrand = carsBrand.Distinct().ToList();
+
+            List<SelectListItem> ListBrand = new List<SelectListItem>();
+
+            for (int i = 0; i < carsBrand.Count; i++)
+            {
+                ListBrand.Add(new SelectListItem { Text = carsBrand[i].ToString(), Value = carsBrand[i].ToString() });
+            }
+
+            List<SelectListItem> ListTypeTransmition = new List<SelectListItem>();
+
+            ListTypeTransmition.Add(new SelectListItem { Text = "Механическая", Value = "Механическая" });
+            ListTypeTransmition.Add(new SelectListItem { Text = "Автоматическая", Value = "Автоматическая" });
+            ListTypeTransmition.Add(new SelectListItem { Text = "Робот", Value = "Робот" });
+
+            ViewBag.ListBrand = ListBrand;
+            ViewBag.ListTypeTransmition = ListTypeTransmition;
+
+            List<Car_Tbl> cars;
+
+            if (!s.Equals("All"))
+            {
+                cars = cars1.Where(x => x.Class.Equals(s)).ToList();
+            } else
+            {
+                cars = cars1;
+            }
 
             ViewBag.TotalPages = Math.Ceiling(cars.Count() / 15.0);
             ViewBag.PageNumber = PageNumber;
@@ -87,30 +206,28 @@ namespace CarRental.Controllers
             cars = cars.Skip((PageNumber - 1) * 15).Take(15).ToList();
 
             ViewBag.Class = s;
-            Log.Info("Закончил выполняться метод IndexClass контроллера CarController");
+
             return View(cars);
-        }
-
-        //Метод для поиска
-        [HttpGet]
-        public async Task<ActionResult> Index(string Empsearch)
-        {
-            Log.Info("Начал выполняться метод Index(string Empsearch) контроллера CarController");
-            ViewData["Getcardetails"] = Empsearch;
-
-            var empquery = from x in db.Car_Tbl select x;
-            if(!String.IsNullOrEmpty(Empsearch))
-            {
-                empquery = empquery.Where(x => x.Brand.Contains(Empsearch)
-                    || x.Model.Contains(Empsearch));
-            }
-            Log.Info("Закончил выполняться метод Index(string Empsearch) контроллера CarController");
-            return View(await empquery.AsNoTracking().ToListAsync());
         }
 
         // GET: Car/Details/5
         public ActionResult Details(int? id)
         {
+
+            if(User.Identity.IsAuthenticated)
+            {
+                var userID = User.Identity.GetUserId().ToString();
+                var contract = db.Contract.Where(cont => cont.id_client.Equals(userID)
+                                                    && !cont.Condition.Equals("Отменён")
+                                                    && !cont.Condition.Equals("Завершён")).FirstOrDefault();
+                var ClientsContract = contract == null;
+                ViewBag.Clients_ActiveRental = ClientsContract;
+            } else
+            {
+                ViewBag.Clients_ActiveRental = false;
+            }
+
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);

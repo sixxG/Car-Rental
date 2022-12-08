@@ -1,6 +1,12 @@
 ﻿@model IEnumerable<CarRental.Models.Customer_Tbl>
 
-<br />
+@{
+    Layout = "~/Views/Shared/_LayoutWithoutFoother.cshtml";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<p style="margin-top: 5%;"/>
+
 @if (User.IsInRole("Admin"))
 {
     <ul class="nav nav-tabs">

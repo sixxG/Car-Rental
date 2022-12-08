@@ -1,10 +1,15 @@
 ﻿@model IEnumerable<CarRental.Models.Contract>
 
 @{
-    ViewBag.Title = "IndexAll";
+    Layout = "~/Views/Shared/_LayoutWithoutFoother.cshtml";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    ViewBag.Title = "Аренды";
 }
 <br />
-<h2>Аренды</h2>
+<h2 style="margin-top: 5%;">Аренды</h2>
 
 <br />
 <ul class="nav nav-tabs">
@@ -109,6 +114,7 @@
                     </td>
                     <td>
                         @Html.ActionLink("Details", "Details", new { id = item.id }) |
+                        @Html.ActionLink("Edit", "Edit", new { id = item.id })
                     </td>
                 </tr>
             }
@@ -116,22 +122,502 @@
         </table>
     </div>
     <div id="NotConfirm" class="tab-pane fade in">
-        @Html.Action("IndexByCondition", "Contracts", new { condition = "Не подтверждён" })
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.FIO_Customer)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FIO_Manager)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Car_Brand)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Car_Model)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Car_WIN_Number)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Additional_Options)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Date_Start)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Date_End)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Price)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Condition)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Notes)
+                </th>
+            </tr>
+
+            @foreach (var item in Model.Where(contract => contract.Condition.Equals("Не подтверждён")))
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FIO_Customer)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FIO_Manager)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Car_Brand)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Car_Model)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Car_WIN_Number)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Additional_Options)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date_Start)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date_End)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Condition)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Notes)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Details", "Details", new { id = item.id }) |
+                        @Html.ActionLink("Edit", "Edit", new { id = item.id })
+                    </td>
+                </tr>
+            }
+
+        </table>
     </div>
     <div id="Confirm" class="tab-pane fade in">
-        @Html.Action("IndexByCondition", "Contracts", new { condition = "Подтверждён" })
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.FIO_Customer)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FIO_Manager)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Car_Brand)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Car_Model)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Car_WIN_Number)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Additional_Options)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Date_Start)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Date_End)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Price)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Condition)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Notes)
+                </th>
+            </tr>
+
+            @foreach (var item in Model.Where(contract => contract.Condition.Equals("Подтверждён")))
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FIO_Customer)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FIO_Manager)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Car_Brand)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Car_Model)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Car_WIN_Number)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Additional_Options)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date_Start)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date_End)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Condition)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Notes)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Details", "Details", new { id = item.id }) |
+                        @Html.ActionLink("Edit", "Edit", new { id = item.id })
+                    </td>
+                </tr>
+            }
+
+        </table>
     </div>
     <div id="Work" class="tab-pane fade in">
-        @Html.Action("IndexByCondition", "Contracts", new { condition = "Действует" })
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.FIO_Customer)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FIO_Manager)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Car_Brand)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Car_Model)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Car_WIN_Number)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Additional_Options)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Date_Start)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Date_End)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Price)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Condition)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Notes)
+                </th>
+            </tr>
+
+            @foreach (var item in Model.Where(contract => contract.Condition.Equals("Действует")))
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FIO_Customer)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FIO_Manager)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Car_Brand)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Car_Model)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Car_WIN_Number)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Additional_Options)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date_Start)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date_End)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Condition)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Notes)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Details", "Details", new { id = item.id }) |
+                        @Html.ActionLink("Edit", "Edit", new { id = item.id })
+                    </td>
+                </tr>
+            }
+
+        </table>
     </div>
     <div id="PaymentFine" class="tab-pane fade in">
-        @Html.Action("IndexByCondition", "Contracts", new { condition = "Ожидает оплаты штрафа" })
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.FIO_Customer)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FIO_Manager)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Car_Brand)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Car_Model)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Car_WIN_Number)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Additional_Options)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Date_Start)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Date_End)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Price)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Condition)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Notes)
+                </th>
+            </tr>
+
+            @foreach (var item in Model.Where(contract => contract.Condition.Equals("Ожидает оплаты штрафа")))
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FIO_Customer)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FIO_Manager)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Car_Brand)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Car_Model)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Car_WIN_Number)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Additional_Options)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date_Start)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date_End)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Condition)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Notes)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Details", "Details", new { id = item.id }) |
+                        @Html.ActionLink("Edit", "Edit", new { id = item.id })
+                    </td>
+                </tr>
+            }
+
+        </table>
     </div>
     <div id="Completed" class="tab-pane fade in">
-        @Html.Action("IndexByCondition", "Contracts", new { condition = "Завершён" })
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.FIO_Customer)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FIO_Manager)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Car_Brand)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Car_Model)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Car_WIN_Number)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Additional_Options)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Date_Start)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Date_End)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Price)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Condition)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Notes)
+                </th>
+            </tr>
+
+            @foreach (var item in Model.Where(contract => contract.Condition.Equals("Завершён")))
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FIO_Customer)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FIO_Manager)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Car_Brand)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Car_Model)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Car_WIN_Number)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Additional_Options)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date_Start)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date_End)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Condition)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Notes)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Details", "Details", new { id = item.id }) |
+                        @Html.ActionLink("Edit", "Edit", new { id = item.id })
+                    </td>
+                </tr>
+            }
+
+        </table>
     </div>
     <div id="Сancelled" class="tab-pane fade in">
-        @Html.Action("IndexByCondition", "Contracts", new { condition = "Отменён" })
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.FIO_Customer)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FIO_Manager)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Car_Brand)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Car_Model)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Car_WIN_Number)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Additional_Options)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Date_Start)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Date_End)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Price)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Condition)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Notes)
+                </th>
+            </tr>
+
+            @foreach (var item in Model.Where(contract => contract.Condition.Equals("Отменён")))
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FIO_Customer)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FIO_Manager)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Car_Brand)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Car_Model)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Car_WIN_Number)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Additional_Options)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date_Start)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date_End)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Condition)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Notes)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Details", "Details", new { id = item.id }) |
+                        @Html.ActionLink("Edit", "Edit", new { id = item.id })
+                    </td>
+                </tr>
+            }
+
+        </table>
     </div>
 </div>
 <!--Block-->

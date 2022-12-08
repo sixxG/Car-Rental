@@ -1,18 +1,21 @@
 ﻿@model IEnumerable<CarRental.Models.Car_Tbl>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Автопарк";
+    //Layout = "~/Views/Shared/_LayoutWithoutFoother.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <link href="~/Content/Button.css" rel="stylesheet" />
-<link href="~/Content/Index.css" rel="stylesheet" />
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+<link href="~/Content/Contact_CSS.css" rel="stylesheet" />
+<link href="~/Content/About.css" rel="stylesheet" />
+
 
 <!--new nav-->
 @if (User.Identity.IsAuthenticated)
 {
     if (User.IsInRole("Admin") || User.IsInRole("Manager"))
     {
-        <ul class="nav nav-tabs">
+        <ul class="nav nav-tabs" style="margin-top: 5%;">
             <li class="active">
                 <a data-toggle="tab" href="#listCar"><h4>Парк автомобилей</h4></a>
             </li>
@@ -25,24 +28,50 @@
 <!--new nav-->
 
 
-<div class="tab-content">
+<div class="tab-content" style="width: 100%; margin-top: 5%;">
     <div id="listCar" class="tab-pane fade in active">
 
         <!-- Start search -->
-        <br />
-        <form method="get" asp-action="Index">
-            <p>
-                <input type="search" placeholder="Введите марку автомобиля или модель ...." value="@ViewData["Getcardetails"]" name="Empsearch"
-                        style="width: 40%" />
-                <input type="submit" value="Search" class="btn btn-primary" />
-                @Html.ActionLink("Все автомобили", "Index")
-            </p>
+
+        <form method="get" action="@Url.Action("FindCar")">
+
+            <div style="width: 100%; text-align: center;">
+                @Html.ActionLink("Все авто", "IndexClass", new { s = "All" }, new { @class = "AllCar" })
+            </div>
+            <br />
+            <br />
+
+            <div style="display: flex; width: 100%;">
+
+                <div style="padding: 0; display: inline-block; text-align: left; width: 50%;">
+                    <label>
+                        <input type="number" class="inputPrice" placeholder="Цена от" value="@ViewData["Getcardetails"]" name="PriceOT" />
+                        <input type="number" class="inputPrice" placeholder="Цена до" value="@ViewData["Getcardetails"]" name="PriceDO" />
+                    </label>
+                </div>
+
+                <div style="padding: 0; display: inline-block; text-align: center; width: 63%;">
+                    @Html.DropDownList("ListBrand", null, "Марка авто", new { @class = "inputCar" })
+
+                    @Html.DropDownList("ListTypeTransmition", null, "Тип КП", new { @class = "inputCar" })
+
+                </div>
+
+                <div style="padding: 0; display: inline-block; text-align: center; width: 50%;">
+                    <input type="submit" value="Найти автомобиль" style="font-size: 24px; background: #46F046; padding: 10px; border-radius: 15px; border: 2px solid #46F046" />
+                </div>
+
+            </div>
         </form>
         <!-- End search -->
 
+        <br />
+
         <!-- Gallery item Эконом -->
-        <div class="container">
-            <h2><b>@Html.ActionLink("Эконом", "IndexClass", new { s = "Эконом" })</b></h2>
+        @if (Model.ToList().Where(x => x.Class.Equals("Эконом") && x.Contition.Equals("Свободна")).Count() != 0)
+        {
+            <div class="container">
+                <h2><b>@Html.ActionLink("Эконом", "IndexClass", new { s = "Эконом" })</b></h2>
                 @if (!User.IsInRole("Admin") && !User.IsInRole("Manager"))
                 {
                     foreach (var item in Model.Where(x => x.Class.Equals("Эконом") && x.Contition.Equals("Свободна")).Take(3))
@@ -155,7 +184,7 @@
                                                 <a class="btn btn-primary btn-sm" onclick="Edit('@Url.Action("Create", "Car", new { id = item.id })')">
                                                     <i class="fa fa-pencil fa-lg"></i>
                                                 </a>
-                                                <a class="btn btn-danger btn-sm">
+                                                <a class="btn btn-danger btn-sm" href="@Url.Action("Delete", "Car", new { id = item.id })">
                                                     <i class="fa fa-trash fa-lg"></i>
                                                 </a>
                                             </td>
@@ -171,279 +200,833 @@
                     }
 
                 }
-            <br />
-            <!-- End Эконом-->
-        </div>
-
+                <br />
+                <!-- End Эконом-->
+            </div>
+        }
+        <!-- End Эконом-->
         <!-- Gallery item Комфорт -->
-        <div class="container">
-            <h2><b>@Html.ActionLink("Комфорт", "IndexClass", new { s = "Комфорт" })</b></h2>
-            @if (!User.IsInRole("Admin") && !User.IsInRole("Manager"))
-            {
-                foreach (var item in Model.Where(x => x.Class.Equals("Комфорт") && x.Contition.Equals("Свободна")).Take(3))
+        @if (Model.ToList().Where(x => x.Class.Equals("Комфорт") && x.Contition.Equals("Свободна")).Count() != 0)
+        {
+            <div class="container">
+                <h2><b>@Html.ActionLink("Комфорт", "IndexClass", new { s = "Комфорт" })</b></h2>
+                @if (!User.IsInRole("Admin") && !User.IsInRole("Manager"))
                 {
-                    <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
-                        <div class="bg-info img-rounded shadow-sm">
+                    foreach (var item in Model.Where(x => x.Class.Equals("Комфорт") && x.Contition.Equals("Свободна")).Take(3))
+                    {
+                        <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
+                            <div class="bg-info img-rounded shadow-sm">
 
-                            <div style="padding: 15px; margin: 10px">
-                                <img src="@item.Image" width="100%" height="220px" />
-                                <p>
-                                    <h4>
-                                        <b>
-                                            @Html.DisplayFor(modelItem => item.Brand)
-                                            @Html.DisplayFor(modelItem => item.Model)
-                                            ,
-                                            @Html.DisplayFor(modelItem => item.Year_Release)
-                                            @Html.DisplayFor(modelItem => item.Class)
-                                        </b>
+                                <div style="padding: 15px; margin: 10px">
+                                    <img src="@item.Image" width="100%" height="220px" />
+                                    <p>
+                                        <h4>
+                                            <b>
+                                                @Html.DisplayFor(modelItem => item.Brand)
+                                                @Html.DisplayFor(modelItem => item.Model)
+                                                ,
+                                                @Html.DisplayFor(modelItem => item.Year_Release)
+                                                @Html.DisplayFor(modelItem => item.Class)
+                                            </b>
+                                        </h4>
+                                    </p>
+                                    <hr />
+
+                                    <div class="auto-description-start" style=" vertical-align: top; font-size: 14px; width: 35%; display: inline-block; margin-right: 50px;">
+                                        <p class="auto-description">Коробка</p>
+                                        <p class="auto-description">Привод</p>
+                                        <p class="auto-description">Пробег</p>
+                                        <p class="auto-description">Мощность</p>
+                                        <p class="auto-description">Тип кузова</p>
+                                    </div>
+
+                                    <div class="auto-description-edn" style=" vertical-align: top; font-size: 14px; width: 47%; display: inline-block; text-align: right;">
+                                        <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Transmission)</p>
+                                        <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Drive)</p>
+                                        <p class="auto-description">&gt;@Html.DisplayFor(modelItem => item.Mileage)</p>
+                                        <p class="auto-description">@Html.DisplayFor(modelItem => item.Power) лс.</p>
+                                        <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Body)</p>
+                                    </div>
+
+                                    <div class="bg-info">
+                                        <h4><b>от @Html.DisplayFor(modelItem => item.Price_Per_Day)</b> / сутки</h4>
+                                    </div>
+
+                                    <h4 class="text-success text-uppercase" style="text-align: center">
                                     </h4>
-                                </p>
-                                <hr />
-
-                                <div class="auto-description-start" style=" vertical-align: top; font-size: 14px; width: 35%; display: inline-block; margin-right: 50px;">
-                                    <p class="auto-description">Коробка</p>
-                                    <p class="auto-description">Привод</p>
-                                    <p class="auto-description">Пробег</p>
-                                    <p class="auto-description">Мощность</p>
-                                    <p class="auto-description">Тип кузова</p>
-                                </div>
-
-                                <div class="auto-description-edn" style=" vertical-align: top; font-size: 14px; width: 47%; display: inline-block; text-align: right;">
-                                    <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Transmission)</p>
-                                    <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Drive)</p>
-                                    <p class="auto-description">&gt;@Html.DisplayFor(modelItem => item.Mileage)</p>
-                                    <p class="auto-description">@Html.DisplayFor(modelItem => item.Power) лс.</p>
-                                    <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Body)</p>
-                                </div>
-
-                                <div class="bg-info">
-                                    <h4><b>от @Html.DisplayFor(modelItem => item.Price_Per_Day)</b> / сутки</h4>
-                                </div>
-
-                                <h4 class="text-success text-uppercase" style="text-align: center">
-                                </h4>
-                                <div style="width:100%; height:100%; text-align:center;">
-                                    @Html.ActionLink("Подробнее", "Details", new { id = item.id }, new { @class = "btn-details" })
+                                    <div style="width:100%; height:100%; text-align:center;">
+                                        @Html.ActionLink("Подробнее", "Details", new { id = item.id }, new { @class = "btn-details" })
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    }
+
                 }
-
-            }
-            else if (User.IsInRole("Admin") || User.IsInRole("Manager"))
-            {
-                foreach (var item in Model.Where(x => x.Class.Equals("Комфорт")).Take(3))
+                else if (User.IsInRole("Admin") || User.IsInRole("Manager"))
                 {
-                    <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
-                        <div class="bg-info img-rounded shadow-sm">
+                    foreach (var item in Model.Where(x => x.Class.Equals("Комфорт")).Take(3))
+                    {
+                        <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
+                            <div class="bg-info img-rounded shadow-sm">
 
-                            <div style="padding: 15px; margin: 10px">
-                                <img src="@item.Image" width="100%" height="220px" />
-                                <p>
-                                    <h4>
-                                        <b>
-                                            @Html.DisplayFor(modelItem => item.Brand)
-                                            @Html.DisplayFor(modelItem => item.Model)
-                                            ,
-                                            @Html.DisplayFor(modelItem => item.Year_Release)
-                                            @Html.DisplayFor(modelItem => item.Class)
-                                        </b>
+                                <div style="padding: 15px; margin: 10px">
+                                    <img src="@item.Image" width="100%" height="220px" />
+                                    <p>
+                                        <h4>
+                                            <b>
+                                                @Html.DisplayFor(modelItem => item.Brand)
+                                                @Html.DisplayFor(modelItem => item.Model)
+                                                ,
+                                                @Html.DisplayFor(modelItem => item.Year_Release)
+                                                @Html.DisplayFor(modelItem => item.Class)
+                                            </b>
+                                        </h4>
+                                    </p>
+                                    <hr />
+
+                                    <div class="auto-description-start" style=" vertical-align: top; font-size: 14px; width: 35%; display: inline-block; margin-right: 50px;">
+                                        <p class="auto-description">Коробка</p>
+                                        <p class="auto-description">Привод</p>
+                                        <p class="auto-description">Пробег</p>
+                                        <p class="auto-description">Мощность</p>
+                                        <p class="auto-description">Тип кузова</p>
+                                    </div>
+
+                                    <div class="auto-description-edn" style=" vertical-align: top; font-size: 14px; width: 47%; display: inline-block; text-align: right;">
+                                        <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Transmission)</p>
+                                        <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Drive)</p>
+                                        <p class="auto-description">&gt;@Html.DisplayFor(modelItem => item.Mileage)</p>
+                                        <p class="auto-description">@Html.DisplayFor(modelItem => item.Power) лс.</p>
+                                        <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Body)</p>
+                                    </div>
+
+                                    <div class="bg-info">
+                                        <h4><b>от @Html.DisplayFor(modelItem => item.Price_Per_Day)</b> / сутки</h4>
+                                    </div>
+
+                                    <h4 class="text-success text-uppercase" style="text-align: center">
+                                        @if (item.Contition.Equals("Свободна"))
+                                        {
+                                            <b style="color: green">@Html.DisplayFor(modelItem => item.Contition)</b>
+                                        }
+                                        else
+                                        {
+                                            <b style="color: red">@Html.DisplayFor(modelItem => item.Contition)</b>
+                                        }
                                     </h4>
-                                </p>
-                                <hr />
 
-                                <div class="auto-description-start" style=" vertical-align: top; font-size: 14px; width: 35%; display: inline-block; margin-right: 50px;">
-                                    <p class="auto-description">Коробка</p>
-                                    <p class="auto-description">Привод</p>
-                                    <p class="auto-description">Пробег</p>
-                                    <p class="auto-description">Мощность</p>
-                                    <p class="auto-description">Тип кузова</p>
-                                </div>
+                                    <table class="table" style="margin:0 auto;">
+                                        <tr>
+                                            <td>
+                                                <a class="btn btn-primary btn-sm" onclick="Edit('@Url.Action("Create", "Car", new { id = item.id })')">
+                                                    <i class="fa fa-pencil fa-lg"></i>
+                                                </a>
+                                                <a class="btn btn-danger btn-sm" href="@Url.Action("Delete", "Car", new { id = item.id })">
+                                                    <i class="fa fa-trash fa-lg"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </table>
 
-                                <div class="auto-description-edn" style=" vertical-align: top; font-size: 14px; width: 47%; display: inline-block; text-align: right;">
-                                    <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Transmission)</p>
-                                    <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Drive)</p>
-                                    <p class="auto-description">&gt;@Html.DisplayFor(modelItem => item.Mileage)</p>
-                                    <p class="auto-description">@Html.DisplayFor(modelItem => item.Power) лс.</p>
-                                    <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Body)</p>
-                                </div>
-
-                                <div class="bg-info">
-                                    <h4><b>от @Html.DisplayFor(modelItem => item.Price_Per_Day)</b> / сутки</h4>
-                                </div>
-
-                                <h4 class="text-success text-uppercase" style="text-align: center">
-                                    @if (item.Contition.Equals("Свободна"))
-                                    {
-                                        <b style="color: green">@Html.DisplayFor(modelItem => item.Contition)</b>
-                                    }
-                                    else
-                                    {
-                                        <b style="color: red">@Html.DisplayFor(modelItem => item.Contition)</b>
-                                    }
-                                </h4>
-
-                                <table class="table" style="margin:0 auto;">
-                                    <tr>
-                                        <td>
-                                            <a class="btn btn-primary btn-sm" onclick="Edit('@Url.Action("Create", "Car", new { id = item.id })')">
-                                                <i class="fa fa-pencil fa-lg"></i>
-                                            </a>
-                                            <a class="btn btn-danger btn-sm">
-                                                <i class="fa fa-trash fa-lg"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                </table>
-
-                                <div style="width:100%; height:100%; text-align:center;">
-                                    @Html.ActionLink("Подробнее", "Details", new { id = item.id }, new { @class = "btn-details" })
+                                    <div style="width:100%; height:100%; text-align:center;">
+                                        @Html.ActionLink("Подробнее", "Details", new { id = item.id }, new { @class = "btn-details" })
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                }
+                    }
 
-            }
-            <br />
-        </div>
+                }
+                <br />
+            </div>
+        }
         <!-- End Комфорт-->
-
         <!-- Gallery item Бизнес -->
-        <div class="container">
-            <h2><b>@Html.ActionLink("Бизнес", "IndexClass", new { s = "Бизнес" })</b></h2>
-            @if (!User.IsInRole("Admin") && !User.IsInRole("Manager"))
-            {
-                foreach (var item in Model.Where(x => x.Class.Equals("Бизнес") && x.Contition.Equals("Свободна")).Take(3))
+        @if (Model.ToList().Where(x => x.Class.Equals("Бизнес") && x.Contition.Equals("Свободна")).Count() != 0)
+        {
+            <div class="container">
+                <h2><b>@Html.ActionLink("Бизнес", "IndexClass", new { s = "Бизнес" })</b></h2>
+                @if (!User.IsInRole("Admin") && !User.IsInRole("Manager"))
                 {
-                    <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
-                        <div class="bg-info img-rounded shadow-sm">
+                    foreach (var item in Model.Where(x => x.Class.Equals("Бизнес") && x.Contition.Equals("Свободна")).Take(3))
+                    {
+                        <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
+                            <div class="bg-info img-rounded shadow-sm">
 
-                            <div style="padding: 15px; margin: 10px">
-                                <img src="@item.Image" width="100%" height="220px" />
-                                <p>
-                                    <h4>
-                                        <b>
-                                            @Html.DisplayFor(modelItem => item.Brand)
-                                            @Html.DisplayFor(modelItem => item.Model)
-                                            ,
-                                            @Html.DisplayFor(modelItem => item.Year_Release)
-                                            @Html.DisplayFor(modelItem => item.Class)
-                                        </b>
+                                <div style="padding: 15px; margin: 10px">
+                                    <img src="@item.Image" width="100%" height="220px" />
+                                    <p>
+                                        <h4>
+                                            <b>
+                                                @Html.DisplayFor(modelItem => item.Brand)
+                                                @Html.DisplayFor(modelItem => item.Model)
+                                                ,
+                                                @Html.DisplayFor(modelItem => item.Year_Release)
+                                                @Html.DisplayFor(modelItem => item.Class)
+                                            </b>
+                                        </h4>
+                                    </p>
+                                    <hr />
+
+                                    <div class="auto-description-start" style=" vertical-align: top; font-size: 14px; width: 35%; display: inline-block; margin-right: 50px;">
+                                        <p class="auto-description">Коробка</p>
+                                        <p class="auto-description">Привод</p>
+                                        <p class="auto-description">Пробег</p>
+                                        <p class="auto-description">Мощность</p>
+                                        <p class="auto-description">Тип кузова</p>
+                                    </div>
+
+                                    <div class="auto-description-edn" style=" vertical-align: top; font-size: 14px; width: 47%; display: inline-block; text-align: right;">
+                                        <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Transmission)</p>
+                                        <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Drive)</p>
+                                        <p class="auto-description">&gt;@Html.DisplayFor(modelItem => item.Mileage)</p>
+                                        <p class="auto-description">@Html.DisplayFor(modelItem => item.Power) лс.</p>
+                                        <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Body)</p>
+                                    </div>
+
+                                    <div class="bg-info">
+                                        <h4><b>от @Html.DisplayFor(modelItem => item.Price_Per_Day)</b> / сутки</h4>
+                                    </div>
+
+                                    <h4 class="text-success text-uppercase" style="text-align: center">
                                     </h4>
-                                </p>
-                                <hr />
-
-                                <div class="auto-description-start" style=" vertical-align: top; font-size: 14px; width: 35%; display: inline-block; margin-right: 50px;">
-                                    <p class="auto-description">Коробка</p>
-                                    <p class="auto-description">Привод</p>
-                                    <p class="auto-description">Пробег</p>
-                                    <p class="auto-description">Мощность</p>
-                                    <p class="auto-description">Тип кузова</p>
-                                </div>
-
-                                <div class="auto-description-edn" style=" vertical-align: top; font-size: 14px; width: 47%; display: inline-block; text-align: right;">
-                                    <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Transmission)</p>
-                                    <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Drive)</p>
-                                    <p class="auto-description">&gt;@Html.DisplayFor(modelItem => item.Mileage)</p>
-                                    <p class="auto-description">@Html.DisplayFor(modelItem => item.Power) лс.</p>
-                                    <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Body)</p>
-                                </div>
-
-                                <div class="bg-info">
-                                    <h4><b>от @Html.DisplayFor(modelItem => item.Price_Per_Day)</b> / сутки</h4>
-                                </div>
-
-                                <h4 class="text-success text-uppercase" style="text-align: center">
-                                </h4>
-                                <div style="width:100%; height:100%; text-align:center;">
-                                    @Html.ActionLink("Подробнее", "Details", new { id = item.id }, new { @class = "btn-details" })
+                                    <div style="width:100%; height:100%; text-align:center;">
+                                        @Html.ActionLink("Подробнее", "Details", new { id = item.id }, new { @class = "btn-details" })
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    }
+
                 }
-
-            }
-            else if (User.IsInRole("Admin") || User.IsInRole("Manager"))
-            {
-                foreach (var item in Model.Where(x => x.Class.Equals("Бизнес")).Take(3))
+                else if (User.IsInRole("Admin") || User.IsInRole("Manager"))
                 {
-                    <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
-                        <div class="bg-info img-rounded shadow-sm">
+                    foreach (var item in Model.Where(x => x.Class.Equals("Бизнес")).Take(3))
+                    {
+                        <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
+                            <div class="bg-info img-rounded shadow-sm">
 
-                            <div style="padding: 15px; margin: 10px">
-                                <img src="@item.Image" width="100%" height="220px" />
-                                <p>
-                                    <h4>
-                                        <b>
-                                            @Html.DisplayFor(modelItem => item.Brand)
-                                            @Html.DisplayFor(modelItem => item.Model)
-                                            ,
-                                            @Html.DisplayFor(modelItem => item.Year_Release)
-                                            @Html.DisplayFor(modelItem => item.Class)
-                                        </b>
+                                <div style="padding: 15px; margin: 10px">
+                                    <img src="@item.Image" width="100%" height="220px" />
+                                    <p>
+                                        <h4>
+                                            <b>
+                                                @Html.DisplayFor(modelItem => item.Brand)
+                                                @Html.DisplayFor(modelItem => item.Model)
+                                                ,
+                                                @Html.DisplayFor(modelItem => item.Year_Release)
+                                                @Html.DisplayFor(modelItem => item.Class)
+                                            </b>
+                                        </h4>
+                                    </p>
+                                    <hr />
+
+                                    <div class="auto-description-start" style=" vertical-align: top; font-size: 14px; width: 35%; display: inline-block; margin-right: 50px;">
+                                        <p class="auto-description">Коробка</p>
+                                        <p class="auto-description">Привод</p>
+                                        <p class="auto-description">Пробег</p>
+                                        <p class="auto-description">Мощность</p>
+                                        <p class="auto-description">Тип кузова</p>
+                                    </div>
+
+                                    <div class="auto-description-edn" style=" vertical-align: top; font-size: 14px; width: 47%; display: inline-block; text-align: right;">
+                                        <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Transmission)</p>
+                                        <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Drive)</p>
+                                        <p class="auto-description">&gt;@Html.DisplayFor(modelItem => item.Mileage)</p>
+                                        <p class="auto-description">@Html.DisplayFor(modelItem => item.Power) лс.</p>
+                                        <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Body)</p>
+                                    </div>
+
+                                    <div class="bg-info">
+                                        <h4><b>от @Html.DisplayFor(modelItem => item.Price_Per_Day)</b> / сутки</h4>
+                                    </div>
+
+                                    <h4 class="text-success text-uppercase" style="text-align: center">
+                                        @if (item.Contition.Equals("Свободна"))
+                                        {
+                                            <b style="color: green">@Html.DisplayFor(modelItem => item.Contition)</b>
+                                        }
+                                        else
+                                        {
+                                            <b style="color: red">@Html.DisplayFor(modelItem => item.Contition)</b>
+                                        }
                                     </h4>
-                                </p>
-                                <hr />
 
-                                <div class="auto-description-start" style=" vertical-align: top; font-size: 14px; width: 35%; display: inline-block; margin-right: 50px;">
-                                    <p class="auto-description">Коробка</p>
-                                    <p class="auto-description">Привод</p>
-                                    <p class="auto-description">Пробег</p>
-                                    <p class="auto-description">Мощность</p>
-                                    <p class="auto-description">Тип кузова</p>
-                                </div>
+                                    <table class="table" style="margin:0 auto;">
+                                        <tr>
+                                            <td>
+                                                <a class="btn btn-primary btn-sm" onclick="Edit('@Url.Action("Edit", "Car", new { id = item.id })')">
+                                                    <i class="fa fa-pencil fa-lg"></i>
+                                                </a>
+                                                <a class="btn btn-danger btn-sm" href="@Url.Action("Delete", "Car", new { id = item.id })">
+                                                    <i class="fa fa-trash fa-lg"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </table>
 
-                                <div class="auto-description-edn" style=" vertical-align: top; font-size: 14px; width: 47%; display: inline-block; text-align: right;">
-                                    <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Transmission)</p>
-                                    <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Drive)</p>
-                                    <p class="auto-description">&gt;@Html.DisplayFor(modelItem => item.Mileage)</p>
-                                    <p class="auto-description">@Html.DisplayFor(modelItem => item.Power) лс.</p>
-                                    <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Body)</p>
-                                </div>
-
-                                <div class="bg-info">
-                                    <h4><b>от @Html.DisplayFor(modelItem => item.Price_Per_Day)</b> / сутки</h4>
-                                </div>
-
-                                <h4 class="text-success text-uppercase" style="text-align: center">
-                                    @if (item.Contition.Equals("Свободна"))
-                                    {
-                                        <b style="color: green">@Html.DisplayFor(modelItem => item.Contition)</b>
-                                    }
-                                    else
-                                    {
-                                        <b style="color: red">@Html.DisplayFor(modelItem => item.Contition)</b>
-                                    }
-                                </h4>
-
-                                <table class="table" style="margin:0 auto;">
-                                    <tr>
-                                        <td>
-                                            <a class="btn btn-primary btn-sm" onclick="Edit('@Url.Action("Create", "Car", new { id = item.id })')">
-                                                <i class="fa fa-pencil fa-lg"></i>
-                                            </a>
-                                            <a class="btn btn-danger btn-sm">
-                                                <i class="fa fa-trash fa-lg"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                </table>
-
-                                <div style="width:100%; height:100%; text-align:center;">
-                                    @Html.ActionLink("Подробнее", "Details", new { id = item.id }, new { @class = "btn-details" })
+                                    <div style="width:100%; height:100%; text-align:center;">
+                                        @Html.ActionLink("Подробнее", "Details", new { id = item.id }, new { @class = "btn-details" })
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                }
+                    }
 
-            }
-            <br />
-        </div>
+                }
+                <br />
+            </div>
+        }
         <!-- End Бизнес-->
+        <!-- Gallery item Premium -->
+        @if (Model.ToList().Where(x => x.Class.Equals("Premium") && x.Contition.Equals("Свободна")).Count() != 0)
+        {
+            <div class="container">
+                <h2><b>@Html.ActionLink("Premium", "IndexClass", new { s = "Premium" })</b></h2>
+                @if (!User.IsInRole("Admin") && !User.IsInRole("Manager"))
+                {
+                    foreach (var item in Model.Where(x => x.Class.Equals("Premium") && x.Contition.Equals("Свободна")).Take(3))
+                    {
+                        <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
+                            <div class="bg-info img-rounded shadow-sm">
+
+                                <div style="padding: 15px; margin: 10px">
+                                    <img src="@item.Image" width="100%" height="220px" />
+                                    <p>
+                                        <h4>
+                                            <b>
+                                                @Html.DisplayFor(modelItem => item.Brand)
+                                                @Html.DisplayFor(modelItem => item.Model)
+                                                ,
+                                                @Html.DisplayFor(modelItem => item.Year_Release)
+                                                @Html.DisplayFor(modelItem => item.Class)
+                                            </b>
+                                        </h4>
+                                    </p>
+                                    <hr />
+
+                                    <div class="auto-description-start" style=" vertical-align: top; font-size: 14px; width: 35%; display: inline-block; margin-right: 50px;">
+                                        <p class="auto-description">Коробка</p>
+                                        <p class="auto-description">Привод</p>
+                                        <p class="auto-description">Пробег</p>
+                                        <p class="auto-description">Мощность</p>
+                                        <p class="auto-description">Тип кузова</p>
+                                    </div>
+
+                                    <div class="auto-description-edn" style=" vertical-align: top; font-size: 14px; width: 47%; display: inline-block; text-align: right;">
+                                        <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Transmission)</p>
+                                        <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Drive)</p>
+                                        <p class="auto-description">&gt;@Html.DisplayFor(modelItem => item.Mileage)</p>
+                                        <p class="auto-description">@Html.DisplayFor(modelItem => item.Power) лс.</p>
+                                        <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Body)</p>
+                                    </div>
+
+                                    <div class="bg-info">
+                                        <h4><b>от @Html.DisplayFor(modelItem => item.Price_Per_Day)</b> / сутки</h4>
+                                    </div>
+
+                                    <h4 class="text-success text-uppercase" style="text-align: center">
+                                    </h4>
+                                    <div style="width:100%; height:100%; text-align:center;">
+                                        @Html.ActionLink("Подробнее", "Details", new { id = item.id }, new { @class = "btn-details" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                }
+                else if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+                {
+                    foreach (var item in Model.Where(x => x.Class.Equals("Premium")).Take(3))
+                    {
+                        <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
+                            <div class="bg-info img-rounded shadow-sm">
+
+                                <div style="padding: 15px; margin: 10px">
+                                    <img src="@item.Image" width="100%" height="220px" />
+                                    <p>
+                                        <h4>
+                                            <b>
+                                                @Html.DisplayFor(modelItem => item.Brand)
+                                                @Html.DisplayFor(modelItem => item.Model)
+                                                ,
+                                                @Html.DisplayFor(modelItem => item.Year_Release)
+                                                @Html.DisplayFor(modelItem => item.Class)
+                                            </b>
+                                        </h4>
+                                    </p>
+                                    <hr />
+
+                                    <div class="auto-description-start" style=" vertical-align: top; font-size: 14px; width: 35%; display: inline-block; margin-right: 50px;">
+                                        <p class="auto-description">Коробка</p>
+                                        <p class="auto-description">Привод</p>
+                                        <p class="auto-description">Пробег</p>
+                                        <p class="auto-description">Мощность</p>
+                                        <p class="auto-description">Тип кузова</p>
+                                    </div>
+
+                                    <div class="auto-description-edn" style=" vertical-align: top; font-size: 14px; width: 47%; display: inline-block; text-align: right;">
+                                        <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Transmission)</p>
+                                        <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Drive)</p>
+                                        <p class="auto-description">&gt;@Html.DisplayFor(modelItem => item.Mileage)</p>
+                                        <p class="auto-description">@Html.DisplayFor(modelItem => item.Power) лс.</p>
+                                        <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Body)</p>
+                                    </div>
+
+                                    <div class="bg-info">
+                                        <h4><b>от @Html.DisplayFor(modelItem => item.Price_Per_Day)</b> / сутки</h4>
+                                    </div>
+
+                                    <h4 class="text-success text-uppercase" style="text-align: center">
+                                        @if (item.Contition.Equals("Свободна"))
+                                        {
+                                            <b style="color: green">@Html.DisplayFor(modelItem => item.Contition)</b>
+                                        }
+                                        else
+                                        {
+                                            <b style="color: red">@Html.DisplayFor(modelItem => item.Contition)</b>
+                                        }
+                                    </h4>
+
+                                    <table class="table" style="margin:0 auto;">
+                                        <tr>
+                                            <td>
+                                                <a class="btn btn-primary btn-sm" onclick="Edit('@Url.Action("Edit", "Car", new { id = item.id })')">
+                                                    <i class="fa fa-pencil fa-lg"></i>
+                                                </a>
+                                                <a class="btn btn-danger btn-sm" href="@Url.Action("Delete", "Car", new { id = item.id })">
+                                                    <i class="fa fa-trash fa-lg"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                    <div style="width:100%; height:100%; text-align:center;">
+                                        @Html.ActionLink("Подробнее", "Details", new { id = item.id }, new { @class = "btn-details" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                }
+                <br />
+            </div>
+        }
+        <!-- End Premium-->
+        <!-- Gallery item Внедорожники -->
+        @if (Model.ToList().Where(x => x.Class.Equals("Внедорожники") && x.Contition.Equals("Свободна")).Count() != 0)
+        {
+            <div class="container">
+                <h2><b>@Html.ActionLink("Внедорожники", "IndexClass", new { s = "Внедорожники" })</b></h2>
+                @if (!User.IsInRole("Admin") && !User.IsInRole("Manager"))
+                {
+                    foreach (var item in Model.Where(x => x.Class.Equals("Внедорожники") && x.Contition.Equals("Свободна")).Take(3))
+                    {
+                        <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
+                            <div class="bg-info img-rounded shadow-sm">
+
+                                <div style="padding: 15px; margin: 10px">
+                                    <img src="@item.Image" width="100%" height="220px" />
+                                    <p>
+                                        <h4>
+                                            <b>
+                                                @Html.DisplayFor(modelItem => item.Brand)
+                                                @Html.DisplayFor(modelItem => item.Model)
+                                                ,
+                                                @Html.DisplayFor(modelItem => item.Year_Release)
+                                                @Html.DisplayFor(modelItem => item.Class)
+                                            </b>
+                                        </h4>
+                                    </p>
+                                    <hr />
+
+                                    <div class="auto-description-start" style=" vertical-align: top; font-size: 14px; width: 35%; display: inline-block; margin-right: 50px;">
+                                        <p class="auto-description">Коробка</p>
+                                        <p class="auto-description">Привод</p>
+                                        <p class="auto-description">Пробег</p>
+                                        <p class="auto-description">Мощность</p>
+                                        <p class="auto-description">Тип кузова</p>
+                                    </div>
+
+                                    <div class="auto-description-edn" style=" vertical-align: top; font-size: 14px; width: 47%; display: inline-block; text-align: right;">
+                                        <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Transmission)</p>
+                                        <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Drive)</p>
+                                        <p class="auto-description">&gt;@Html.DisplayFor(modelItem => item.Mileage)</p>
+                                        <p class="auto-description">@Html.DisplayFor(modelItem => item.Power) лс.</p>
+                                        <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Body)</p>
+                                    </div>
+
+                                    <div class="bg-info">
+                                        <h4><b>от @Html.DisplayFor(modelItem => item.Price_Per_Day)</b> / сутки</h4>
+                                    </div>
+
+                                    <h4 class="text-success text-uppercase" style="text-align: center">
+                                    </h4>
+                                    <div style="width:100%; height:100%; text-align:center;">
+                                        @Html.ActionLink("Подробнее", "Details", new { id = item.id }, new { @class = "btn-details" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                }
+                else if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+                {
+                    foreach (var item in Model.Where(x => x.Class.Equals("Внедорожники")).Take(3))
+                    {
+                        <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
+                            <div class="bg-info img-rounded shadow-sm">
+
+                                <div style="padding: 15px; margin: 10px">
+                                    <img src="@item.Image" width="100%" height="220px" />
+                                    <p>
+                                        <h4>
+                                            <b>
+                                                @Html.DisplayFor(modelItem => item.Brand)
+                                                @Html.DisplayFor(modelItem => item.Model)
+                                                ,
+                                                @Html.DisplayFor(modelItem => item.Year_Release)
+                                                @Html.DisplayFor(modelItem => item.Class)
+                                            </b>
+                                        </h4>
+                                    </p>
+                                    <hr />
+
+                                    <div class="auto-description-start" style=" vertical-align: top; font-size: 14px; width: 35%; display: inline-block; margin-right: 50px;">
+                                        <p class="auto-description">Коробка</p>
+                                        <p class="auto-description">Привод</p>
+                                        <p class="auto-description">Пробег</p>
+                                        <p class="auto-description">Мощность</p>
+                                        <p class="auto-description">Тип кузова</p>
+                                    </div>
+
+                                    <div class="auto-description-edn" style=" vertical-align: top; font-size: 14px; width: 47%; display: inline-block; text-align: right;">
+                                        <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Transmission)</p>
+                                        <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Drive)</p>
+                                        <p class="auto-description">&gt;@Html.DisplayFor(modelItem => item.Mileage)</p>
+                                        <p class="auto-description">@Html.DisplayFor(modelItem => item.Power) лс.</p>
+                                        <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Body)</p>
+                                    </div>
+
+                                    <div class="bg-info">
+                                        <h4><b>от @Html.DisplayFor(modelItem => item.Price_Per_Day)</b> / сутки</h4>
+                                    </div>
+
+                                    <h4 class="text-success text-uppercase" style="text-align: center">
+                                        @if (item.Contition.Equals("Свободна"))
+                                        {
+                                            <b style="color: green">@Html.DisplayFor(modelItem => item.Contition)</b>
+                                        }
+                                        else
+                                        {
+                                            <b style="color: red">@Html.DisplayFor(modelItem => item.Contition)</b>
+                                        }
+                                    </h4>
+
+                                    <table class="table" style="margin:0 auto;">
+                                        <tr>
+                                            <td>
+                                                <a class="btn btn-primary btn-sm" onclick="Edit('@Url.Action("Edit", "Car", new { id = item.id })')">
+                                                    <i class="fa fa-pencil fa-lg"></i>
+                                                </a>
+                                                <a class="btn btn-danger btn-sm" href="@Url.Action("Delete", "Car", new { id = item.id })">
+                                                    <i class="fa fa-trash fa-lg"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                    <div style="width:100%; height:100%; text-align:center;">
+                                        @Html.ActionLink("Подробнее", "Details", new { id = item.id }, new { @class = "btn-details" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                }
+                <br />
+            </div>
+        }
+        <!-- End Внедорожники-->
+        <!-- Gallery item Минивэны -->
+        @if (Model.ToList().Where(x => x.Class.Equals("Минивэны") && x.Contition.Equals("Свободна")).Count() != 0)
+        {
+            <div class="container">
+                <h2><b>@Html.ActionLink("Минивэны", "IndexClass", new { s = "Минивэны" })</b></h2>
+                @if (!User.IsInRole("Admin") && !User.IsInRole("Manager"))
+                {
+                    foreach (var item in Model.Where(x => x.Class.Equals("Минивэны") && x.Contition.Equals("Свободна")).Take(3))
+                    {
+                        <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
+                            <div class="bg-info img-rounded shadow-sm">
+
+                                <div style="padding: 15px; margin: 10px">
+                                    <img src="@item.Image" width="100%" height="220px" />
+                                    <p>
+                                        <h4>
+                                            <b>
+                                                @Html.DisplayFor(modelItem => item.Brand)
+                                                @Html.DisplayFor(modelItem => item.Model)
+                                                ,
+                                                @Html.DisplayFor(modelItem => item.Year_Release)
+                                                @Html.DisplayFor(modelItem => item.Class)
+                                            </b>
+                                        </h4>
+                                    </p>
+                                    <hr />
+
+                                    <div class="auto-description-start" style=" vertical-align: top; font-size: 14px; width: 35%; display: inline-block; margin-right: 50px;">
+                                        <p class="auto-description">Коробка</p>
+                                        <p class="auto-description">Привод</p>
+                                        <p class="auto-description">Пробег</p>
+                                        <p class="auto-description">Мощность</p>
+                                        <p class="auto-description">Тип кузова</p>
+                                    </div>
+
+                                    <div class="auto-description-edn" style=" vertical-align: top; font-size: 14px; width: 47%; display: inline-block; text-align: right;">
+                                        <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Transmission)</p>
+                                        <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Drive)</p>
+                                        <p class="auto-description">&gt;@Html.DisplayFor(modelItem => item.Mileage)</p>
+                                        <p class="auto-description">@Html.DisplayFor(modelItem => item.Power) лс.</p>
+                                        <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Body)</p>
+                                    </div>
+
+                                    <div class="bg-info">
+                                        <h4><b>от @Html.DisplayFor(modelItem => item.Price_Per_Day)</b> / сутки</h4>
+                                    </div>
+
+                                    <h4 class="text-success text-uppercase" style="text-align: center">
+                                    </h4>
+                                    <div style="width:100%; height:100%; text-align:center;">
+                                        @Html.ActionLink("Подробнее", "Details", new { id = item.id }, new { @class = "btn-details" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                }
+                else if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+                {
+                    foreach (var item in Model.Where(x => x.Class.Equals("Минивэны")).Take(3))
+                    {
+                        <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
+                            <div class="bg-info img-rounded shadow-sm">
+
+                                <div style="padding: 15px; margin: 10px">
+                                    <img src="@item.Image" width="100%" height="220px" />
+                                    <p>
+                                        <h4>
+                                            <b>
+                                                @Html.DisplayFor(modelItem => item.Brand)
+                                                @Html.DisplayFor(modelItem => item.Model)
+                                                ,
+                                                @Html.DisplayFor(modelItem => item.Year_Release)
+                                                @Html.DisplayFor(modelItem => item.Class)
+                                            </b>
+                                        </h4>
+                                    </p>
+                                    <hr />
+
+                                    <div class="auto-description-start" style=" vertical-align: top; font-size: 14px; width: 35%; display: inline-block; margin-right: 50px;">
+                                        <p class="auto-description">Коробка</p>
+                                        <p class="auto-description">Привод</p>
+                                        <p class="auto-description">Пробег</p>
+                                        <p class="auto-description">Мощность</p>
+                                        <p class="auto-description">Тип кузова</p>
+                                    </div>
+
+                                    <div class="auto-description-edn" style=" vertical-align: top; font-size: 14px; width: 47%; display: inline-block; text-align: right;">
+                                        <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Transmission)</p>
+                                        <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Drive)</p>
+                                        <p class="auto-description">&gt;@Html.DisplayFor(modelItem => item.Mileage)</p>
+                                        <p class="auto-description">@Html.DisplayFor(modelItem => item.Power) лс.</p>
+                                        <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Body)</p>
+                                    </div>
+
+                                    <div class="bg-info">
+                                        <h4><b>от @Html.DisplayFor(modelItem => item.Price_Per_Day)</b> / сутки</h4>
+                                    </div>
+
+                                    <h4 class="text-success text-uppercase" style="text-align: center">
+                                        @if (item.Contition.Equals("Свободна"))
+                                        {
+                                            <b style="color: green">@Html.DisplayFor(modelItem => item.Contition)</b>
+                                        }
+                                        else
+                                        {
+                                            <b style="color: red">@Html.DisplayFor(modelItem => item.Contition)</b>
+                                        }
+                                    </h4>
+
+                                    <table class="table" style="margin:0 auto;">
+                                        <tr>
+                                            <td>
+                                                <a class="btn btn-primary btn-sm" onclick="Edit('@Url.Action("Edit", "Car", new { id = item.id })')">
+                                                    <i class="fa fa-pencil fa-lg"></i>
+                                                </a>
+                                                <a class="btn btn-danger btn-sm" href="@Url.Action("Delete", "Car", new { id = item.id })">
+                                                    <i class="fa fa-trash fa-lg"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                    <div style="width:100%; height:100%; text-align:center;">
+                                        @Html.ActionLink("Подробнее", "Details", new { id = item.id }, new { @class = "btn-details" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                }
+                <br />
+            </div>
+        }
+        <!-- End Минивэны-->
+        <!-- Gallery item Уникальные авто -->
+        @if (Model.ToList().Where(x => x.Class.Equals("Уникальные авто") && x.Contition.Equals("Свободна")).Count() != 0)
+        {
+            <div class="container">
+                <h2><b>@Html.ActionLink("Уникальные авто", "IndexClass", new { s = "Уникальные авто" })</b></h2>
+                @if (!User.IsInRole("Admin") && !User.IsInRole("Manager"))
+                {
+                    foreach (var item in Model.Where(x => x.Class.Equals("Уникальные авто") && x.Contition.Equals("Свободна")).Take(3))
+                    {
+                        <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
+                            <div class="bg-info img-rounded shadow-sm">
+
+                                <div style="padding: 15px; margin: 10px">
+                                    <img src="@item.Image" width="100%" height="220px" />
+                                    <p>
+                                        <h4>
+                                            <b>
+                                                @Html.DisplayFor(modelItem => item.Brand)
+                                                @Html.DisplayFor(modelItem => item.Model)
+                                                ,
+                                                @Html.DisplayFor(modelItem => item.Year_Release)
+                                                @Html.DisplayFor(modelItem => item.Class)
+                                            </b>
+                                        </h4>
+                                    </p>
+                                    <hr />
+
+                                    <div class="auto-description-start" style=" vertical-align: top; font-size: 14px; width: 35%; display: inline-block; margin-right: 50px;">
+                                        <p class="auto-description">Коробка</p>
+                                        <p class="auto-description">Привод</p>
+                                        <p class="auto-description">Пробег</p>
+                                        <p class="auto-description">Мощность</p>
+                                        <p class="auto-description">Тип кузова</p>
+                                    </div>
+
+                                    <div class="auto-description-edn" style=" vertical-align: top; font-size: 14px; width: 47%; display: inline-block; text-align: right;">
+                                        <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Transmission)</p>
+                                        <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Drive)</p>
+                                        <p class="auto-description">&gt;@Html.DisplayFor(modelItem => item.Mileage)</p>
+                                        <p class="auto-description">@Html.DisplayFor(modelItem => item.Power) лс.</p>
+                                        <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Body)</p>
+                                    </div>
+
+                                    <div class="bg-info">
+                                        <h4><b>от @Html.DisplayFor(modelItem => item.Price_Per_Day)</b> / сутки</h4>
+                                    </div>
+
+                                    <h4 class="text-success text-uppercase" style="text-align: center">
+                                    </h4>
+                                    <div style="width:100%; height:100%; text-align:center;">
+                                        @Html.ActionLink("Подробнее", "Details", new { id = item.id }, new { @class = "btn-details" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                }
+                else if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+                {
+                    foreach (var item in Model.Where(x => x.Class.Equals("Уникальные авто")).Take(3))
+                    {
+                        <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
+                            <div class="bg-info img-rounded shadow-sm">
+
+                                <div style="padding: 15px; margin: 10px">
+                                    <img src="@item.Image" width="100%" height="220px" />
+                                    <p>
+                                        <h4>
+                                            <b>
+                                                @Html.DisplayFor(modelItem => item.Brand)
+                                                @Html.DisplayFor(modelItem => item.Model)
+                                                ,
+                                                @Html.DisplayFor(modelItem => item.Year_Release)
+                                                @Html.DisplayFor(modelItem => item.Class)
+                                            </b>
+                                        </h4>
+                                    </p>
+                                    <hr />
+
+                                    <div class="auto-description-start" style=" vertical-align: top; font-size: 14px; width: 35%; display: inline-block; margin-right: 50px;">
+                                        <p class="auto-description">Коробка</p>
+                                        <p class="auto-description">Привод</p>
+                                        <p class="auto-description">Пробег</p>
+                                        <p class="auto-description">Мощность</p>
+                                        <p class="auto-description">Тип кузова</p>
+                                    </div>
+
+                                    <div class="auto-description-edn" style=" vertical-align: top; font-size: 14px; width: 47%; display: inline-block; text-align: right;">
+                                        <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Transmission)</p>
+                                        <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Drive)</p>
+                                        <p class="auto-description">&gt;@Html.DisplayFor(modelItem => item.Mileage)</p>
+                                        <p class="auto-description">@Html.DisplayFor(modelItem => item.Power) лс.</p>
+                                        <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Body)</p>
+                                    </div>
+
+                                    <div class="bg-info">
+                                        <h4><b>от @Html.DisplayFor(modelItem => item.Price_Per_Day)</b> / сутки</h4>
+                                    </div>
+
+                                    <h4 class="text-success text-uppercase" style="text-align: center">
+                                        @if (item.Contition.Equals("Свободна"))
+                                        {
+                                            <b style="color: green">@Html.DisplayFor(modelItem => item.Contition)</b>
+                                        }
+                                        else
+                                        {
+                                            <b style="color: red">@Html.DisplayFor(modelItem => item.Contition)</b>
+                                        }
+                                    </h4>
+
+                                    <table class="table" style="margin:0 auto;">
+                                        <tr>
+                                            <td>
+                                                <a class="btn btn-primary btn-sm" onclick="Edit('@Url.Action("Edit", "Car", new { id = item.id })')">
+                                                    <i class="fa fa-pencil fa-lg"></i>
+                                                </a>
+                                                <a class="btn btn-danger btn-sm" href="@Url.Action("Delete", "Car", new { id = item.id })">
+                                                    <i class="fa fa-trash fa-lg"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                    <div style="width:100%; height:100%; text-align:center;">
+                                        @Html.ActionLink("Подробнее", "Details", new { id = item.id }, new { @class = "btn-details" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                }
+                <br />
+            </div>
+        }
+        <!-- End Уникальные авто-->
 
     </div>
     <div id="AddCar" class="tab-pane fade in">

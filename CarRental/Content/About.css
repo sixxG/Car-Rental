@@ -1,0 +1,148 @@
+﻿body {
+    width: 100%;
+/*    background: rgba(218, 218, 218, 0.5);*/
+}
+
+.RentalIF {
+    font-size: 64px;
+    display: block;
+    width: 100%;
+    text-align: center;
+    color: #5394FD;
+    font-weight: 600;
+}
+
+.info {
+    margin-top: 5%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+}
+
+.info a {
+    text-decoration: none;
+    color: #00ff00;
+    font-weight: 900;
+}
+
+.info-item {
+    width: calc(100% / 3);
+    /*    padding: 0 35px;*/
+/*    margin: 10px;*/
+    max-width: 100%;
+    height: auto;
+    position: relative;
+}
+
+.info-title {
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900;
+    font-size: 24px;
+    color: black;
+}
+
+.info-img {
+    width: 100%;
+    height: 180px;
+    border-radius: 15px 15px 0px 0px;
+}
+
+.description {
+    background: #5394FD;
+    padding: 10px;
+    border-radius: 0px 0px 15px 15px;
+}
+
+.info-content-text {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    font-size: 18px;
+    color: white;
+}
+
+
+.ShowDIV {
+    width: 100%;
+    cursor: pointer;
+    line-height: 13px;
+    text-indent: 22px;
+    line-height: 33px;
+    border: 1px solid #d2d2d2;
+    font-size: 18px;
+    color: black;
+}
+
+.HideDIV {
+    width: 100%;
+    cursor: pointer;
+    font-size: 18px;
+    color: white;
+    text-indent: 22px;
+    line-height: 33px;
+    border: 1PX SOLID #00ff00;
+    color: black;
+}
+
+
+@media (max-width: 1250px) {
+    .info-item {
+        margin-bottom: 50px;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}
+
+@media (max-width: 995px) {
+    .info-item {
+        width: 45%;
+        margin-bottom: 10px;
+    }
+}
+
+@media (max-width: 750px) {
+    .info {
+        width: 100%;
+        margin-bottom: 50px;
+    }
+
+    .info-item {
+        width: 350px;
+        margin: 0 auto;
+        max-width: 100%;
+        border-bottom: 3px solid #f7f7f7;
+        padding-bottom: 50px;
+    }
+}
+
+@import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css);
+
+.social a {
+    text-align: center;
+    width: 48px;
+    height: 48px;
+    float: left;
+    background: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15), inset 0 0 50px rgba(0,0,0,0.1);
+    border-radius: 24px;
+    margin: 0 10px 10px 0;
+    padding: 6px;
+    color: #000;
+}
+
+
+.youtube a:hover {
+    background: #c4302b;
+    color: #fff;
+}
+.vk a:hover {
+    background: #5d84ae;
+    color: #fff;
+}
+
+.telegram a:hover {
+    background: #249bd7;
+    color: #fff;
+}

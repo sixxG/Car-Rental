@@ -173,7 +173,7 @@ namespace CarRental.Controllers
 
                     await this.UserManager.AddToRoleAsync(user.Id, "Client");
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Manage");
                 }
                 AddErrors(result);
             }
@@ -211,6 +211,7 @@ namespace CarRental.Controllers
             }
 
             //assign roles
+            await this.UserManager.RemoveFromRolesAsync(updateId, "Client");
             await this.UserManager.AddToRoleAsync(updateId, model.Name);
 
             return RedirectToAction("Index", "Home");

@@ -1,0 +1,21 @@
+﻿body {
+}
+
+.bloc-input-checkBox {
+    width: 20px;
+    height: 20px;
+    margin: 0 auto;
+    display: block;
+}
+
+.labelForCheckBox {
+    display: block;
+    margin: 0;
+    padding: 2px;
+}
+
+.inputChaildChest {
+    padding: 2px;
+    display: block;
+    width: 5%;
+}

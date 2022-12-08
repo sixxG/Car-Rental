@@ -1,16 +1,24 @@
 ﻿@model IEnumerable<CarRental.Models.Contract>
 
+@{
+    ViewBag.Title = "Мои аренды";
+    //Layout = "~/Views/Shared/_LayoutWithoutFoother.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
 <link href="~/Content/Index.css" rel="stylesheet" />
 <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
 <br />
 
-<h2>Активная</h2>
+<h2 style="margin-top: 5%;">Активная</h2>
 
 <hr style="color: #5394FD; margin: 5px; background: #5394FD; border: 0.5px solid #5394FD " />
 
-@if (ViewBag.IfExsistActive)
+@if (ViewBag.IfExsistActive == true)
 {
+
     <div style="display: flex; background: rgba(40,40,40,0.15); width: 100%; height: 100%; border-radius: 15px; padding: 10px">
+
         <div style="padding: 0; display: inline-block; width: 50%" id="Renta">
             @Html.ActionLink("Автомобиль", "Details", "Car", new { id = ViewBag.CarId }, new { @class = "btn-details", @style = "font-size: 32px; color: black; text-decoration: none;", @id = "FinishedBTN" })
             <img src="@Url.Content("~" + @ViewBag.Img)" style="width: 260px; height:160px; border-radius: 15px" />
@@ -33,7 +41,7 @@
 
         <div style="padding: 0; display: inline-block; text-align: center; width: 50%;">
             <p style="font-size: 32px; color: black;">Осталось</p>
-            <p style="font-size: 32px; color: red;">@ViewBag.DayStay д. @ViewBag.HoursStay часов</p>
+            <p style="font-size: 32px; color: red;">@ViewBag.DayStay д. @ViewBag.HoursStay час. @ViewBag.HowMinutessStay м</p>
             <p style="font-size: 32px; color: black;">Состояние</p>
             <p style="font-size: 20px; color: #404040;">@ViewBag.Condition</p>
             @if (ViewBag.Condition.Equals("Действует"))
@@ -48,7 +56,7 @@
             {
                 <div id="Finished"></div>
                 <button style="font-size: 30px; background: #46F046; padding: 10px; border-radius: 15px; border: 2px solid #46F046" onclick="NotFinish()">
-                    Завершить1
+                    Завершить
                 </button>
                 <p id="notFinish" style="color: red;"></p>
             }
@@ -85,20 +93,23 @@ else
 
 <div class="tab-content">
     <div id="ALL" class="tab-pane fade in active">
+        <br />
         @Html.Action("IndexByConditionToClient", "Contracts", new { condition = "All" })
     </div>
     <div id="Canceled" class="tab-pane fade in">
+        <br />
         @Html.Action("IndexByConditionToClient", "Contracts", new { condition = "Отменён" })
     </div>
     <div id="Finished" class="tab-pane fade in">
+        <br />
         @Html.Action("IndexByConditionToClient", "Contracts", new { condition = "Завершён" })
     </div>
 </div>
 
 
-    <script>
-        function NotFinish() {
-            var p = document.getElementById('notFinish');
-            p.innerHTML = 'Вы не можите завершить аренду т.к. она ещё не активна.';
-        }
-    </script>
+<script>
+    function NotFinish() {
+        var p = document.getElementById('notFinish');
+        p.innerHTML = 'Вы не можете завершить аренду т.к. она ещё не активна.';
+    }
+</script>

@@ -131,6 +131,8 @@ C:\Users\Oleg\Desktop\CarRental\bin\System.Web.Mvc.dll
 C:\Users\Oleg\Desktop\CarRental\bin\System.Web.Mvc.xml
 C:\Users\Oleg\Desktop\CarRental\bin\ru\System.Web.Mvc.resources.dll
 C:\Users\Oleg\Desktop\CarRental\obj\Debug\CarRental.csproj.AssemblyReference.cache
+C:\Users\Oleg\Desktop\КП по C#\papka\Car-Rental\CarRental\bin\log4net.dll
+C:\Users\Oleg\Desktop\КП по C#\papka\Car-Rental\CarRental\bin\log4net.xml
 C:\Users\Oleg\Desktop\КП по C#\papka\Car-Rental\CarRental\bin\CarRental.dll.config
 C:\Users\Oleg\Desktop\КП по C#\papka\Car-Rental\CarRental\bin\CarRental.dll
 C:\Users\Oleg\Desktop\КП по C#\papka\Car-Rental\CarRental\bin\CarRental.pdb
@@ -186,7 +188,6 @@ C:\Users\Oleg\Desktop\КП по C#\papka\Car-Rental\CarRental\bin\roslyn\VBCSCom
 C:\Users\Oleg\Desktop\КП по C#\papka\Car-Rental\CarRental\bin\Antlr3.Runtime.dll
 C:\Users\Oleg\Desktop\КП по C#\papka\Car-Rental\CarRental\bin\EntityFramework.dll
 C:\Users\Oleg\Desktop\КП по C#\papka\Car-Rental\CarRental\bin\EntityFramework.SqlServer.dll
-C:\Users\Oleg\Desktop\КП по C#\papka\Car-Rental\CarRental\bin\log4net.dll
 C:\Users\Oleg\Desktop\КП по C#\papka\Car-Rental\CarRental\bin\Microsoft.AspNet.Identity.Core.dll
 C:\Users\Oleg\Desktop\КП по C#\papka\Car-Rental\CarRental\bin\Microsoft.AspNet.Identity.EntityFramework.dll
 C:\Users\Oleg\Desktop\КП по C#\papka\Car-Rental\CarRental\bin\Microsoft.AspNet.Identity.Owin.dll
@@ -237,7 +238,6 @@ C:\Users\Oleg\Desktop\КП по C#\papka\Car-Rental\CarRental\bin\System.Web.Web
 C:\Users\Oleg\Desktop\КП по C#\papka\Car-Rental\CarRental\bin\WebGrease.dll
 C:\Users\Oleg\Desktop\КП по C#\papka\Car-Rental\CarRental\bin\EntityFramework.xml
 C:\Users\Oleg\Desktop\КП по C#\papka\Car-Rental\CarRental\bin\EntityFramework.SqlServer.xml
-C:\Users\Oleg\Desktop\КП по C#\papka\Car-Rental\CarRental\bin\log4net.xml
 C:\Users\Oleg\Desktop\КП по C#\papka\Car-Rental\CarRental\bin\Microsoft.AspNetCore.Cryptography.Internal.xml
 C:\Users\Oleg\Desktop\КП по C#\papka\Car-Rental\CarRental\bin\Microsoft.AspNetCore.Cryptography.KeyDerivation.xml
 C:\Users\Oleg\Desktop\КП по C#\papka\Car-Rental\CarRental\bin\Microsoft.Bcl.AsyncInterfaces.xml
@@ -307,3 +307,4 @@ C:\Users\Oleg\Desktop\КП по C#\papka\Car-Rental\CarRental\obj\Debug\CarRenta
 C:\Users\Oleg\Desktop\КП по C#\papka\Car-Rental\CarRental\obj\Debug\CarRental.csproj.CopyComplete
 C:\Users\Oleg\Desktop\КП по C#\papka\Car-Rental\CarRental\obj\Debug\CarRental.dll
 C:\Users\Oleg\Desktop\КП по C#\papka\Car-Rental\CarRental\obj\Debug\CarRental.pdb
+C:\Users\Oleg\Desktop\КП по C#\papka\Car-Rental\CarRental\obj\Debug\CarRental.csproj.AssemblyReference.cache
