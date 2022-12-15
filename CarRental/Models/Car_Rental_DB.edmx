@@ -34,6 +34,7 @@
           <Property Name="Price_Per_Day" Type="int" Nullable="false" />
           <Property Name="Contition" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Image" Type="varchar(max)" Nullable="false" />
+          <Property Name="Description" Type="varchar(max)" Nullable="false" />
         </EntityType>
         <EntityType Name="Contract">
           <Key>
@@ -128,6 +129,7 @@
           <Property Name="Price_Per_Day" Type="Int32" Nullable="false" />
           <Property Name="Contition" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Image" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Contract">
           <Key>
@@ -191,6 +193,7 @@
           <EntitySetMapping Name="Car_Tbl">
             <EntityTypeMapping TypeName="CarRentalMVCModel.Car_Tbl">
               <MappingFragment StoreEntitySet="Car_Tbl">
+                <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Image" ColumnName="Image" />
                 <ScalarProperty Name="Contition" ColumnName="Contition" />
                 <ScalarProperty Name="Price_Per_Day" ColumnName="Price_Per_Day" />

@@ -107,7 +107,7 @@ namespace CarRental.Controllers
             ViewBag.IfExsist = IfExsist;
             return View(contracts);
         }
-        // GET: Contracts/Details/5
+        // GET: Contracts/Details/51
         public ActionResult Details(int? id)
         {
             Contract contract = db.Contract.Find(id);
@@ -190,6 +190,10 @@ namespace CarRental.Controllers
         public ActionResult Canceled(int id)
         {
             var contract = db.Contract.Where(model => model.id == id).First();
+            var car = db.Car_Tbl.Where(auto => auto.WIN_Number.Equals(contract.Car_WIN_Number)).FirstOrDefault();
+
+            car.Contition = "Свободна";
+            db.Entry(car).State = System.Data.Entity.EntityState.Modified;
             contract.Condition = "Отменён";
 
             var managerID = User.Identity.GetUserId();
@@ -206,8 +210,12 @@ namespace CarRental.Controllers
         public ActionResult Finished(int id)
         {
             var contract = db.Contract.Where(model => model.id == id).First();
+            var car = db.Car_Tbl.Where(auto => auto.WIN_Number.Equals(contract.Car_WIN_Number)).FirstOrDefault();
             contract.Condition = "Завершён";
+            contract.Date_End = DateTime.Now;
 
+            car.Contition = "Свободна";
+            db.Entry(car).State = System.Data.Entity.EntityState.Modified;
             db.Entry(contract).State = System.Data.Entity.EntityState.Modified;
             db.SaveChanges();
 
@@ -233,8 +241,20 @@ namespace CarRental.Controllers
             return RedirectToAction("IndexAll");
         }
 
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult AssignFine(int id)
+        {
+            var contract = db.Contract.Where(model => model.id == id).First();
+            contract.Condition = "Ожидает оплаты штрафа";
+
+            db.Entry(contract).State = System.Data.Entity.EntityState.Modified;
+
+            db.SaveChanges();
+            return RedirectToAction("IndexAll");
+        }
+
         // GET: Contracts/Create
-        public ActionResult Create(int id)
+        public ActionResult Create(int id, string dateStart, string dateEnd)
         {
             var car = db.Car_Tbl.Where(auto => auto.id == id).FirstOrDefault();
             var ID = car.id;
@@ -262,6 +282,9 @@ namespace CarRental.Controllers
             {
                 ViewBag.UserFIO = "";
             }
+
+            ViewBag.DateStart = dateStart;
+            ViewBag.DateEnd = dateEnd;
 
             ViewBag.ID = ID;
             ViewBag.WIN = WIN;
@@ -314,6 +337,13 @@ namespace CarRental.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Contract contract = db.Contract.Find(id);
+
+            var managerID = User.Identity.GetUserId();
+
+            contract.FIO_Manager = db.Manager_Tbl.Where(manager => manager.user_ID.Equals(managerID)).FirstOrDefault().FIO;
+
+            //ViewBag.UserID = contract.id_client;
+
             if (contract == null)
             {
                 return HttpNotFound();
@@ -326,15 +356,15 @@ namespace CarRental.Controllers
         // Дополнительные сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,FIO_Customer,FIO_Manager,Car_Brand,Car_Model,Car_WIN_Number,Additional_Options,Date_Start,Date_End,Price,Condition,Notes")] Contract contract)
+        public ActionResult Edit([Bind(Include = "id,FIO_Customer,FIO_Manager,Car_Brand,Car_Model,Car_WIN_Number,Additional_Options,Date_Start,Date_End,Price,Condition,Notes,id_client")] Contract contract)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(contract).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("IndexAll");
             }
-            return View(contract);
+            return RedirectToAction("IndexAll");
         }
 
         // GET: Contracts/Delete/5

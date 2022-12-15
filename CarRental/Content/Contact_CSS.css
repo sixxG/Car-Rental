@@ -63,6 +63,12 @@
     color: #46F046
 }
 
+.carLinkActive {
+    text-decoration: blink;
+    color: #46F046
+}
+
+
 .type {
     color: #443D3D;
 }

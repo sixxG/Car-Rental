@@ -12,6 +12,11 @@
 @*<link href="~/Content/Index.css" rel="stylesheet" />*@
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
 <link href="~/Content/CreatContract.css" rel="stylesheet" />
+
+<link href="~/Content/Details.css" rel="stylesheet" />
+<link href="~/Content/Button.css" rel="stylesheet" />
+<link href="~/Content/Contact_CSS.css" rel="stylesheet" />
+
 <script src="~/Scripts/jquery-3.4.1.min.js"></script>
 
 <ul class="nav nav-tabs" style="margin-top: 5%;">
@@ -52,12 +57,12 @@
                     </div>
 
                     @*<div class="form-group">
-            @Html.LabelFor(model => model.FIO_Manager, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.FIO_Manager, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.FIO_Manager, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
+                            @Html.LabelFor(model => model.FIO_Manager, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.FIO_Manager, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.FIO_Manager, "", new { @class = "text-danger" })
+                            </div>
+                        </div>*@
 
                     <div class="form-group">
                         @Html.LabelFor(model => model.Car_Brand, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -93,9 +98,9 @@
                     </div>
 
                     <div class="form-group dateStart">
-                        @Html.LabelFor(model => model.Date_Start, htmlAttributes: new { @class = "control-label col-md-2 " })
+                        @Html.LabelFor(model => model.Date_Start, htmlAttributes: new { @class = "control-label col-md-2 " })@*DateTime.Now.ToString("yyyy-MM-ddTHH:mm")*@
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.Date_Start, new { htmlAttributes = new { Value = DateTime.Now, @class = "form-control datepicker", @type = "datetime-local", @style = "width: 50%;" } })
+                            @Html.EditorFor(model => model.Date_Start, new { htmlAttributes = new { Value = ViewBag.DateStart, @class = "form-control datepicker", @type = "datetime-local", @style = "width: 50%;" } })
 
                             @*@Html.TextBoxFor(model => model.Date_Start, "{0:d MMM yyyy}", new {@Value =  DateTime.Now.Date, htmlAttributes = new { @class = "input-large" } })*@
 
@@ -104,10 +109,11 @@
                     </div>
 
                     <div class="form-group dateEnd-block">
-                        @Html.LabelFor(model => model.Date_End, htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(model => model.Date_End, htmlAttributes: new { @class = "control-label col-md-2" })@*DateTime.Now.AddDays(1).ToString("yyyy-MM-ddTHH:mm")*@
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.Date_End, new { htmlAttributes = new { @class = "form-control datepicker", @type = "datetime-local", @style = "width: 50%;", min = (DateTime.Now.AddDays(1)) } })
+                            @Html.EditorFor(model => model.Date_End, new { htmlAttributes = new { Value = ViewBag.DateEnd, @class = "form-control datepicker", @type = "datetime-local", @style = "width: 50%;", min = (DateTime.Now.AddDays(1)) } })
                             @Html.ValidationMessageFor(model => model.Date_End, "", new { @class = "text-danger" })
+                            <p id="notDateEnd" style="color: red;"></p>
                         </div>
                     </div>
 
@@ -115,7 +121,7 @@
                         <div class="col-md-10">
 
                             @*<input type="checkbox" id="checkbox1" style="display: flex"><i>Видеорегистратор 150р/сутки</i>
-                <input type="checkbox" id="checkbox2" style="display: flex"><i>Автобокс 250р/сутки</i>*@
+                                <input type="checkbox" id="checkbox2" style="display: flex"><i>Автобокс 250р/сутки</i>*@
                             @Html.LabelFor(model => model.Additional_Options, htmlAttributes: new { @class = "control-label col-md-2" })
 
                             <div style="display: flex; padding-left: 30px">
@@ -161,14 +167,6 @@
                         </div>
                     </div>
 
-                    @*<div class="form-group">
-            @Html.LabelFor(model => model.Condition, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Condition, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Condition, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
-
                     <div class="form-group">
                         @Html.LabelFor(model => model.Notes, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
@@ -179,8 +177,15 @@
 
 
                     <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
-                            <input id="submit" @*type="submit"*@ value="Create" class="btn btn-default" onclick="ValidDate();" />
+                        <div>
+                            @if (ViewBag.IfUserDataExist == false)
+                            {
+                                <input id="submit" @*type="submit"*@ value="Арендовать" class="btn-details" onclick="ValidDate();" />
+                            }
+                            else
+                            {
+                                <a class="btn-details">Арендовать</a>
+                            }
                         </div>
                     </div>
                 </div>
@@ -195,7 +200,6 @@
         @Html.Action("Details", "Car", new { id = ViewBag.ID })
     </div>
 
-    <button onclick="AddAdditionsOptions()">test</button>
 </div>
 
 
@@ -211,14 +215,14 @@
         var timeRental = (End - Start) / (1000 * 60 * 60 * 24);
         var price = $('#PricePerDay').val();
 
-        document.getElementById("Price").setAttribute('value', roundNumber(timeRental * price, 2));
+        document.getElementById("Price").setAttribute('value', roundNumber(timeRental * price, 0));
 
         document.getElementById("rentalTime").value = roundNumber(timeRental, 1) + '.суток';
 
         document.getElementById('Registrator').checked = false;
         document.getElementById('AutoBox').checked = false;
-        document.getElementById('child').checked = false;
-/*        $('#Registrator').on('change', PlusPriceFORCheckBox);*/
+        document.getElementById('child').value = 0;
+        /*        $('#Registrator').on('change', PlusPriceFORCheckBox);*/
         /*$('#Price').val = timeRental;*/
     });
 
@@ -236,7 +240,29 @@
 
         document.getElementById("rentalTime").value = roundNumber(timeRental, 1) + '.суток';
 
+        document.getElementById('Registrator').checked = false;
+        document.getElementById('AutoBox').checked = false;
+        document.getElementById('child').value = 0;
     })
+
+    function codeAddress() {
+        var dateStart = $('#Date_Start').val();
+        var dateEnd = $('#Date_End').val();
+
+        var Start = Date.parse(dateStart);
+        var End = Date.parse(dateEnd);
+
+        var timeRental = (End - Start) / (1000 * 60 * 60 * 24);
+        var price = $('#PricePerDay').val();
+
+        document.getElementById("Price").setAttribute('value', roundNumber(timeRental * price, 0));
+        document.getElementById("rentalTime").value = roundNumber(timeRental, 1) + '.суток';
+
+        document.getElementById('Registrator').checked = false;
+        document.getElementById('AutoBox').checked = false;
+        document.getElementById('child').value = 0;
+    }
+    window.onload = codeAddress;
 
     function roundNumber(number, digits) {
         var multiple = Math.pow(10, digits);
@@ -256,11 +282,11 @@
         var timeRental = (End - Start) / (1000 * 60 * 60 * 24);
 
         /*        var submit = document.getElementById('submit');*/
-        console.log("Notes: " + Notes);
+        //console.log("Notes: " + Notes);
 
         if (Start >= End || (timeRental < 1) || (timeRental >= 100) || dateEnd == "") {
-            console.log(Start >= End);
-            console.log("dateEnd " + dateEnd);
+            //console.log(Start >= End);
+            //console.log("dateEnd " + dateEnd);
             document.getElementById('message').innerHTML = "Выберите корректную дату аренды (от 1 дня до 3-х месяцев) и остальные данные";
         } else {
             AddAdditionsOptions();
@@ -279,19 +305,24 @@
         var End = Date.parse(dateEnd);
 
         var Input = document.getElementById(nameInput);
-        console.log(Input)
+         console.log(Input)
         var name = this.getAttribute('data-name');
 
-        console.log("id input: " + name);
 
         var timeRental = (End - Start) / (1000 * 60 * 60 * 24);
+        var price = $('#PricePerDay').val();
+        console.log("Цена за день аренды: " + price);
 
         var priceDo = $('#Price').val();
         var priceDOInt = Number.parseInt(priceDo);
-        console.log("Price DO:" + priceDOInt);
+         console.log("Цена до услуги:" + priceDOInt);
         var priceUslugi = $('#' + name).val();
-        console.log("price uslugi: " + priceUslugi);
+         console.log("Цена услуги: " + priceUslugi);
         var priceUslugiInt = Number.parseInt(priceUslugi);
+
+        var priceRental = roundNumber(timeRental * price, 0);
+        console.log("Время аренды: " + timeRental);
+        console.log("Цена за всю аренду по времени: " + priceRental);
 
 
         if (document.getElementById(name).checked && dateEnd != "") {
@@ -300,22 +331,126 @@
 
             console.log("priceUslugi:" + priceUslugiInt);
 
-            document.getElementById("Price").setAttribute('value', roundNumber(priceDOInt + (timeRental * priceUslugiInt), 0));
+            document.getElementById("Price").setAttribute('value', roundNumber((priceDOInt + (timeRental * priceUslugiInt)), 0));
 
-            console.log("Price dop. uslugi : " + (timeRental * priceUslugiInt));
+             console.log("Price dop. uslugi : " + (timeRental * priceUslugiInt));
 
-            this.nextElementSibling.value = (timeRental * priceUslugiInt);
+            this.nextElementSibling.value = roundNumber(timeRental * priceUslugiInt, 0);
+            document.getElementById('notDateEnd').innerHTML = "";
 
-        } else {
-            console.log("not нажат");
+        } else if (dateEnd != "") {
             document.getElementById(name).checked = false;
+            this.nextElementSibling.value = "";
+            document.getElementById("Price").setAttribute('value', roundNumber((priceDOInt - (timeRental * priceUslugiInt)), 0));
+        } else {
+             console.log("not нажат");
+            document.getElementById(name).checked = false;
+            document.getElementById('notDateEnd').innerHTML = "Выберите дату завершения аренды!";
             document.getElementById("Price").setAttribute('value', roundNumber(priceDOInt - (timeRental * priceUslugiInt), 0));
             this.nextElementSibling.value = "";
         }
     }
 
-    function PlusPriceFORChiledChes() {
+//    function PlusPriceFORChiledChes() {
 
+//        var dateStart = $('#Date_Start').val();
+//        var dateEnd = $('#Date_End').val();
+
+//        var Start = Date.parse(dateStart);
+//        var End = Date.parse(dateEnd);
+
+//        var timeRental = (End - Start) / (1000 * 60 * 60 * 24);
+
+//        var priceDo = $('#Price').val();
+//        var priceDOInt = Number.parseInt(priceDo);
+
+////        var price = $('#PricePerDay').val();
+////        var priceDOInt = Number.parseInt(price);
+/////*        priceDOInt = roundNumber(priceDOInt * timeRental, 0);*/
+//         console.log(priceDOInt);
+
+//        var rng = document.getElementById('child');
+
+//        var rngValue = Number.parseInt(rng.value);
+//        /*   console.log(rngValue);*/
+
+//        var priceUslugi = Number.parseInt(rngValue * 100);
+
+
+//        if (rngValue != 0 && dateEnd != "") {
+//            /*onsole.log("нажат");*/
+
+//            /* console.log("priceUslugi:" + (rngValue * 100));*/
+
+//            console.log("Цена плюс");
+//            document.getElementById("Price").setAttribute('value', priceDOInt + priceUslugi);
+//            priceDOInt = priceDOInt - priceUslugi;
+//            console.log("--------1^" + priceDOInt);
+
+//            /*  console.log("Price dop. uslugi : " + (rngValue * 100));*/
+
+//        } else if (rngValue == 0) {
+//            priceDOInt = Number.parseInt(priceDo);
+//            console.log("--------1^0" + priceDOInt);
+//        }
+//        else if (dateEnd != "") {
+//            /* console.log("not нажат");*/
+
+//            console.log("--------2^" + priceDOInt);
+//            document.getElementById("Price").setAttribute('value', priceDOInt);
+//            console.log("Цена услуги: " + priceUslugi);
+//            console.log("Цена минус");
+//            console.log("Кол-во услуги: " + rngValue);
+//            //document.getElementById('child').value = 0;
+//            //this.nextElementSibling.value = this.value;
+//            /*document.getElementById("Price").setAttribute('value', priceDOInt - priceUslugi);*/
+//        } 
+//        else {
+//            document.getElementById("Price").setAttribute('value', priceDOInt - priceUslugi);
+//            document.getElementById('notDateEnd').innerHTML = "Выберите дату завершения аренды!";
+//            document.getElementById('child').value = 0;
+//            this.nextElementSibling.value = this.value;
+//        }
+//    }
+
+    function PlusPriceFORChiledChes() {
+        var dateStart = $('#Date_Start').val();
+        var dateEnd = $('#Date_End').val();
+        var Start = Date.parse(dateStart);
+        var End = Date.parse(dateEnd);
+
+        var timeRental = (End - Start) / (1000 * 60 * 60 * 24);
+
+        var priceDo = $('#Price').val();
+        var priceDOInt = getNowPrice();
+        //var price = $('#PricePerDay').val();
+        //var priceDOInt = Number.parseInt(price);
+
+        //priceDOInt = roundNumber(priceDOInt * timeRental, 0);
+
+        console.log("Функция расчёта цены аренды: " + getNowPrice());
+
+        console.log(priceDOInt);
+        var rng = document.getElementById('child');
+        var rngValue = Number.parseInt(rng.value);
+        console.log(rngValue);
+        var priceUslugi = Number.parseInt(rngValue * 100);
+        if (rngValue != 0 && dateEnd != "") {
+            console.log("нажат");
+            console.log("priceUslugi:" + (rngValue * 100));
+            document.getElementById("Price").setAttribute('value', priceUslugi + priceDOInt);
+            console.log("Price dop. uslugi : " + (rngValue * 100));
+        } else if (dateEnd == "") {
+            console.log("not нажат");
+            document.getElementById('notDateEnd').innerHTML = "Выберите дату завершения аренды!";
+            document.getElementById('child').value = 0;
+            this.nextElementSibling.value = this.value;
+        } else if (dateEnd != "") {
+            document.getElementById("Price").setAttribute('value', priceDOInt - priceUslugi);
+        }
+    }
+
+    function getNowPrice() {
         var dateStart = $('#Date_Start').val();
         var dateEnd = $('#Date_End').val();
 
@@ -323,36 +458,26 @@
         var End = Date.parse(dateEnd);
 
         var timeRental = (End - Start) / (1000 * 60 * 60 * 24);
-
         var price = $('#PricePerDay').val();
-        var priceDOInt = Number.parseInt(price);
-        priceDOInt = roundNumber(priceDOInt * timeRental, 2);
-        console.log(priceDOInt);
 
-        var rng = document.getElementById('child');
+        var priceUslugi1 = $('#Registrator').val();
+        var priceUslugi2 = $('#AutoBox').val();
 
-        var rngValue = Number.parseInt(rng.value);
-        console.log(rngValue);
+        priceUslugi1Int = 0;
+        priceUslugi2Int = 0;
 
-        var priceUslugi = Number.parseInt(rngValue * 100);
-
-
-        if (rngValue != 0 && dateEnd != "") {
-            console.log("нажат");
-
-            console.log("priceUslugi:" + (rngValue * 100));
-
-            document.getElementById("Price").setAttribute('value', priceUslugi + priceDOInt);
-
-            console.log("Price dop. uslugi : " + (rngValue * 100));
-
-        } else if (dateEnd == "") {
-            console.log("not нажат");
-            document.getElementById("child").value = 0;
-            this.nextElementSibling.value = this.value;
-        } else if (dateEnd != "") {
-            document.getElementById("Price").setAttribute('value', priceDOInt - priceUslugi);
+        if (document.getElementById("Registrator").checked) {
+            priceUslugi1Int = roundNumber(timeRental * Number.parseInt(priceUslugi1), 0);
         }
+
+        if (document.getElementById("AutoBox").checked) {
+            priceUslugi2Int = roundNumber(timeRental * Number.parseInt(priceUslugi2), 0);
+        }
+
+
+        priceNow = roundNumber(timeRental * price, 0);
+        priceNow = priceNow + priceUslugi1Int + priceUslugi2Int;
+        return priceNow;
     }
 
     $('#Registrator').on('change', PlusPriceFORCheckBox);
@@ -370,23 +495,23 @@
         if (checkBox1) {
             input.setAttribute('value', additionnalOptions + "Видеорегистратор;");
             additionnalOptions = document.getElementById("Additional_Options").value;
-            console.log(additionnalOptions);
+            /* console.log(additionnalOptions);*/
         }
         if (checkBox2) {
-            
+
             input.setAttribute('value', additionnalOptions + "\ Автобокс;");
             additionnalOptions = document.getElementById("Additional_Options").value;
-            console.log(additionnalOptions);
+            /*            console.log(additionnalOptions);*/
         }
         if (child != 0) {
             input.setAttribute('value', additionnalOptions + "\ Детское-кресло;" + child);
             additionnalOptions = document.getElementById("Additional_Options").value;
-            console.log(additionnalOptions);
+            /*            console.log(additionnalOptions);*/
         }
 
-        console.log(checkBox1);
-        console.log(checkBox1);
-        console.log(child);
+        //console.log(checkBox1);
+        //console.log(checkBox1);
+        //console.log(child);
     }
 
     //function getValue() {

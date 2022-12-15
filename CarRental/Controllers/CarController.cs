@@ -233,6 +233,7 @@ namespace CarRental.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Car_Tbl car_Tbl = db.Car_Tbl.Find(id);
+            car_Tbl.Image = ".." + car_Tbl.Image.Substring(2);
             if (car_Tbl == null)
             {
                 return HttpNotFound();
@@ -342,7 +343,7 @@ namespace CarRental.Controllers
         {
             var listType_Drive = new List<String>() { "Передний", "Задний", "Полный" };
             var listType_Body = new List<String>() { "Купэ", "Универсал", "Кабриолет", "Седан", "Лимузин", "Внедорожник", "Хетчбэк", "Пикап", "Мини-вэн" };
-            var listClass = new List<String>() { "Эконом", "Комфорт", "Бизнесс", "Premium", "Внедорожники", "Минивэны", "Уникальные авто" };
+            var listClass = new List<String>() { "Эконом", "Комфорт", "Бизнес", "Premium", "Внедорожники", "Минивэны", "Уникальные авто" };
             var listType_Transmission = new List<String>() { "Механическая", "Автоматическая", "Робот" };
             ViewBag.listType_Drive = listType_Drive;
             ViewBag.listType_Body = listType_Body;
@@ -354,6 +355,8 @@ namespace CarRental.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Car_Tbl car_Tbl = db.Car_Tbl.Find(id);
+            Session["imgPath"] = car_Tbl.Image.Substring(2);
+            //car_Tbl.Image = "../" + car_Tbl.Image.Substring(2);
             if (car_Tbl == null)
             {
                 return HttpNotFound();
@@ -368,18 +371,44 @@ namespace CarRental.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Car_Tbl car_Tbl)
         {
-            string fileName = Path.GetFileNameWithoutExtension(car_Tbl.ImageFile.FileName);
-            string extension = Path.GetExtension(car_Tbl.ImageFile.FileName);
+           if (ModelState.IsValid)
+           {
+               if (car_Tbl.ImageFile != null)
+               {
+                    string fileName = Path.GetFileNameWithoutExtension(car_Tbl.ImageFile.FileName);
+                    string extension = Path.GetExtension(car_Tbl.ImageFile.FileName);
+                    fileName = fileName + DateTime.Now.ToString("-yy-MM-dd-HH") + extension;
 
-            fileName = fileName + DateTime.Now.ToString("-yy-MM-dd-HH") + extension;
-            car_Tbl.Image = "../Image/" + fileName;
-            fileName = Path.Combine(Server.MapPath("../Image/"), fileName);
-            car_Tbl.ImageFile.SaveAs(fileName);
+                    car_Tbl.Image = "../Image/" + fileName;
+                    fileName = Path.Combine(Server.MapPath("~/Image/"), fileName);
 
-            db.Entry(car_Tbl).State = System.Data.Entity.EntityState.Modified;
-            db.SaveChanges();
-            return RedirectToAction("Details", car_Tbl.id);
-            //return View(car_Tbl);
+                    db.Entry(car_Tbl).State = System.Data.Entity.EntityState.Modified;
+
+                    string oldImgPath = Request.MapPath(Session["imgPath"].ToString());
+
+                    if (db.SaveChanges() > 0)
+                    {
+                        car_Tbl.ImageFile.SaveAs(fileName);
+
+                        if (System.IO.File.Exists(oldImgPath))
+                        {
+                            System.IO.File.Delete(oldImgPath);
+                        }
+                    }
+
+                    return RedirectToAction("Index");
+                    //return RedirectToAction("Details", new { id = car_Tbl.id });
+                } 
+                else
+                {
+                    car_Tbl.Image = ".." + Session["imgPath"].ToString();
+                    db.Entry(car_Tbl).State = System.Data.Entity.EntityState.Modified;
+                    db.SaveChanges();
+
+                    return RedirectToAction("Details", new { id = car_Tbl.id });
+                }
+           }
+            return View(car_Tbl);
         }
 
         // GET: Car/Delete/5
@@ -403,8 +432,18 @@ namespace CarRental.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Car_Tbl car_Tbl = db.Car_Tbl.Find(id);
+
+            //string currentImg = Request.MapPath("~/Image/", car_Tbl.Image);
+            string currentImg = Path.Combine(Server.MapPath("~/Image/"), car_Tbl.Image.Substring(9));
+
             db.Car_Tbl.Remove(car_Tbl);
-            db.SaveChanges();
+            if (db.SaveChanges() > 0)
+            {
+                if (System.IO.File.Exists(currentImg))
+                {
+                    System.IO.File.Delete(currentImg);
+                }
+            }
             return RedirectToAction("Index");
         }
 

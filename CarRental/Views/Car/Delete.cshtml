@@ -120,6 +120,11 @@
             @Html.DisplayFor(model => model.Contition)
         </dd>
 
+        <img src="@Url.Content(Model.Image.Substring(2))" style="margin: 10px;
+                        height: 300px;
+                        width: 620px"
+             id="imagePreview" />
+
     </dl>
 
     @using (Html.BeginForm())

@@ -46,7 +46,7 @@ namespace CarRental.Controllers
             ViewBag.ListBrand = ListBrand;
             ViewBag.ListTypeTransmition = ListTypeTransmition;
 
-            var popularCars = db.Car_Tbl.Where(car => car.Price_Per_Day >= 3500).Take(3);
+            var popularCars = db.Car_Tbl.Where(car => car.Price_Per_Day >= 4000 && car.Contition.Equals("Свободна")).Take(3);
             return View(popularCars);
         }
 

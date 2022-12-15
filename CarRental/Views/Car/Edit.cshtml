@@ -6,7 +6,7 @@
 }
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Edit", "Car", FormMethod.Post, new { enctype = "multipart/form-data" } ))
 {
     @Html.AntiForgeryToken()
 
@@ -122,14 +122,27 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            <input type="file" name="ImageFile" />
+            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
         </div>
     </div>
 
     <div class="form-group">
-        <img src="@Url.Content("~" + Model.Image.Substring(2))" width="100%" height="100%" />
+        @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @*@Html.EditorFor(model => model.Image, new { htmlAttributes = new {@Value = Model.Image,  @class = "form-control", @type = "file"} })
+        @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })*@
+            <input type="file" name="ImageFile" id="File" accept=".jpg,.jpeg,.png" onchange="ShowImagePreview(this, document.getElementById('imagePreview'))" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <img src="@Url.Content(Session["imgPath"].ToString())" style="margin: 10px;
+                        height: 300px;
+                        width: 620px"
+                             id="imagePreview"/>
     </div>
 
     <div class="form-group">

@@ -35,3 +35,9 @@ function Edit(url) {
     });
 }
 
+function ActiveLink(id) {
+    var link = document.getElementById(id);
+    console.log(Input)
+    link.classList.add("carLinkActive");
+}
+

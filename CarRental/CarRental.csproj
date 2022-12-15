@@ -436,6 +436,8 @@
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Contracts\IndexByConditionToClient.cshtml" />
     <Content Include="Views\Shared\_LayoutWithoutFoother.cshtml" />
+    <Content Include="Views\Customer\Delete.cshtml" />
+    <Content Include="Views\Manager\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

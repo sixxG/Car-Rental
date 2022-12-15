@@ -44,11 +44,12 @@ namespace CarRental.Models
 
             [DisplayName("Дата начала аренды")]
             [DataType(DataType.DateTime)]
-           //DisplayFormat(DataFormatString = "{dd-MMMM-yyyy hh-mm}", ApplyFormatInEditMode = true)]
+            //[DisplayFormat(DataFormatString = "{dd.MM.yyyy, HH:mm}", ApplyFormatInEditMode = true)]
             public System.DateTime Date_Start { get; set; }
 
             [DisplayName("Дата окончания аренды")]
             [Column(TypeName = "DateTime")]
+            //[DisplayFormat(DataFormatString = "{dd.MM.yyyy, HH:mm}", ApplyFormatInEditMode = true)]
             public System.DateTime Date_End { get; set; }
 
             [DisplayName("Цена")]

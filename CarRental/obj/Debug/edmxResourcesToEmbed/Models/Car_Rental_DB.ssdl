@@ -29,6 +29,7 @@
     <Property Name="Price_Per_Day" Type="int" Nullable="false" />
     <Property Name="Contition" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="Image" Type="varchar(max)" Nullable="false" />
+    <Property Name="Description" Type="varchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="Contract">
     <Key>

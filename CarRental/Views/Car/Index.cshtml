@@ -67,6 +67,83 @@
 
         <br />
 
+        <div style="display: flex; width: 100%; justify-content:center; margin-top: 2%;">
+
+            <a class="carLink" href="/Car/IndexClass?s=Эконом">
+                <div>
+                    <img src="~/Image/економ.png" loading="lazy" class="car-image" style="width: 130px; height: 80px;">
+                </div>
+                <div>
+                    <div class="type">Эконом</div>
+                    <div style="color: #000000; text-align: center">1000 ₽ - 2999 ₽</div>
+                </div>
+            </a>
+
+            <a href="/Car/IndexClass?s=Комфорт" class="carLink">
+                <div>
+                    <img src="~/Image/Комфорт.png" loading="lazy" class="car-image" style="width: 130px; height: 80px;">
+                </div>
+                <div>
+                    <div class="type">Комфорт</div>
+                    <div style="color: #000000; text-align: center">3000 ₽ - 4999 ₽</div>
+                </div>
+            </a>
+
+
+            <a href="/Car/IndexClass?s=Бизнес" class="carLink">
+                <div>
+                    <img src="~/Image/Бизнес.png" loading="lazy" class="car-image" style="width: 130px; height: 80px;">
+                </div>
+                <div>
+                    <div class="type">Бизнес</div>
+                    <div style="color: #000000; text-align: center">от 5000 ₽</div>
+                </div>
+            </a>
+
+            <a href="/Car/IndexClass?s=Premium" class="carLink">
+                <div>
+                    <img src="~/Image/Premium.png" loading="lazy" class="car-image" style="width: 130px; height: 80px;">
+                </div>
+                <div>
+                    <div class="type">Premium</div>
+                    <div style="color: #000000; text-align: center">от 9000 ₽</div>
+                </div>
+            </a>
+
+            <a href="/Car/IndexClass?s=Внедорожники" class="carLink">
+                <div>
+                    <img src="~/Image/Внедорожники.png" loading="lazy" class="car-image" style="width: 130px; height: 80px;">
+                </div>
+                <div>
+                    <div class="type">Внедорожники</div>
+                    <div style="color: #000000; text-align: center">от 1600 ₽</div>
+                </div>
+            </a>
+
+            <a href="/Car/IndexClass?s=Минивэны" class="carLink">
+                <div>
+                    <img src="~/Image/Минивены.png" loading="lazy" class="car-image" style="width: 130px; height: 80px;">
+                </div>
+                <div>
+                    <div class="type">Минивэны</div>
+                    <div style="color: #000000; text-align: center">от 1300 ₽</div>
+                </div>
+            </a>
+
+            <a href="/Car/IndexClass?s=Уникальные авто" class="carLink">
+                <div>
+                    <img src="~/Image/Уникальные_авто.png" loading="lazy" class="car-image" style="width: 130px; height: 80px;">
+                </div>
+                <div>
+                    <div class="type">Уникальные авто</div>
+                    <div style="color: #000000; text-align: center">от 4000 ₽</div>
+                </div>
+            </a>
+        </div>
+
+        <br />
+        <br />
+
         <!-- Gallery item Эконом -->
         @if (Model.ToList().Where(x => x.Class.Equals("Эконом") && x.Contition.Equals("Свободна")).Count() != 0)
         {

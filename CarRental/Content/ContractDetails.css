@@ -68,3 +68,16 @@ input {
     opacity: 80%;
     border: 2px solid black;
 }
+
+.AllCar {
+    font-size: 25px;
+    font-weight: 600;
+    text-decoration: none;
+    color: black;
+
+}
+
+.AllCar:hover {
+    text-decoration: none;
+    color: #46F046;
+}

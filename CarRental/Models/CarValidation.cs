@@ -71,6 +71,10 @@ namespace CarRental.Models
             [Required]
             public string Contition { get; set; }
 
+            [DisplayName("Описание")]
+            [Required]
+            public string Description { get; set; }
+
             [DisplayName("Фото")]
             [Required]
             public string Image { get; set; }

@@ -31,13 +31,14 @@ namespace CarRental.Models
         public int Price_Per_Day { get; set; }
         public string Contition { get; set; }
         public string Image { get; set; }
+        public string Description { get; set; }
 
         [NotMapped]
         public HttpPostedFileBase ImageFile { get; set; }
 
         public Car_Tbl()
         {
-            Image = "~/Image/defaulst.jpeg";
+            Image = "../Image/defaulst.jpeg";
         }
     }
 }
