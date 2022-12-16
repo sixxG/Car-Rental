@@ -38,7 +38,7 @@ namespace CarRental.Models
 
         public Car_Tbl()
         {
-            Image = "../Image/defaulst.jpeg";
+            Image = "~/Image/defaulst.jpeg";
         }
     }
 }

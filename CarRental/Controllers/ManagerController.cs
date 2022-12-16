@@ -84,13 +84,13 @@ namespace CarRental.Controllers
         }
 
         // GET: Manager/Edit/5
-        public ActionResult Edit(string id)
+        public ActionResult Edit(string user_ID)
         {
-            if (id == null)
+            if (user_ID == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Manager_Tbl manager_Tbl = db.Manager_Tbl.Where(manager => manager.user_ID.Equals(id)).First();
+            Manager_Tbl manager_Tbl = db.Manager_Tbl.Where(manager => manager.user_ID.Equals(user_ID)).First();
             if (manager_Tbl == null)
             {
                 return HttpNotFound();
@@ -105,11 +105,14 @@ namespace CarRental.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id,FIO,Login,Password,user_ID")] Manager_Tbl manager_Tbl)
         {
+            manager_Tbl.Password = "Менеджер";
+            manager_Tbl.Login = User.Identity.GetUserName();
             if (ModelState.IsValid)
             {
                 db.Entry(manager_Tbl).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return View(manager_Tbl);
+                //return RedirectToAction("Index");
             }
             return View(manager_Tbl);
         }

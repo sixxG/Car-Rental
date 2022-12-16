@@ -20,7 +20,7 @@
         {
             if (ViewBag.IfCustomerExists)
             {
-                @Html.Action("Edit", "Customer", new { id = @ViewBag.UserID })
+                @Html.Action("Edit", "Customer", new { user_ID = @ViewBag.UserID })<!---->
             }
             else
             {
@@ -31,7 +31,7 @@
         {
             if (ViewBag.ifManagerExists)
             {
-                @Html.Action("Edit", "Manager", new { id = @ViewBag.UserID })
+                @Html.Action("Edit", "Manager", new { user_ID = @ViewBag.UserID })
             }
             else
             {
@@ -42,7 +42,7 @@
         {
             if (ViewBag.ifAdminExists)
             {
-                @Html.Action("Edit", "Admin", new { id = @ViewBag.UserID })
+                @Html.Action("Edit", "Admin", new { user_ID = @ViewBag.UserID })
             }
             else
             {

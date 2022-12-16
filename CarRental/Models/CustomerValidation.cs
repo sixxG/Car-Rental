@@ -33,8 +33,9 @@ namespace CarRental.Models
             public string Address { get; set; }
             [DisplayName("Login")]
             public string Login { get; set; }
-            [DisplayName("Role")]
-            public string Password { get; set; }
+            [DisplayName("Телефон")]
+            [Required]
+            public string Phone { get; set; }
             public string user_ID { get; set; }
         }
 

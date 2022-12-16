@@ -66,16 +66,14 @@ namespace CarRental.Controllers
         // Дополнительные сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,FIO,BirthDate,Passport_Data,Drivers_License,Address,Login,Password,user_ID")] Customer_Tbl customer_Tbl)
+        public ActionResult Create([Bind(Include = "Id,FIO,BirthDate,Passport_Data,Drivers_License,Address,Login,Phone,user_ID")] Customer_Tbl customer_Tbl)
         {
             if (ModelState.IsValid)
             {
                 var userID = User.Identity.GetUserId().ToString();
                 var login = User.Identity.GetUserName();
-                var password = UserManager.GetRoles(User.Identity.GetUserId());
                 customer_Tbl.user_ID = userID;
                 customer_Tbl.Login = login.ToString();
-                customer_Tbl.Password = password.First().ToString();
                 db.Customer_Tbl.Add(customer_Tbl);
                 db.SaveChanges();
                 return View(customer_Tbl);
@@ -85,13 +83,13 @@ namespace CarRental.Controllers
         }
 
         // GET: Customer/Edit/5
-        public ActionResult Edit(string id)
-        {
-            if (id == null)
+        public ActionResult Edit(string user_ID)
+{
+            if (user_ID == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Customer_Tbl customer_Tbl = db.Customer_Tbl.Where(customer => customer.user_ID.Equals(id)).First();
+            Customer_Tbl customer_Tbl = db.Customer_Tbl.Where(customer => customer.user_ID.Equals(user_ID)).First();
             if (customer_Tbl == null)
             {
                 return HttpNotFound();
@@ -104,13 +102,19 @@ namespace CarRental.Controllers
         // Дополнительные сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,FIO,BirthDate,Passport_Data,Drivers_License,Address,Login,Password,user_ID")] Customer_Tbl customer_Tbl)
+        public ActionResult Edit([Bind(Include = "Id,FIO,BirthDate,Passport_Data,Drivers_License,Address,Login,Phone,user_ID")] Customer_Tbl customer_Tbl)
         {
+            //customer_Tbl.user_ID = User.Identity.GetUserId().ToString();
+            customer_Tbl.Login = User.Identity.GetUserName();
+            //customer_Tbl.Id = db.Customer_Tbl.Where(client => client.user_ID.Equals(customer_Tbl.user_ID)).FirstOrDefault().Id;
+            //ModelState.Clear();
+
             if (ModelState.IsValid)
             {
                 db.Entry(customer_Tbl).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return View(customer_Tbl);
+                //return RedirectToAction("Index");
             }
             return View(customer_Tbl);
         }

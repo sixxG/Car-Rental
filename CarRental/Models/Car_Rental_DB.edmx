@@ -65,7 +65,7 @@
           <Property Name="Drivers_License" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Address" Type="varchar" MaxLength="150" Nullable="false" />
           <Property Name="Login" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="user_ID" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Manager_Tbl">
@@ -100,8 +100,8 @@
           <Property Name="Drivers_License" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Address" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Login" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="user_ID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityContainer Name="CarRentalMVCEntities1" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Customer_Tbl" EntityType="Self.Customer_Tbl" />
@@ -178,8 +178,8 @@
           <EntitySetMapping Name="Customer_Tbl">
             <EntityTypeMapping TypeName="CarRentalMVCModel.Customer_Tbl">
               <MappingFragment StoreEntitySet="Customer_Tbl">
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
                 <ScalarProperty Name="user_ID" ColumnName="user_ID" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="Login" ColumnName="Login" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="FIO" ColumnName="FIO" />

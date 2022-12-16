@@ -17,8 +17,9 @@
 @if (ViewBag.IfExsistActive == true)
 {
 
-    <div style="display: flex; background: rgba(40,40,40,0.15); width: 100%; height: 100%; border-radius: 15px; padding: 10px">
+<div style="background: rgba(40,40,40,0.15); width: 100%; height: 100%; border-radius: 15px; padding: 10px">
 
+    <div style="display: flex;">
         <div style="padding: 0; display: inline-block; width: 50%" id="Renta">
             @Html.ActionLink("Автомобиль", "Details", "Car", new { id = ViewBag.CarId }, new { @class = "btn-details", @style = "font-size: 32px; color: black; text-decoration: none;", @id = "FinishedBTN" })
             <img src="@Url.Content("~" + @ViewBag.Img)" style="width: 260px; height:160px; border-radius: 15px" />
@@ -61,10 +62,16 @@
                 <p id="notFinish" style="color: red;"></p>
             }
             @*<button style="font-size: 30px; background: #46F046; padding: 10px; border-radius: 15px; border: 2px solid #46F046">
-                    Завершить
-                </button>*@
+                Завершить
+            </button>*@
         </div>
     </div>
+    <div style="display: block; width: 100%;">
+        <button style="font-size: 25px; padding: 0px; width: 100%;">
+            @Html.ActionLink("Подробнее", "Details", new { id = ViewBag.ContractID })
+        </button>
+    </div>
+</div>
 }
 else
 {
@@ -82,11 +89,14 @@ else
         <a data-toggle="tab" href="#ALL" style="font-size: 36px; color: black; padding: 10px 5px 5px 5px;"><h4>Все</h4></a>
     </li>
     <li>
-        <a data-toggle="tab" href="#Canceled" style=" padding: 10px 5px 5px 5px;"><h4>Отменённые</h4></a>
+        <a data-toggle="tab" href="#Canceled" style="padding: 10px 5px 5px 5px;"><h4>Отменённые</h4></a>
     </li>
     <li>
-        <a data-toggle="tab" href="#Finished" style=" padding: 10px 5px 5px 5px;"><h4>Завершённые</h4></a>
+        <a data-toggle="tab" href="#Finishedd" style="padding: 10px 5px 5px 5px;"><h4>Завершённые</h4></a>
     </li>
+    @*<li>
+            <a data-toggle="tab" href="#Finished" style="padding: 10px 5px 5px 5px;"><h4>Завершённые</h4></a>
+        </li>*@
 </ul>
 
 
@@ -100,9 +110,10 @@ else
         <br />
         @Html.Action("IndexByConditionToClient", "Contracts", new { condition = "Отменён" })
     </div>
-    <div id="Finished" class="tab-pane fade in">
+    <div id="Finishedd" class="tab-pane fade in">
         <br />
         @Html.Action("IndexByConditionToClient", "Contracts", new { condition = "Завершён" })
+        @*@Html.Action("IndexByConditionToClient", "Contracts", new { condition = "Завершён" })*@
     </div>
 </div>
 

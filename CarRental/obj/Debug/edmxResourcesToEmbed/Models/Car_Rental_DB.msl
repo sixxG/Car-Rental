@@ -4,8 +4,8 @@
     <EntitySetMapping Name="Customer_Tbl">
       <EntityTypeMapping TypeName="CarRentalMVCModel.Customer_Tbl">
         <MappingFragment StoreEntitySet="Customer_Tbl">
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
           <ScalarProperty Name="user_ID" ColumnName="user_ID" />
-          <ScalarProperty Name="Password" ColumnName="Password" />
           <ScalarProperty Name="Login" ColumnName="Login" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="FIO" ColumnName="FIO" />
