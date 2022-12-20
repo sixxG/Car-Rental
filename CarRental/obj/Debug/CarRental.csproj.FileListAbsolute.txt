@@ -484,3 +484,4 @@ C:\Users\Oleg\Desktop\KP_BY_C#\papka\Car-Rental\CarRental\obj\Debug\CarRental.cs
 C:\Users\Oleg\Desktop\KP_BY_C#\papka\Car-Rental\CarRental\obj\Debug\CarRental.csproj.CopyComplete
 C:\Users\Oleg\Desktop\KP_BY_C#\papka\Car-Rental\CarRental\obj\Debug\CarRental.dll
 C:\Users\Oleg\Desktop\KP_BY_C#\papka\Car-Rental\CarRental\obj\Debug\CarRental.pdb
+C:\Users\Oleg\Desktop\KP_BY_C#\papka\Car-Rental\CarRental\obj\Debug\CarRental.csproj.AssemblyReference.cache
