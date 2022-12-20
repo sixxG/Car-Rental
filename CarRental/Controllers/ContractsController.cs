@@ -196,14 +196,23 @@ namespace CarRental.Controllers
             db.Entry(car).State = System.Data.Entity.EntityState.Modified;
             contract.Condition = "Отменён";
 
-            var managerID = User.Identity.GetUserId();
-            var managerFIO = db.Manager_Tbl.Where(manager => manager.user_ID.Equals(managerID)).First().FIO;
-            contract.FIO_Manager = managerFIO;
+            if (User.IsInRole("Manager"))
+            {
+                var managerID = User.Identity.GetUserId();
+                var managerFIO = db.Manager_Tbl.Where(manager => manager.user_ID.Equals(managerID)).First().FIO;
+                contract.FIO_Manager = managerFIO;
+            }
 
             db.Entry(contract).State = System.Data.Entity.EntityState.Modified;
 
             db.SaveChanges();
-            return RedirectToAction("IndexAll");
+
+            if (User.IsInRole("Manager"))
+            {
+                return RedirectToAction("IndexAll");
+            }
+
+            return RedirectToAction("Index");
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
