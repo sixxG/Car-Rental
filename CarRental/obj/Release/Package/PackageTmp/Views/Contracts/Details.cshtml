@@ -1,0 +1,237 @@
+﻿@model CarRental.Models.Contract
+
+@{
+    Layout = "~/Views/Shared/_LayoutWithoutFoother.cshtml";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Content/ContractDetails.css" rel="stylesheet" />
+<link href="~/Content/Index.css" rel="stylesheet" />
+
+<div style="text-align: center; width: 100%; margin-top: 6%;">
+    @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+    {
+        @Html.ActionLink("к списку", "IndexAll",new { }, new { @class = "AllCar" })
+    }
+    else
+    {
+        @Html.ActionLink("назад", "Index",new { }, new { @class = "AllCar" })
+    }
+</div>
+
+
+<!---->
+<div class="container-fluid bloc" style="background: rgba(40,40,40, 0.15);width: 100%; height: 100%; border-radius: 15px">
+    <div class="col-lg-2" style="background: #ffffff; border-radius: 15px; margin: 15px; width: 40%; height: 100%; align-content:center;">
+
+        <p style="font-size: 24px; color: black; width: 100%; text-align:center; margin: 0;">Получение</p>
+        <hr style="color: #5394FD; margin: 5px" />
+
+        <div style="width: 100%;">
+            <input class="input" type="text" value="@Html.DisplayFor(model => model.Date_Start)" readonly>
+        </div>
+
+        <p style="font-size: 24px; color: black; width: 100%; text-align:center; margin: 0;">Возврат</p>
+
+        <div>
+            <input class="input" type="text" value="@Html.DisplayFor(model => model.Date_End)" readonly>
+        </div>
+
+        <p style="font-size: 24px; color: black; width: 100%; text-align:center; margin: 0;">Данные клиента</p>
+        <hr style="color: #5394FD; margin: 5px" />
+        <!---->
+        <div style="display: flex;">
+            <div style="padding: 0; display: inline-block; width: 35%; height: 100%">
+                <label style="display:block; margin-bottom: 22px; margin-top: 5px;">ФИО</label>
+                <label style="display: block; margin-bottom: 22px">Дата рождения</label>
+                <label style="display: block; margin-bottom: 22px">Логин</label>
+                <label style="display: block; margin-bottom: 22px">Паспорт</label>
+                <label style="display: block; margin-bottom: 22px">Номер ВУ</label>
+                <label style="display: block; margin-bottom: 22px">Адрес</label>
+                <label style="display: block; margin-bottom: 22px">ФИО</label>
+            </div>
+
+            <div style="padding: 0; display: inline-block; text-align: center; width: 75%;">
+                <div>
+                    <input class="input" type="text" value="@Html.DisplayFor(model => model.FIO_Customer)" readonly>
+                </div>
+                <div>
+                    <input class="input" type="text" value="@ViewBag.BD" readonly>
+                </div>
+                <div>
+                    <input class="input" type="text" value="@ViewBag.Login" readonly>
+                </div>
+                <div>
+                    <input class="input" type="text" value="@ViewBag.Passport" readonly>
+                </div>
+                <div>
+                    <input class="input" type="text" value="@ViewBag.LicenseNumber" readonly>
+                </div>
+                <div>
+                    <input class="input" type="text" value="@ViewBag.Address" readonly>
+                </div>
+                <div>
+                    <input class="input" type="text" value="@Html.DisplayFor(model => model.FIO_Customer)" readonly>
+                </div>
+            </div>
+        </div>
+        <!---->
+
+
+        <p style="font-size: 24px; color: black; width: 100%; text-align:center; margin: 0;">Дополнительные опции</p>
+        <hr style="color: #5394FD; margin: 5px" />
+
+
+        <div style="display: flex;">
+            <div style="padding: 0; display: inline-block; width: 50%">
+                <p style="color: rgba(40,40,40, 0.5); margin: 0;">Детское кресло </p>
+                <p style="color: rgba(40,40,40, 0.5); margin: 0; ">Видеорегистратор </p>
+                <p style="color: rgba(40,40,40, 0.5); margin: 0; ">Автобокс </p>
+            </div>
+
+            <div style="padding: 0; display: inline-block; text-align: center; width: 50%;">
+                <p style="color: rgba(40,40,40, 0.5); margin: 0; ">@ViewBag.ifChildChes</p>
+                @if (ViewBag.ifVideoRegistrator)
+                {
+                    <p style="color: rgba(40,40,40, 0.5); margin: 0;">1</p>
+                }
+                else
+                {
+                    <p style="color: rgba(40,40,40, 0.5); margin: 0;">нет</p>
+                }
+                @if (ViewBag.ifAutoBox)
+                {
+                    <p style="color: rgba(40,40,40, 0.5); margin: 0; ">1</p>
+                }
+                else
+                {
+                    <p style="color: rgba(40,40,40, 0.5); margin: 0; ">нет</p>
+                }
+            </div>
+        </div>
+
+        <div>
+            <input class="input" style="margin-top: 10px; height: 80px; font-size: 15px; text-align:inherit;" type="text" value="@Html.DisplayFor(model => model.Notes)" readonly>
+        </div>
+
+    </div>
+
+    <div class="col-lg-2" style="background: #ffffff; border-radius: 15px; margin: 15px; width: 54%; height: 100%; align-content:center;">
+
+
+        <img src="@Url.Content("~" + @ViewBag.Image.Substring(2))" style="width: 100%; height:350px; border-radius: 15px" />
+        @Html.ActionLink("Автомобиль", "Details", "Car", new { id = ViewBag.CarId }, new { @class = "AllCar" })
+        <p style="font-size: 24px; color: black; width: 100%; text-align:left; margin: 0;">@ViewBag.Brand @ViewBag.Model, @ViewBag.Year</p>
+
+        <hr style="color: #5394FD; margin: 5px" />
+
+        <p style="font-size: 24px; color: black; width: 100%; text-align:left; margin: 0;">WIN</p>
+        <p style="font-size: 16px; color: black; width: 100%; text-align:left; margin: 0;">@ViewBag.WIN</p>
+
+        <p style="font-size: 24px; color: black; width: 100%; text-align:center; margin: 0;">Данные менеджера</p>
+
+        <div style="width: 100%;">
+            <input class="input" type="text" value="@Html.DisplayFor(model => model.FIO_Manager)" readonly>
+        </div>
+
+        <p style="font-size: 24px; color: black; width: 100%; text-align:center; margin: 0;">Стоимость</p>
+        <hr style="color: #5394FD; margin: 5px" />
+
+
+        <div style="display: flex;">
+            <div style="padding: 0; display: inline-block; width: 50%">
+                @if (ViewBag.RentalHours == null)
+                {
+                    <p style="font-size: 16px; color: black; margin: 0; text-align:left;">Аренда на @ViewBag.RentalDate дней</p>
+                }
+                else
+                {
+                    <p style="font-size: 16px; color: black; margin: 0; text-align:left;">Аренда на @ViewBag.RentalDate дней @ViewBag.RentalHours мин</p>
+                }
+                <p style="color: rgba(40,40,40, 0.5); margin: 0; ">@ViewBag.DateStart - @ViewBag.DateEnd</p>
+            </div>
+
+            <div style="padding: 0; display: inline-block; text-align: center; width: 50%;">
+                <p style="color: rgba(40,40,40, 0.5); margin: 0; font-size: 22px">@Html.DisplayFor(model => model.Price) <b style="color: black">₽</b></p>
+
+            </div>
+        </div>
+
+        <hr style="color: #5394FD; margin: 5px" />
+
+        @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+        {
+            if (Model.Condition.Equals("Не подтверждён"))
+            {
+                using (Ajax.BeginForm("Confirm", new { id = Model.id }, new AjaxOptions() { UpdateTargetId = "Confirm", HttpMethod = "Post" }))
+                {
+                    <div id="Confirm"></div>
+                    <input type="submit" value="Подтвердить" class="btn-confirm button" style="width: 100%" />
+                }
+            }
+
+            if (!Model.Condition.Equals("Отменён") && !Model.Condition.Equals("Завершён"))
+            {
+                using (Ajax.BeginForm("Canceled", new { id = Model.id }, new AjaxOptions() { UpdateTargetId = "Canceled", HttpMethod = "Post" }))
+                {
+                    <div id="Canceled"></div>
+                    <input type="submit" value="Отменить" class="btn-canceled butto" style="width: 100%" />
+                }
+            }
+
+            if (Model.Condition.Equals("Подтверждён"))
+            {
+                using (Ajax.BeginForm("Start", new { id = Model.id }, new AjaxOptions() { UpdateTargetId = "Start", HttpMethod = "Post" }))
+                {
+                    <div id="Start"></div>
+                    <input type="submit" value="Начать" class="btn-finished butto" style="width: 100%" />
+                }
+            }
+
+            if (Model.Condition.Equals("Действует"))
+            {
+                using (Ajax.BeginForm("Finished", new { id = Model.id }, new AjaxOptions() { UpdateTargetId = "Finished", HttpMethod = "Post" }))
+                {
+                    <div id="Finished"></div>
+                    <input type="submit" value="Завершить" class="btn-finished butto" style="width: 100%" />
+                }
+            }
+            if (Model.Condition.Equals("Завершён"))
+            {
+                using (Ajax.BeginForm("AssignFine", new { id = Model.id }, new AjaxOptions() { UpdateTargetId = "AssignFine", HttpMethod = "Post" }))
+                {
+                    <div id="AssignFine"></div>
+                    <input type="submit" value="Назначить штраф" class="btn-finished butto" style="width: 100%" />
+                }
+            }
+            if (Model.Condition.Equals("Ожидает оплаты штрафа"))
+            {
+                using (Ajax.BeginForm("Finished", new { id = Model.id }, new AjaxOptions() { UpdateTargetId = "Finished", HttpMethod = "Post" }))
+                {
+                    <div id="Finished"></div>
+                    <input type="submit" value="Завершить" class="btn-finished butto" style="width: 100%" />
+                }
+            }
+        }
+        else
+        {
+            if (Model.Condition.Equals("Действует"))
+            {
+                using (Ajax.BeginForm("Finished", new { id = Model.id }, new AjaxOptions() { UpdateTargetId = "Finished", HttpMethod = "Post" }))
+                {
+                    <div id="Canceled"></div>
+                    <input type="submit" value="Завершить" class="btn-finished butto" style="width: 100%" />
+                }
+            }
+        }
+
+
+
+        @*@Html.ActionLink("Подтвердить", "Confirm", new { id = Model.id }, new { @class = "btn-confirm button" })*@
+        @*<a class="btn-finished button">Завершить</a>*@
+        @*<a class="btn-canceled button">Отменить</a>*@
+
+
+    </div>
+</div>
+<!---->

@@ -1,0 +1,19 @@
+﻿.btn-details {
+    color: black;
+    text-decoration: none;
+    align-items: center;
+    padding: 0;
+    background: green;
+    padding-left: 30%;
+    padding-right: 30%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    font-size: 24px;
+    border-radius: 15px;
+}
+
+.btn-details:hover {
+    text-decoration: none;
+    opacity: 0.8;
+    color: white;
+}

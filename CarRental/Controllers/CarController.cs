@@ -433,6 +433,14 @@ namespace CarRental.Controllers
         {
             Car_Tbl car_Tbl = db.Car_Tbl.Find(id);
 
+            var contracts = db.Contract.Where(contract => contract.Car_WIN_Number.Equals(car_Tbl.WIN_Number) && !contract.Condition.Equals("Завершён") && !contract.Condition.Equals("Отменён")).Count();
+
+            if (contracts != 0)
+            {
+                ViewBag.NotDeleted = "Вы не можете удалить данное авто т.к. оно находится в аренде";
+                return View(car_Tbl);
+            }
+
             //string currentImg = Request.MapPath("~/Image/", car_Tbl.Image);
             string currentImg = Path.Combine(Server.MapPath("~/Image/"), car_Tbl.Image.Substring(9));
 

@@ -1,0 +1,137 @@
+﻿.headerSelect{
+    font-size: 32px;
+    color: black;
+    text-align: center;
+    margin-bottom: 45px;
+    margin-top: 45px;
+    font-weight: 800;
+}
+
+.AllCar {
+    display: block;
+    width: 100%;
+    font-size: 32px;
+    color: black;
+    text-align: center;
+    margin-top: 10px;
+    font-weight: 800;
+}
+
+.AllCar:hover {
+    text-decoration: none;
+    color: #46F046;
+}
+
+.inputPrice {
+    color: #443D3D;
+    font-size: 20px;
+    text-align: left;
+    padding: 15px;
+    width: 45%;
+    border-radius: 15px;
+    background: #F1F1F1;
+    border: 2px solid #F1F1F1;
+    margin: 0;
+}
+
+.inputPrice:focus-visible {
+    border: 2px solid #46F046;
+}
+
+.inputCar {
+    color: #443D3D;
+    font-size: 20px;
+    text-align: left;
+    padding: 15px;
+    width: 45%;
+    border-radius: 15px;
+    background: #F1F1F1;
+    border: 2px solid #F1F1F1;
+}
+
+.inputCar:focus-visible {
+    border: 2px solid #46F046;
+}
+
+.carLink {
+    text-decoration: none;
+    margin-right: 35px;
+}
+
+.carLink:hover {
+    text-decoration: none;
+    color: #46F046
+}
+
+.carLinkActive {
+    text-decoration: blink;
+    color: #46F046
+}
+
+
+.type {
+    color: #443D3D;
+}
+
+.carLink:hover .type {
+    color: #46F046;
+    font-weight: 600;
+}
+
+.popularCarHeader {
+    color: #000000;
+    font-weight: 600;
+    font-size: 32px;
+}
+
+.popularCarHeader:hover {
+    text-decoration: none;
+    color: #46F046;
+}
+
+.whyUsHeader {
+    text-align: center;
+    color: #000000;
+    font-weight: 600;
+    font-size: 32px;
+}
+
+.WHYUs_container {
+    justify-content: center;
+    margin: 0 auto;
+    display: flex;
+    width: 100%;
+}
+
+.WHY_US_img {
+    width: 100%;
+    height: 170px;
+    border-radius: 15px 15px 0px 0px;
+}
+
+.WHY_US_Text {
+    font-size: 16px;
+    padding: 10px;
+    text-align: center;
+}
+
+.WHY_Us_block_notAtive {
+    margin: 15px;
+    display: inline-block;
+    width: 25.3%;
+    border-radius: 15px;
+    background: rgb(83, 148, 253);
+    text-align: center;
+    opacity: 0.7;
+}
+
+.WHY_Us_block_notAtive:hover {
+    display: inline-block;
+    scale: 1.3;
+    border-radius: 15px;
+    background: rgb(83, 148, 253);
+    text-align: center;
+    opacity: 1;
+    margin-left: 40px;
+    margin-right: 40px;
+}

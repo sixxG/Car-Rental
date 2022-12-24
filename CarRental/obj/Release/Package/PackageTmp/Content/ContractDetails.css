@@ -1,0 +1,83 @@
+﻿body {
+}
+
+.input {
+    background: rgba(40,40,40, 0.15);
+    text-align: center;
+    padding: 5px;
+    border: 0px;
+    border-radius: 5px;
+    font-size: 15px;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+input {
+    max-width: 100%;
+}
+
+.btn-confirm {
+    text-decoration: none;
+    font-size: 24px;
+    display: block;
+    text-align: center;
+    padding: 10px;
+    border-radius: 15px;
+    border: 0px;
+    background: #ffd800;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: black;
+}
+
+.btn-finished {
+    text-decoration: none;
+    font-size: 24px;
+    display: block;
+    text-align: center;
+    padding: 10px;
+    border-radius: 15px;
+    border: 0px;
+    background: #46F046;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: black;
+}
+
+.btn-canceled {
+    text-decoration: none;
+    font-size: 24px;
+    display: block;
+    text-align: center;
+    padding: 10px;
+    border-radius: 15px;
+    border: 0px;
+    background: #C50303;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: black;
+}
+
+.button {
+    border: 2px solid rgba(0,0,0,0);
+}
+
+.button:hover {
+    text-decoration: none;
+    color: black;
+    opacity: 80%;
+    border: 2px solid black;
+}
+
+.AllCar {
+    font-size: 25px;
+    font-weight: 600;
+    text-decoration: none;
+    color: black;
+
+}
+
+.AllCar:hover {
+    text-decoration: none;
+    color: #46F046;
+}

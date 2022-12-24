@@ -5,6 +5,10 @@
     //Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<link href="~/Content/Button.css" rel="stylesheet" />
+<link href="~/Content/Contact_CSS.css" rel="stylesheet" />
+<link href="~/Content/About.css" rel="stylesheet" />
+
 @{
     ViewBag.Title = "Аренды";
 }
@@ -530,6 +534,9 @@
                     <td>
                         @Html.ActionLink("Details", "Details", new { id = item.id }) |
                         @Html.ActionLink("Edit", "Edit", new { id = item.id })
+                        <a class="btn btn-danger btn-sm" href="@Url.Action("Delete", "Contracts", new { id = item.id })">
+                            <i class="fa fa-trash fa-lg">Удалить</i>
+                        </a>
                     </td>
                 </tr>
             }
@@ -613,6 +620,9 @@
                     <td>
                         @Html.ActionLink("Details", "Details", new { id = item.id }) |
                         @Html.ActionLink("Edit", "Edit", new { id = item.id })
+                        <a class="btn btn-danger btn-sm" href="@Url.Action("Delete", "Contracts", new { id = item.id })">
+                            <i class="fa fa-trash fa-lg">Удалить</i>
+                        </a>
                     </td>
                 </tr>
             }

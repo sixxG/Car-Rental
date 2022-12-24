@@ -1,0 +1,265 @@
+﻿@model IEnumerable<CarRental.Models.Car_Tbl>
+
+@{
+    ViewBag.Title = "Home Page";
+    //Layout = "~/Views/Shared/_LayoutWithoutFoother.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<link href="~/Content/Contact_CSS.css" rel="stylesheet" />
+<link href="~/Content/Button.css" rel="stylesheet" />
+<link href="~/Content/About.css" rel="stylesheet" />
+
+<!--Slider-->
+<div id="myCarousel" class="carousel slide" data-ride="carousel" style="margin-top: 4%;">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="1"></li>
+        <li data-target="#myCarousel" data-slide-to="2"></li>
+    </ol>
+
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner">
+        <div class="item active" style="height: 500px;">
+            <img src="~/Image/Arenda-avtomobilya.jpg" alt="Chania" style="height: 500px; width: 100%">
+            <div class="carousel-caption" style="background: rgba(40, 40, 40, 0.5)">
+                <h3>Аренда</h3>
+                <p>Прозрачные условия аренды для всех!</p>
+            </div>
+        </div>
+
+        <div class="item">
+            <img src="~/Image/Log.jpg" alt="Chicago" style="height: 500px; width: 100%">
+            <div class="carousel-caption" style="background: rgba(40, 40, 40, 0.5)">
+                <h3>Автопар</h3>
+                <p>У нас огромный автопарк, где вы можете выбрать авто под любые нужды!</p>
+            </div>
+        </div>
+
+        <div class="item">
+            <img src="~/Image/defaulst.jpeg" alt="New York" style="height: 500px; width: 100%;">
+            <div class="carousel-caption" style="background: rgba(40, 40, 40, 0.5)">
+                <h3>Почему мы?</h3>
+                <p>Почему стоит выбрать именно нас? Потому что!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Left and right controls -->
+    <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#myCarousel" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
+<!--Slider-->
+
+<p class="headerSelect">Выберите авто для себя</p>
+
+
+<!-- Start search -->
+<form method="get" action="@Url.Action("FindCar", "Car")">
+    <div style="display: flex; width: 100%;">
+
+        <div style="padding: 0; display: inline-block; text-align: left; width: 50%;">
+            <label>
+                <input type="number" class="inputPrice" placeholder="Цена от" value="@ViewData["Getcardetails"]" name="PriceOT" />
+                <input type="number" class="inputPrice" placeholder="Цена до" value="@ViewData["Getcardetails"]" name="PriceDO" />
+            </label>
+        </div>
+
+        <div style="padding: 0; display: inline-block; text-align: center; width: 90%;">
+            @Html.DropDownList("ListBrand", null, "Марка авто", new { @class = "inputCar" })
+
+            @Html.DropDownList("ListTypeTransmition", null, "Тип КП", new { @class = "inputCar" })
+
+        </div>
+
+
+        <div style="padding: 0; display: inline-block; text-align: center; width: 50%;">
+            <input type="submit" value="Найти автомобиль" style="font-size: 24px; background: #46F046; padding: 10px; border-radius: 15px; border: 2px solid #46F046" />
+        </div>
+
+    </div>
+</form>
+<!-- End search -->
+
+
+
+<div style="display: flex; width: 100%; justify-content:center; margin-top: 2%;">
+
+    <a class="carLink" href="/Car/IndexClass?s=Эконом">
+        <div>
+            <img src="~/Image/економ.png" loading="lazy" class="car-image" style="width: 130px; height: 80px;">
+        </div>
+        <div>
+            <div class="type">Эконом</div>
+            <div style="color: #000000; text-align: center">1000 ₽ - 2999 ₽</div>
+        </div>
+    </a>
+
+    <a href="/Car/IndexClass?s=Комфорт" class="carLink">
+        <div>
+            <img src="~/Image/Комфорт.png" loading="lazy" class="car-image" style="width: 130px; height: 80px;">
+        </div>
+        <div>
+            <div class="type">Комфорт</div>
+            <div style="color: #000000; text-align: center">3000 ₽ - 4999 ₽</div>
+        </div>
+    </a>
+
+
+    <a href="/Car/IndexClass?s=Бизнес" class="carLink">
+        <div>
+            <img src="~/Image/Бизнес.png" loading="lazy" class="car-image" style="width: 130px; height: 80px;">
+        </div>
+        <div>
+            <div class="type">Бизнес</div>
+            <div style="color: #000000; text-align: center">от 5000 ₽</div>
+        </div>
+    </a>
+
+    <a href="/Car/IndexClass?s=Premium" class="carLink">
+        <div>
+            <img src="~/Image/Premium.png" loading="lazy" class="car-image" style="width: 130px; height: 80px;">
+        </div>
+        <div>
+            <div class="type">Premium</div>
+            <div style="color: #000000; text-align: center">от 9000 ₽</div>
+        </div>
+    </a>
+
+    <a href="/Car/IndexClass?s=Внедорожники" class="carLink">
+        <div>
+            <img src="~/Image/Внедорожники.png" loading="lazy" class="car-image" style="width: 130px; height: 80px;">
+        </div>
+        <div>
+            <div class="type">Внедорожники</div>
+            <div style="color: #000000; text-align: center">от 1600 ₽</div>
+        </div>
+    </a>
+
+    <a href="/Car/IndexClass?s=Минивэны" class="carLink">
+        <div>
+            <img src="~/Image/Минивены.png" loading="lazy" class="car-image" style="width: 130px; height: 80px;">
+        </div>
+        <div>
+            <div class="type">Минивэны</div>
+            <div style="color: #000000; text-align: center">от 1300 ₽</div>
+        </div>
+    </a>
+
+    <a href="/Car/IndexClass?s=Уникальные авто" class="carLink">
+        <div>
+            <img src="~/Image/Уникальные_авто.png" loading="lazy" class="car-image" style="width: 130px; height: 80px;">
+        </div>
+        <div>
+            <div class="type">Уникальные авто</div>
+            <div style="color: #000000; text-align: center">от 4000 ₽</div>
+        </div>
+    </a>
+</div>
+
+<br />
+<br />
+
+<!--Popular cars-->
+
+<a href="/Car" class="popularCarHeader">Популярные авто →</a>
+
+<div>
+    @foreach (var item in Model)
+    {
+        <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
+            <div class="bg-info img-rounded shadow-sm">
+
+                <div style="padding: 15px; margin: 10px">
+                    <img src="@item.Image" width="100%" height="220px" />
+                    <p>
+                        <h4>
+                            <b>
+                                @Html.DisplayFor(modelItem => item.Brand)
+                                @Html.DisplayFor(modelItem => item.Model)
+                                ,
+                                @Html.DisplayFor(modelItem => item.Year_Release)
+                                @Html.DisplayFor(modelItem => item.Class)
+                            </b>
+                        </h4>
+                    </p>
+                    <hr />
+
+                    <div class="auto-description-start" style=" vertical-align: top; font-size: 14px; width: 30%; display: inline-block; margin-right: 50px;">
+                        <p class="auto-description">Коробка</p>
+                        <p class="auto-description">Привод</p>
+                        <p class="auto-description">Пробег</p>
+                        <p class="auto-description">Мощность</p>
+                        <p class="auto-description">Тип кузова</p>
+                    </div>
+
+                    <div class="auto-description-edn" style=" vertical-align: top; font-size: 14px; width: 47%; display: inline-block; text-align: right;">
+                        <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Transmission)</p>
+                        <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Drive)</p>
+                        <p class="auto-description">&gt;@Html.DisplayFor(modelItem => item.Mileage)</p>
+                        <p class="auto-description">@Html.DisplayFor(modelItem => item.Power) лс.</p>
+                        <p class="auto-description">@Html.DisplayFor(modelItem => item.Type_Body)</p>
+                    </div>
+
+                    <div class="bg-info">
+                        <h4><b>от @Html.DisplayFor(modelItem => item.Price_Per_Day)</b> / сутки</h4>
+                    </div>
+
+                    <h4 class="text-success text-uppercase" style="text-align: center">
+                    </h4>
+                    <div style="width:100%; height:100%; text-align:center;">
+                        @Html.ActionLink("Подробнее", "Details", "Car", new { id = item.id }, new { @class = "btn-details" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<!--Popular cars-->
+<!--Why us-->
+
+<h1 class="whyUsHeader">Почемму стоит выбрать нас?</h1>
+
+<br />
+
+<div class="WHYUs_container">
+
+    <div class="WHY_Us_block_notAtive">
+        <img src="~/Image/maxresdefault.jpg" class="WHY_US_img"/>
+        <div class="WHY_US_Text">
+            Наша компания ещё не вышла нарынок, но уже имеет огромную известность среди автолюбителей!
+        </div>
+    </div>
+
+    <div class="WHY_Us_block_notAtive">
+        <img src="~/Image/3.jpg" class="WHY_US_img" />
+        <div class="WHY_US_Text">
+            Все наши автомобили имеют строховку КАСКО и ОСАГО. Так что, вы слёгкостью можете повторять все безумные трюки из GTA!
+        </div>
+    </div>
+
+    <div class="WHY_Us_block_notAtive">
+        <img src="~/Image/Log.jpg" class="WHY_US_img" />
+        <div class="WHY_US_Text">
+            Нашему автопарку позавидуют даже шейхи из АОЭ! У них точно нет ГАЗ 21 волга в таком же состоянии как у нас!
+        </div>
+    </div>
+
+
+</div>
+
+<!--Why us-->
+
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>

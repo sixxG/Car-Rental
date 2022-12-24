@@ -1,0 +1,261 @@
+﻿@model CarRental.Models.Car_Tbl
+
+@{
+    ViewBag.Title = Model.Brand + " " + Model.Model;
+}
+
+@{
+    Layout = "~/Views/Shared/_LayoutWithoutFoother.cshtml";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Content/Details.css" rel="stylesheet" />
+<link href="~/Content/Button.css" rel="stylesheet" />
+<link href="~/Content/Contact_CSS.css" rel="stylesheet" />
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+<p style="margin-top: 5%;">
+
+    @Html.ActionLink("Список авто", "Index", new { @class = "btn-details" })
+
+    @if (User.Identity.IsAuthenticated)
+    {
+        if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+        {
+            @Html.ActionLink("Редaктировать", "Edit", new { id = Model.id }, new { @style = "display: block;font-size: 25px;width: 100%;text-align: center;text-decoration: none;color: black;font-weight: 600;" })
+        }
+    }
+    </p>
+<!---->
+<div class="container-fluid bloc">
+    <div class="col-lg-2 bloc-inside bloc-image">
+        <img src="@Url.Content(Model.Image.Substring(2))" width="100%" height="100%" style="border-radius: 15px;" />
+    </div>
+    <div class="col-lg-2 bloc-inside bloc-info">
+        <h3>Период аренды</h3>
+        <form action="Contracts/Create" method="get">
+            <div style="display: flex">
+                <div class="col-lg-2 col-lg-label" style="padding-top: 30px;">
+
+                    @Html.Label("Начало: ")
+                    <br /><br />
+                    @Html.Label("Завершение: ")
+                </div>
+                <div class="col-lg-2 col-lg-text">
+                    @Html.Editor("dateStart", "dateStart", new { htmlAttributes = new { Value = DateTime.Now.ToString("yyyy-MM-dd HH:mm"), @class = "form-control datepicker", @type = "datetime-local", @style = "width: 100%;", min = (DateTime.Now) } })
+                    @*@Html.TextBox("start", "DateStart", new { @class = "InputDate", type = "date" })
+                    @Html.TextBox("start", "TimeStart", new { @class = "InputDate", type = "time" })*@
+                    <br />
+                    @Html.Editor("dateEnd", new { htmlAttributes = new { @class = "form-control datepicker", @type = "datetime-local", @style = "width: 100%;", min = (DateTime.Now.AddDays(1)) } })
+                    @*@Html.TextBox("end", "DateEnd", new { @class = "InputDate", type = "date" })
+                    @Html.TextBox("end", "TimeEnd", new { @class = "InputDate", type = "time" })*@
+                </div>
+            </div>
+            <br />
+            <div style="width:100%; height:100%; text-align:center;">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    if (ViewBag.Clients_ActiveRental == true)
+                    {
+                        @*@Html.ActionLink("Арендовать", "Create", "Contracts", new { id = Model.id, dateStart = "1", dateEnd = "2"}, new { @class = "btn-details", @id = "RentalCar"})*@
+                        <a id="RentalCar" class = "btn-details">Арендовать</a>
+                    }
+                    else
+                    {
+                        <a class="btn-details" onclick="NoneRental()">Арендовать</a>
+                        <p id="notFinish" style="color: red;"></p>
+                    }
+                }
+                else
+                {
+                    @Html.ActionLink("Арендовать", "Login", "Account", new { id = Model.id }, new { @class = "btn-details" })
+                }
+                <!--Popup menu-->
+                <!--<button type="button" class="btn btn-details" data-toggle="modal" data-target="#myModal">
+        Арендовать
+    </button>-->
+                <!--Popup menu-->
+            </div>
+
+        </form>
+        <hr />
+
+        <span class="period">
+            <b>@Html.DisplayFor(model => model.Price_Per_Day)&nbsp;₽</b>
+            <span style="font-size: 20px">/ сутки</span>
+        </span>
+        <p>
+            Вы пока ни за что не платите. Оформив аренду, можно лично обговорить детали бронирования с менеджером.
+        </p>
+    </div>
+</div>
+<!---->
+
+<div class="col-lg-2 bloc-inside bloc-image" style="height: 100%;">
+    <span class="period">
+        <b>
+            @Html.DisplayFor(model => model.Brand)
+            @Html.DisplayFor(model => model.Model)
+        </b>
+    </span>
+
+    <hr style="color: #5394FD; margin: 5px; padding: 0.5px; background: #5394FD;" />
+
+    <p style="font-size: 16px">
+        @Model.Description
+    </p>
+</div>
+
+@*<div class="col-lg-2" style="height: 150px; width: 38%;"></div>*@
+
+<div class="col-lg-2 bloc-inside bloc-image" style="height: 100%;">
+    <span class="period">
+        <b>
+            Характеристики
+        </b>
+    </span>
+    <br />
+
+    <div class="character">
+        <div style="display: flex; width: 100%;">
+            <div class="col-lg-2 character-label">
+                @Html.LabelFor(model => model.Type_Drive)
+            </div>
+
+            <div class="col-lg-2 character-data">
+                @Html.Label(Model.Type_Drive)
+            </div>
+        </div>
+        <div style="display: flex; width: 100%;">
+            <div class="col-lg-2 character-label">
+                @Html.LabelFor(model => model.Type_Body)
+            </div>
+            <div class="col-lg-2 character-data">
+                @Html.Label(Model.Type_Body)
+            </div>
+        </div>
+        <div style="display: flex; width: 100%;">
+            <div class="col-lg-2 character-label">
+                @Html.LabelFor(model => model.Type_Transmission)
+            </div>
+            <div class="col-lg-2 character-data">
+                @Html.Label(Model.Type_Transmission)
+            </div>
+        </div>
+        <div style="display: flex; width: 100%;">
+            <div class="col-lg-2 character-label">
+                @Html.LabelFor(model => model.Power)
+            </div>
+            <div class="col-lg-2 character-data">
+                @Html.Label(Model.Power.ToString())
+            </div>
+        </div>
+        <div style="display: flex; width: 100%;">
+            <div class="col-lg-2 character-label">
+                @Html.LabelFor(model => model.Class)
+            </div>
+            <div class="col-lg-2 character-data">
+                @Html.Label(Model.Class)
+            </div>
+        </div>
+
+        <div style="display: flex; width: 100%;">
+            <div class="col-lg-2 character-label">
+                @Html.LabelFor(model => model.Color)
+            </div>
+            <div class="col-lg-2 character-data">
+                @Html.Label(Model.Color)
+            </div>
+        </div>
+        <div style="display: flex; width: 100%;">
+            <div class="col-lg-2 character-label">
+                @Html.LabelFor(model => model.Year_Release)
+            </div>
+            <div class="col-lg-2 character-data">
+                @Html.Label(Model.Year_Release.ToString())
+            </div>
+        </div>
+        <div style="display: flex; width: 100%;">
+            <div class="col-lg-2 character-label">
+                @Html.LabelFor(model => model.Mileage)
+            </div>
+            <div class="col-lg-2 character-data">
+                @Html.Label(Model.Mileage.ToString())
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@*<div class="col-lg-2" style="height: 500px; width: 38%;"></div>*@
+
+<script>
+
+    function NoneRental() {
+        var p = document.getElementById('notFinish');
+        p.innerHTML = 'Вы не можете арендовать новоем авто т.к. у вас уже есть активная аренда.';
+    };
+
+    function getDateStart() {
+
+        var returned = "";
+        returned = returned + $('#dateStart').val();
+
+        console.log(returned);
+
+        return { returned };
+    }
+
+    function getDateEnd() {
+
+        var returned = "";
+        returned = returned +  $('#dateEnd').val();
+
+        console.log(returned);
+
+        return { returned };
+    }
+
+    @*($('#RentalCar')).on('click', function () {
+        var dateStart = getDateStart();
+        var dateEnd = getDateEnd();
+        var url = "https://localhost:44347/Contracts/Create/" + "@Model.id" + "?dateStart=" + dateStart + "&dateEnd=" + dateEnd;
+        console.log(url)
+/*        window.location = url;*/
+    });*@
+
+    function FalidDate() {
+        var dateStart = $('#dateStart').val();
+        var dateEnd = $('#dateEnd').val();
+
+        var Start = Date.parse(dateStart);
+        var End = Date.parse(dateEnd);
+
+        var timeRental = (End - Start) / (1000 * 60 * 60 * 24);
+        var price = $('#PricePerDay').val();
+
+        document.getElementById("Price").setAttribute('value', roundNumber(timeRental * price, 2));
+
+        document.getElementById("rentalTime").value = roundNumber(timeRental, 1) + '.суток';
+
+        document.getElementById('Registrator').checked = false;
+        document.getElementById('AutoBox').checked = false;
+        document.getElementById('child').checked = false;
+/*        $('#Registrator').on('change', PlusPriceFORCheckBox);*/
+        /*$('#Price').val = timeRental;*/
+    }
+
+    ($('#RentalCar')).on("click", function () {
+        var dateStart = "";
+        var dateEnd = "";
+        dateStart = dateStart + getDateStart().returned;
+        dateEnd = dateEnd + getDateEnd().returned;
+        console.log(dateStart);
+        console.log(dateEnd);
+        var url = "https://localhost:44347/Contracts/Create/" + "@Model.id" + "?dateStart=" + dateStart + "&dateEnd=" + dateEnd;
+        console.log(url)
+        window.location = url;
+    })
+
+</script>

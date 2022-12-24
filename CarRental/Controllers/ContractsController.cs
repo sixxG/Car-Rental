@@ -134,19 +134,32 @@ namespace CarRental.Controllers
             ViewBag.LicenseNumber = LicenseNumber;
             ViewBag.Address = Address;
 
-            var car = db.Car_Tbl.Where(auto => auto.WIN_Number.Equals(contract.Car_WIN_Number)).First();
-            var Image = car.Image;
-            var Brand = car.Brand;
-            var Model = car.Model;
-            var Year = car.Year_Release;
-            var WIN = car.WIN_Number;
+            var car = db.Car_Tbl.Where(auto => auto.WIN_Number.Equals(contract.Car_WIN_Number)).FirstOrDefault();
+            if (car != null)
+            {
+                var Image = car.Image;
+                var Brand = car.Brand;
+                var Model = car.Model;
+                var Year = car.Year_Release;
+                var WIN = car.WIN_Number;
 
-            ViewBag.CarId = car.id;
-            ViewBag.Image = Image;
-            ViewBag.Brand = Brand;
-            ViewBag.Model = Model;
-            ViewBag.Year = Year;
-            ViewBag.WIN = WIN;
+                ViewBag.CarId = car.id;
+                ViewBag.Image = car.Image;
+                ViewBag.Brand = Brand;
+                ViewBag.Model = Model;
+                ViewBag.Year = Year;
+                ViewBag.WIN = WIN;
+            }
+            else
+            {
+                ViewBag.CarId = "";
+                ViewBag.Image = "../Image/defaulst.jpeg";
+                ViewBag.Brand = "Авто был удалён(";
+                ViewBag.Model = "";
+                ViewBag.Year = "";
+                ViewBag.WIN = "Авто был удалён(";
+            }
+
             ViewBag.RentalDate = (contract.Date_End - contract.Date_Start).Duration().ToString("dd");
             if ((contract.Date_End - contract.Date_Start).Hours == 0 && (contract.Date_End - contract.Date_Start).Minutes == 0) {
                 ViewBag.RentalHours = null;
@@ -399,7 +412,7 @@ namespace CarRental.Controllers
             Contract contract = db.Contract.Find(id);
             db.Contract.Remove(contract);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("IndexAll");
         }
 
         protected override void Dispose(bool disposing)

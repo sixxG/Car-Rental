@@ -1,0 +1,8 @@
+Login: admin@gmail.com
+Password: Ugc-RdD-ykL-F3c
+
+Login: user@mail.ru
+Password: kzRcghGbzUC2L!A
+
+Login: manager@mail.ru
+Passowrd: kzRcghGbzUC2L!A
