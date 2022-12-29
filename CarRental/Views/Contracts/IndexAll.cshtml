@@ -15,6 +15,34 @@
 <br />
 <h2 style="margin-top: 5%;">Аренды</h2>
 
+<!-- Start search -->
+<form method="get" action="@Url.Action("FindContract", "Contracts")">
+    <div style="display: flex; width: 100%;">
+
+        <div style="padding: 0; display: inline-block; text-align: left; width: 50%;">
+            <label>
+                <input type="date" style="width: 49%;" class="inputPrice" placeholder="Дата начала" value="@ViewData["GetContractdetails"]" name="DateStart" />
+                <input type="date" style="width: 49%;" class="inputPrice" placeholder="Дата завершения" value="@ViewData["GetContractdetails"]" name="DateEnd" />
+            </label>
+        </div>
+
+        <div style="padding: 0; display: inline-block; text-align: center; width: 90%;">
+
+            @Html.DropDownList("ListClients", null, "ФИО клиента", new { @class = "inputCar" })
+
+            @Html.DropDownList("ListBrand", null, "Марка авто", new { @class = "inputCar" })
+
+        </div>
+
+
+        <div style="padding: 0; display: inline-block; text-align: center; width: 20%;">
+            <input type="submit" class="icon" value="" style="font-size: 50px; background: url('/Image/free-icon-search-4194718.png') no-repeat center; background-size: 50px; width: 70%; height: 80%; border-radius: 15px; border: 1px" />
+        </div>
+
+    </div>
+</form>
+<!-- End search -->
+
 <br />
 <ul class="nav nav-tabs">
     <li class="active">

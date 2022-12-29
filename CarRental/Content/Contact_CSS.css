@@ -135,3 +135,13 @@
     margin-left: 40px;
     margin-right: 40px;
 }
+
+.icon {
+    /* background: #46F046;*/
+    font-size: 24px;
+    background: url("/Image/free-icon-search-4194718.png") no-repeat center;
+    background-size: 20px;
+    padding: 10px;
+    border-radius: 15px;
+    border: 2px solid #46F046;
+}

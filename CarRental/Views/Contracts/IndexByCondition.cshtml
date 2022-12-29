@@ -1,97 +1,144 @@
 ﻿@model IEnumerable<CarRental.Models.Contract>
 
 @{
-    ViewBag.Title = "Аренды";
-}
-
-@{
     Layout = "~/Views/Shared/_LayoutWithoutFoother.cshtml";
     //Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<link href="~/Content/Button.css" rel="stylesheet" />
+<link href="~/Content/About.css" rel="stylesheet" />
+<link href="~/Content/Contact_CSS.css" rel="stylesheet" />
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
 
+@{
+    ViewBag.Title = "Поиск аренд";
+}
+<br />
+
+<!-- Start search -->
+<form method="get" action="@Url.Action("FindContract", "Contracts")">
+    <div style="width: 100%; text-align: center; margin-top: 5%">
+        @Html.ActionLink("Все аренды", "IndexAll",new { }, new { @class = "AllCar" })
+    </div>
+    <br />
+    <br />
+
+    <div style="display: flex; width: 100%;">
+
+        <div style="padding: 0; display: inline-block; text-align: left; width: 50%;">
+            <label>
+                <input type="date" style="width: 49%;" class="inputPrice" placeholder="Дата начала" value="@ViewData["GetContractdetails"]" name="DateStart" />
+                <input type="date" style="width: 49%;" class="inputPrice" placeholder="Дата завершения" value="@ViewData["GetContractdetails"]" name="DateEnd" />
+            </label>
+        </div>
+
+        <div style="padding: 0; display: inline-block; text-align: center; width: 90%;">
+
+            @Html.DropDownList("ListClients", null, "ФИО клиента", new { @class = "inputCar" })
+
+            @Html.DropDownList("ListBrand", null, "Марка авто", new { @class = "inputCar" })
+
+        </div>
+
+
+        <div style="padding: 0; display: inline-block; text-align: center; width: 20%;">
+            <input type="submit" class="icon" value="" style="font-size: 50px; background: url('/Image/free-icon-search-4194718.png') no-repeat center; background-size: 50px; width: 70%; height: 80%; border-radius: 15px; border: 1px" />
+        </div>
+
+    </div>
+</form>
+<!-- End search -->
+
 <div style="width: 100%; margin-bottom: 15px;">
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FIO_Customer)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FIO_Manager)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Car_Brand)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Car_Model)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Car_WIN_Number)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Additional_Options)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Date_Start)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Date_End)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Condition)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Notes)
-            </th>
-        </tr>
-
-        @foreach (var item in Model)
-        {
+    @if (Model.Count() == 0)
+    {
+        <hr />
+        <h1 style="width: 100%; text-align: center">Таких аренд нет(</h1>
+        <hr />
+    }
+    else
+    {
+        <table class="table">
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FIO_Customer)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FIO_Manager)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Car_Brand)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Car_Model)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Car_WIN_Number)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Additional_Options)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Date_Start)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Date_End)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Price)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Condition)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Notes)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.id })
-                </td>
+                <th>
+                    @Html.DisplayNameFor(model => model.FIO_Customer)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FIO_Manager)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Car_Brand)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Car_Model)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Car_WIN_Number)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Additional_Options)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Date_Start)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Date_End)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Price)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Condition)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Notes)
+                </th>
             </tr>
-        }
 
-    </table>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FIO_Customer)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FIO_Manager)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Car_Brand)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Car_Model)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Car_WIN_Number)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Additional_Options)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date_Start)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date_End)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Condition)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Notes)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.id })
+                    </td>
+                </tr>
+            }
+
+        </table>
+    }
 </div>

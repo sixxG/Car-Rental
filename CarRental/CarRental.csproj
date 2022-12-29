@@ -260,6 +260,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="IRep\CarRepository.cs" />
+    <Compile Include="IRep\IRepository.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminValidation.cs" />
     <Compile Include="Models\Admin_Tbl.cs">
@@ -328,6 +330,7 @@
     <Content Include="Image\3.jpg" />
     <Content Include="Image\Arenda-avtomobilya.jpg" />
     <Content Include="Image\defaulst.jpeg" />
+    <Content Include="Image\free-icon-search-4194718.png" />
     <Content Include="Image\key.png" />
     <Content Include="Image\Log.jpg" />
     <Content Include="Image\maxresdefault.jpg" />
@@ -356,10 +359,6 @@
     <Content Include="Models\Car_Rental_DB.edmx.diagram">
       <DependentUpon>Car_Rental_DB.edmx</DependentUpon>
     </Content>
-    <None Include="Dockerfile" />
-    <None Include=".dockerignore">
-      <DependentUpon>Dockerfile</DependentUpon>
-    </None>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\IndexScript.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

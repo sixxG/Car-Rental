@@ -40,5 +40,26 @@ namespace CarRental.Models
         {
             Image = "~/Image/defaulst.jpeg";
         }
+
+        public Car_Tbl(int id, string WIN_Number, string Brand, string Model, string Type_Body, string Class, int Year_Release, int Milleage, string Collor, string Type_Transmittion, 
+            string Type_Dryve, int Power, int Price_per_day, string Condition, string Image, string Description)
+        {
+            this.id = id;
+            this.WIN_Number = WIN_Number;
+            this.Brand = Brand;
+            this.Model = Model;
+            this.Type_Body = Type_Body;
+            this.Class = Class;
+            this.Year_Release = Year_Release;
+            this.Mileage = Milleage;
+            this.Color = Collor;
+            this.Type_Transmission = Type_Transmittion;
+            this.Type_Drive = Type_Dryve;
+            this.Power = Power;
+            this.Price_Per_Day = Price_per_day;
+            this.Contition = Condition;
+            this.Image = Image;
+            this.Description = Description;
+        }
     }
 }

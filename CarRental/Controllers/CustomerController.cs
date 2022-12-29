@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using CarRental.Models;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.AspNetCore.Identity;
 
 namespace CarRental.Controllers
 {
@@ -20,12 +15,14 @@ namespace CarRental.Controllers
         // GET: Customer
         public ActionResult Index()
         {
+            ViewBag.Message = "Customers";
             return View(db.Customer_Tbl.ToList());
         }
 
         // GET: Customer/Details/5
         public ActionResult Details(int? id)
         {
+            ViewBag.Message = "Customer Details";
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -35,30 +32,14 @@ namespace CarRental.Controllers
             {
                 return HttpNotFound();
             }
-            return View(customer_Tbl);
+            return View("Details",customer_Tbl);
         }
-
-
-
-        private ApplicationUserManager _userManager;
-
-        public ApplicationUserManager UserManager
-        {
-            get
-            {
-                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-            private set
-            {
-                _userManager = value;
-            }
-        }
-
 
         // GET: Customer/Create
         public ActionResult Create()
         {
-            return View();
+            ViewBag.Message = "Create Customer";
+            return View("Create");
         }
 
         // POST: Customer/Create
@@ -70,21 +51,25 @@ namespace CarRental.Controllers
         {
             if (ModelState.IsValid)
             {
-                var userID = User.Identity.GetUserId().ToString();
-                var login = User.Identity.GetUserName();
-                customer_Tbl.user_ID = userID;
-                customer_Tbl.Login = login.ToString();
+                if (User != null)
+                {
+                    var userID = User.Identity.GetUserId().ToString();
+                    var login = User.Identity.GetUserName();
+                    customer_Tbl.user_ID = userID;
+                    customer_Tbl.Login = login.ToString();
+                }
                 db.Customer_Tbl.Add(customer_Tbl);
                 db.SaveChanges();
-                return View(customer_Tbl);
+                return View("Create",customer_Tbl);
             }
 
-            return View(customer_Tbl);
+            return View("Create",customer_Tbl);
         }
 
         // GET: Customer/Edit/5
         public ActionResult Edit(string user_ID)
-{
+        {
+            ViewBag.Message = "Edit Customer";
             if (user_ID == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -94,7 +79,7 @@ namespace CarRental.Controllers
             {
                 return HttpNotFound();
             }
-            return View(customer_Tbl);
+            return View("Edit",customer_Tbl);
         }
 
         // POST: Customer/Edit/5
@@ -104,24 +89,24 @@ namespace CarRental.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,FIO,BirthDate,Passport_Data,Drivers_License,Address,Login,Phone,user_ID")] Customer_Tbl customer_Tbl)
         {
-            //customer_Tbl.user_ID = User.Identity.GetUserId().ToString();
-            customer_Tbl.Login = User.Identity.GetUserName();
-            //customer_Tbl.Id = db.Customer_Tbl.Where(client => client.user_ID.Equals(customer_Tbl.user_ID)).FirstOrDefault().Id;
-            //ModelState.Clear();
+            if (User != null)
+            {
+                customer_Tbl.Login = User.Identity.GetUserName();
+            }
 
             if (ModelState.IsValid)
             {
                 db.Entry(customer_Tbl).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
-                return View(customer_Tbl);
-                //return RedirectToAction("Index");
+                return View("Edit",customer_Tbl);
             }
-            return View(customer_Tbl);
+            return View("Edit",customer_Tbl);
         }
 
         // GET: Customer/Delete/5
         public ActionResult Delete(int? id)
         {
+            ViewBag.Message = "Delete Customer";
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -135,7 +120,7 @@ namespace CarRental.Controllers
             {
                 return HttpNotFound();
             }
-            return View(customer_Tbl);
+            return View("Delete",customer_Tbl);
         }
 
         // POST: Customer/Delete/5

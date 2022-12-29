@@ -6,12 +6,30 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using CarRental.IRep;
 
 namespace CarRental.Controllers
 {
     public class HomeController : Controller
     {
 
+        IRepository repo;
+
+        public HomeController(IRepository r)
+        {
+            repo = r;
+        }
+
+        public HomeController()
+        {
+            repo = new CarRepository();
+        }
+        protected override void Dispose(bool disposing)
+        {
+            repo.Dispose();
+            base.Dispose(disposing);
+        }
+        private CarRepository carRepository;
         private CarRentalMVCEntities1 db = new CarRentalMVCEntities1();
 
         public ActionResult Index()
@@ -52,14 +70,14 @@ namespace CarRental.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "Информация";
 
             return View();
         }
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = "Контакты";
 
             return View();
         }

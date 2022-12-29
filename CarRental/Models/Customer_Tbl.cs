@@ -23,5 +23,23 @@ namespace CarRental.Models
         public string Login { get; set; }
         public string user_ID { get; set; }
         public string Phone { get; set; }
+
+        public Customer_Tbl (string FIO, DateTime BirthDate, string Passport_Data, string Drivers_License,  string Address,
+                             string Login, string user_ID, string Phone)
+        {
+            this.FIO = FIO;
+            this.BirthDate = BirthDate;
+            this.Passport_Data = Passport_Data;
+            this.Drivers_License = Drivers_License;
+            this.Address = Address;
+            this.Login = Login;
+            this.user_ID = user_ID;
+            this.Phone = Phone;
+        }
+
+        public Customer_Tbl ()
+        {
+
+        }
     }
 }

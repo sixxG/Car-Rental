@@ -19,6 +19,96 @@ namespace CarRental.Controllers
     {
 
         private CarRentalMVCEntities1 db = new CarRentalMVCEntities1();
+
+        public ActionResult FindContract(DateTime? DateStart, DateTime? DateEnd, string ListBrand, string ListClients)
+        {
+
+            var cars = db.Car_Tbl.ToList();
+            List<String> carsBrand = new List<String>();
+
+            for (int i = 0; i < cars.Count; i++)
+            {
+                carsBrand.Add(cars[i].Brand.ToString());
+            }
+
+            carsBrand = carsBrand.Distinct().ToList();
+
+            List<SelectListItem> ListBrand1 = new List<SelectListItem>();
+
+            for (int i = 0; i < carsBrand.Count; i++)
+            {
+                ListBrand1.Add(new SelectListItem { Text = carsBrand[i].ToString(), Value = carsBrand[i].ToString() });
+            }
+
+            var clients = db.Customer_Tbl.ToList();
+            List<String> clientsFIO = new List<String>();
+
+
+            for (int i = 0; i < clients.Count; i++)
+            {
+                clientsFIO.Add(clients[i].FIO.ToString());
+            }
+
+            clientsFIO = clientsFIO.Distinct().ToList();
+
+            List<SelectListItem> ListClients2 = new List<SelectListItem>();
+
+            for (int i = 0; i < clientsFIO.Count; i++)
+            {
+                ListClients2.Add(new SelectListItem { Text = clientsFIO[i].ToString(), Value = clientsFIO[i].ToString() });
+            }
+
+            ViewBag.ListBrand = ListBrand1;
+            ViewBag.ListClients = ListClients2;
+
+            ViewData["GetContractdetails"] = DateStart;
+            ViewData["GetContractdetails"] = DateEnd;
+            ViewData["GetContractdetails"] = ListBrand;
+            ViewData["GetContractdetails"] = ListClients;
+
+            List<Contract> empquery;
+
+            empquery = db.Contract.ToList();
+
+            if (!String.IsNullOrEmpty(ListBrand) && !String.IsNullOrEmpty(ListClients) && DateStart != null && DateEnd != null)
+            {
+                empquery = empquery.Where(x => x.Car_Brand.Contains(ListBrand)
+                    && x.FIO_Customer.Contains(ListClients)
+                    && x.Date_Start <= DateStart
+                    && x.Date_End >= DateEnd).ToList();
+            }
+            else if (!String.IsNullOrEmpty(ListBrand) && !String.IsNullOrEmpty(ListClients))
+            {
+                empquery = empquery.Where(x => x.Car_Brand.Contains(ListBrand)
+                   && x.FIO_Customer.Contains(ListClients)).ToList();
+            }
+            else if (!String.IsNullOrEmpty(ListBrand))
+            {
+                empquery = empquery.Where(x => x.Car_Brand.Contains(ListBrand)).ToList();
+            }
+            else if (!String.IsNullOrEmpty(ListClients))
+            {
+                empquery = empquery.Where(x => x.FIO_Customer.Contains(ListClients)).ToList();
+            }
+            else if (DateStart >= DateTime.Parse("01.01.2022") && DateEnd <= DateTime.Now.AddYears(1))
+            {
+                empquery = empquery.Where(x => x.Date_Start >= DateStart && x.Date_End <= DateEnd).ToList();
+            }
+            else if (DateStart != null)
+            {
+                empquery = empquery.Where(x => x.Date_Start >= DateStart).ToList();
+            }
+            else if (DateEnd != null)
+            {
+                empquery = empquery.Where(x => x.Date_End <= DateEnd).ToList();
+            }
+
+            ViewBag.TotalPages = Math.Ceiling(empquery.Count() / 15.0);
+            ViewBag.PageNumber = 1;
+
+            return View("IndexByCondition", empquery);
+        }
+
         // GET: User Contracts
         public ActionResult Index()
         {
@@ -74,6 +164,44 @@ namespace CarRental.Controllers
         // GET: All Contracts
         public ActionResult IndexAll()
         {
+            var cars = db.Car_Tbl.ToList();
+            List<String> carsBrand = new List<String>();
+
+            for (int i = 0; i < cars.Count; i++)
+            {
+                carsBrand.Add(cars[i].Brand.ToString());
+            }
+
+            carsBrand = carsBrand.Distinct().ToList();
+
+            List<SelectListItem> ListBrand1 = new List<SelectListItem>();
+
+            for (int i = 0; i < carsBrand.Count; i++)
+            {
+                ListBrand1.Add(new SelectListItem { Text = carsBrand[i].ToString(), Value = carsBrand[i].ToString() });
+            }
+
+            var clients = db.Customer_Tbl.ToList();
+            List<String> clientsFIO = new List<String>();
+
+
+            for (int i = 0; i < clients.Count; i++)
+            {
+                clientsFIO.Add(clients[i].FIO.ToString());
+            }
+
+            clientsFIO = clientsFIO.Distinct().ToList();
+
+            List<SelectListItem> ListClients = new List<SelectListItem>();
+
+            for (int i = 0; i < clientsFIO.Count; i++)
+            {
+                ListClients.Add(new SelectListItem { Text = clientsFIO[i].ToString(), Value = clientsFIO[i].ToString() });
+            }
+
+            ViewBag.ListBrand = ListBrand1;
+            ViewBag.ListClients = ListClients;
+
             return View(db.Contract.ToList());
         }
 
@@ -234,7 +362,7 @@ namespace CarRental.Controllers
             var contract = db.Contract.Where(model => model.id == id).First();
             var car = db.Car_Tbl.Where(auto => auto.WIN_Number.Equals(contract.Car_WIN_Number)).FirstOrDefault();
             contract.Condition = "Завершён";
-            contract.Date_End = DateTime.Now;
+            //contract.Date_End = DateTime.Now;
 
             car.Contition = "Свободна";
             db.Entry(car).State = System.Data.Entity.EntityState.Modified;

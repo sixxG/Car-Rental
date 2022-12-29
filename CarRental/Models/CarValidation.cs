@@ -76,7 +76,7 @@ namespace CarRental.Models
             public string Description { get; set; }
 
             [DisplayName("Фото")]
-            [Required]
+            //[Required]
             public string Image { get; set; }
         }
     }

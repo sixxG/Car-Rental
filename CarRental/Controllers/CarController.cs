@@ -17,11 +17,31 @@ using System.Data.Entity.Validation;
 using System.Diagnostics;
 using Microsoft.AspNet.Identity;
 using log4net;
+using CarRental.IRep;
 
 namespace CarRental.Controllers
 {
     public class CarController : Controller
     {
+
+        IRepository repo;
+
+        public CarController(IRepository r)
+        {
+            repo = r;
+        }
+
+        public CarController()
+        {
+            repo = new CarRepository();
+        }
+        protected override void Dispose(bool disposing)
+        {
+            repo.Dispose();
+            base.Dispose(disposing);
+        }
+        private CarRepository carRepository;
+
         private CarRentalMVCEntities1 db = new CarRentalMVCEntities1();
         private Car_Tbl context = new Car_Tbl();
 
@@ -32,7 +52,7 @@ namespace CarRental.Controllers
         // GET: Car
         public ActionResult Index()
         {
-
+            ViewBag.Message = "Автопарк";
             var cars = db.Car_Tbl.ToList();
             List<String> carsBrand = new List<String>();
 
@@ -61,7 +81,7 @@ namespace CarRental.Controllers
 
             Log.Info("Начал выполняться метод Index контроллера CarController");
 
-            if(User.Identity.GetUserId() != null)
+            if (User != null && User.Identity.GetUserId() != null)
             {
                 string strCurrentUserId = User.Identity.GetUserId().ToString();
                 var userRole = User.IsInRole("Client");
@@ -80,6 +100,7 @@ namespace CarRental.Controllers
 
         public ActionResult FindCar(int? PriceOT, int? PriceDO, string ListBrand, string ListTypeTransmition, string carClass)
         {
+            ViewBag.Message = "List Car by Class";
 
             var cars = db.Car_Tbl.ToList();
             List<String> carsBrand = new List<String>();
@@ -163,6 +184,7 @@ namespace CarRental.Controllers
         // GET: Car
         public ActionResult IndexClass(string s, int PageNumber = 1)
         {
+            ViewBag.Message = "List Car by Class";
 
             var cars1 = db.Car_Tbl.ToList();
             List<String> carsBrand = new List<String>();
@@ -192,7 +214,7 @@ namespace CarRental.Controllers
 
             List<Car_Tbl> cars;
 
-            if (!s.Equals("All"))
+            if (s != null && !s.Equals("All"))
             {
                 cars = cars1.Where(x => x.Class.Equals(s)).ToList();
             } else
@@ -213,20 +235,24 @@ namespace CarRental.Controllers
         // GET: Car/Details/5
         public ActionResult Details(int? id)
         {
+            ViewBag.Message = "Car Details";
 
-            if(User.Identity.IsAuthenticated)
+            if (User != null)
             {
-                var userID = User.Identity.GetUserId().ToString();
-                var contract = db.Contract.Where(cont => cont.id_client.Equals(userID)
-                                                    && !cont.Condition.Equals("Отменён")
-                                                    && !cont.Condition.Equals("Завершён")).FirstOrDefault();
-                var ClientsContract = contract == null;
-                ViewBag.Clients_ActiveRental = ClientsContract;
-            } else
-            {
-                ViewBag.Clients_ActiveRental = false;
+                if (User.Identity.IsAuthenticated)
+                {
+                    var userID = User.Identity.GetUserId().ToString();
+                    var contract = db.Contract.Where(cont => cont.id_client.Equals(userID)
+                                                        && !cont.Condition.Equals("Отменён")
+                                                        && !cont.Condition.Equals("Завершён")).FirstOrDefault();
+                    var ClientsContract = contract == null;
+                    ViewBag.Clients_ActiveRental = ClientsContract;
+                }
+                else
+                {
+                    ViewBag.Clients_ActiveRental = false;
+                }
             }
-
 
             if (id == null)
             {
@@ -238,7 +264,7 @@ namespace CarRental.Controllers
             {
                 return HttpNotFound();
             }
-            return View(car_Tbl);
+            return View("Details", car_Tbl);
         }
 
         // GET: Car/Create
@@ -246,6 +272,7 @@ namespace CarRental.Controllers
         [HttpGet]
         public ActionResult Create(int id = 0)
         {
+            ViewBag.Message = "Добавить авто";
             Car_Tbl car = new Car_Tbl();
             var listType_Drive = new List<String>() { "Передний", "Задний", "Полный"};
             var listType_Body = new List<String>() { "Купэ", "Универсал", "Кабриолет", "Седан", "Лимузин", "Внедорожник", "Хетчбэк", "Пикап", "Мини-вэн" };
@@ -274,45 +301,52 @@ namespace CarRental.Controllers
         //[ValidateAntiForgeryToken]
         public ActionResult Create(Car_Tbl car_Tbl)// add this 
         {
-            if (car_Tbl.Image != null && car_Tbl.id == 0)
+            if (ModelState.IsValid)
             {
-                string fileName = Path.GetFileNameWithoutExtension(car_Tbl.ImageFile.FileName);
-                string extension = Path.GetExtension(car_Tbl.ImageFile.FileName);
-                fileName = fileName + DateTime.Now.ToString("-yy-MM-dd-HH") + extension;
-
-                car_Tbl.Image = "../Image/" + fileName;
-                fileName = Path.Combine(Server.MapPath("../Image/"), fileName);
-                car_Tbl.ImageFile.SaveAs(fileName);
-            }
-
-            using (CarRentalMVCEntities1 carRentalMVC = new CarRentalMVCEntities1())
-            {
-                try
+                if (car_Tbl.Image != null && car_Tbl.id == 0)
                 {
-                    if(car_Tbl.id == 0)
-                    {
-                        carRentalMVC.Car_Tbl.Add(car_Tbl);
-                        carRentalMVC.SaveChanges();
-                        return RedirectToAction("Index");
-                    }
-                    else
-                    {
-                        db.Entry(car_Tbl).State = System.Data.Entity.EntityState.Modified;
-                        db.SaveChanges();
-                    }
+                    string fileName = Path.GetFileNameWithoutExtension(car_Tbl.ImageFile.FileName);
+                    string extension = Path.GetExtension(car_Tbl.ImageFile.FileName);
+                    fileName = fileName + DateTime.Now.ToString("-yy-MM-dd-HH") + extension;
+
+                    car_Tbl.Image = "../Image/" + fileName;
+                    fileName = Path.Combine(Server.MapPath("../Image/"), fileName);
+                    car_Tbl.ImageFile.SaveAs(fileName);
                 }
-                catch (DbEntityValidationException dbEx)
+
+                using (CarRentalMVCEntities1 carRentalMVC = new CarRentalMVCEntities1())
                 {
-                    foreach (var validationErrors in dbEx.EntityValidationErrors)
+                    try
                     {
-                        foreach (var validationError in validationErrors.ValidationErrors)
+                        if (car_Tbl.id == 0)
                         {
-                            Trace.TraceInformation("Property: {0} Error: {1}",
-                                                    validationError.PropertyName,
-                                                    validationError.ErrorMessage);
-                            Console.WriteLine("Property: {0} Error: {1}",
-                                                    validationError.PropertyName,
-                                                    validationError.ErrorMessage);
+                            if (User == null)
+                            {
+                                car_Tbl.Image = "../Image/defaulst.jpeg";
+                            }
+                            carRentalMVC.Car_Tbl.Add(car_Tbl);
+                            carRentalMVC.SaveChanges();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            db.Entry(car_Tbl).State = System.Data.Entity.EntityState.Modified;
+                            db.SaveChanges();
+                        }
+                    }
+                    catch (DbEntityValidationException dbEx)
+                    {
+                        foreach (var validationErrors in dbEx.EntityValidationErrors)
+                        {
+                            foreach (var validationError in validationErrors.ValidationErrors)
+                            {
+                                Trace.TraceInformation("Property: {0} Error: {1}",
+                                                        validationError.PropertyName,
+                                                        validationError.ErrorMessage);
+                                Console.WriteLine("Property: {0} Error: {1}",
+                                                        validationError.PropertyName,
+                                                        validationError.ErrorMessage);
+                            }
                         }
                     }
                 }
@@ -320,27 +354,10 @@ namespace CarRental.Controllers
             return RedirectToAction("Index");
         }
 
-        //public ActionResult Create(Car_Tbl car_Tbl)
-        //{
-        //    var selectlist = new SelectList("Передний", "Полный");
-        //    ViewBag.selectlist = selectlist;
-        //    if (ModelState.IsValid)
-        //    {
-        //        //string filename = Path.GetFileName(uploadImage.FileName);
-        //        //string imgpath = Path.Combine(Server.MapPath("~/Imag/"), filename);
-        //        //uploadImage.SaveAs(imgpath);
-
-        //        db.Car_Tbl.Add(car_Tbl);
-        //        db.SaveChanges();
-        //        return RedirectToAction("Index");
-        //    }
-
-        //    return View(car_Tbl);
-        //}
-
         // GET: Car/Edit/5
         public ActionResult Edit(int? id)
         {
+            ViewBag.Message = "Редактироавть авто";
             var listType_Drive = new List<String>() { "Передний", "Задний", "Полный" };
             var listType_Body = new List<String>() { "Купэ", "Универсал", "Кабриолет", "Седан", "Лимузин", "Внедорожник", "Хетчбэк", "Пикап", "Мини-вэн" };
             var listClass = new List<String>() { "Эконом", "Комфорт", "Бизнес", "Premium", "Внедорожники", "Минивэны", "Уникальные авто" };
@@ -355,13 +372,16 @@ namespace CarRental.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Car_Tbl car_Tbl = db.Car_Tbl.Find(id);
-            Session["imgPath"] = car_Tbl.Image.Substring(2);
+            if (User != null)
+            {
+                Session["imgPath"] = car_Tbl.Image.Substring(2);
+            }
             //car_Tbl.Image = "../" + car_Tbl.Image.Substring(2);
             if (car_Tbl == null)
             {
                 return HttpNotFound();
             }
-            return View(car_Tbl);
+            return View("Edit",car_Tbl);
         }
 
         // POST: Car/Edit/5
@@ -401,19 +421,23 @@ namespace CarRental.Controllers
                 } 
                 else
                 {
-                    car_Tbl.Image = ".." + Session["imgPath"].ToString();
+                    if (Session != null)
+                    {
+                        car_Tbl.Image = ".." + Session["imgPath"].ToString();
+                    }
                     db.Entry(car_Tbl).State = System.Data.Entity.EntityState.Modified;
                     db.SaveChanges();
 
                     return RedirectToAction("Details", new { id = car_Tbl.id });
                 }
            }
-            return View(car_Tbl);
+            return View("Edit",car_Tbl);
         }
 
         // GET: Car/Delete/5
         public ActionResult Delete(int? id)
         {
+            ViewBag.Message = "Car Delete";
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -423,7 +447,7 @@ namespace CarRental.Controllers
             {
                 return HttpNotFound();
             }
-            return View(car_Tbl);
+            return View("Delete", car_Tbl);
         }
 
         // POST: Car/Delete/5
@@ -441,8 +465,12 @@ namespace CarRental.Controllers
                 return View(car_Tbl);
             }
 
-            //string currentImg = Request.MapPath("~/Image/", car_Tbl.Image);
-            string currentImg = Path.Combine(Server.MapPath("~/Image/"), car_Tbl.Image.Substring(9));
+            //string currentImg = Request.MapPath("~/Image/", car_Tbl.Image
+            string currentImg = "";
+            if (User != null)
+            {
+                currentImg = Path.Combine(Server.MapPath("~/Image/"), car_Tbl.Image.Substring(9));
+            }
 
             db.Car_Tbl.Remove(car_Tbl);
             if (db.SaveChanges() > 0)
@@ -455,13 +483,13 @@ namespace CarRental.Controllers
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+        //protected override void Dispose(bool disposing)
+        //{
+        //    if (disposing)
+        //    {
+        //        db.Dispose();
+        //    }
+        //    base.Dispose(disposing);
+        //}
     }
 }
