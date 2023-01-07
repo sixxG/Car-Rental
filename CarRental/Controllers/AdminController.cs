@@ -20,12 +20,14 @@ namespace CarRental.Controllers
         // GET: Admin
         public ActionResult Index()
         {
+            ViewBag.Message = "Admins";
             return View(db.Admin_Tbl.ToList());
         }
 
         // GET: Admin/Details/5
         public ActionResult Details(int? id)
         {
+            ViewBag.Message = "Admin Details";
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -35,12 +37,13 @@ namespace CarRental.Controllers
             {
                 return HttpNotFound();
             }
-            return View(admin_Tbl);
+            return View("Details",admin_Tbl);
         }
 
         // GET: Admin/Create
         public ActionResult Create()
         {
+            ViewBag.Message = "Create Admin";
             return View();
         }
 
@@ -68,23 +71,27 @@ namespace CarRental.Controllers
         {
             if (ModelState.IsValid)
             {
-                var userID = User.Identity.GetUserId().ToString();
-                var login = User.Identity.GetUserName();
-                var role = UserManager.GetRoles(User.Identity.GetUserId());
-                admin_Tbl.user_ID = userID;
-                admin_Tbl.Login = login.ToString();
-                admin_Tbl.Password = role.First().ToString();
+                if (User != null)
+                {
+                    var userID = User.Identity.GetUserId().ToString();
+                    var login = User.Identity.GetUserName();
+                    var role = UserManager.GetRoles(User.Identity.GetUserId());
+                    admin_Tbl.user_ID = userID;
+                    admin_Tbl.Login = login.ToString();
+                    admin_Tbl.Password = role.First().ToString();
+                }
                 db.Admin_Tbl.Add(admin_Tbl);
                 db.SaveChanges();
-                return View(admin_Tbl);
+                return View("Create", admin_Tbl);
             }
 
-            return View(admin_Tbl);
+            return View("Create",admin_Tbl);
         }
 
         // GET: Admin/Edit/5
         public ActionResult Edit(string user_ID)
         {
+            ViewBag.Message = "Edit Admin";
             if (user_ID == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -94,7 +101,7 @@ namespace CarRental.Controllers
             {
                 return HttpNotFound();
             }
-            return View(admin_Tbl);
+            return View("Edit",admin_Tbl);
         }
 
         // POST: Admin/Edit/5
@@ -104,21 +111,27 @@ namespace CarRental.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id,FIO,Login,Password,user_ID")] Admin_Tbl admin_Tbl)
         {
+            if (User != null)
+            {
+                admin_Tbl.Login = User.Identity.GetUserName();
+            }
             admin_Tbl.Password = "Admin";
-            admin_Tbl.Login = User.Identity.GetUserName();
             if (ModelState.IsValid)
             {
                 db.Entry(admin_Tbl).State = EntityState.Modified;
                 db.SaveChanges();
-                return View(admin_Tbl);
+                ViewBag.Message = "Admin was Edited";
+                return View("Edit",admin_Tbl);
                 //return RedirectToAction("Index");
             }
-            return View(admin_Tbl);
+            ViewBag.Message = "Admin was`nt Edited";
+            return View("Edit",admin_Tbl);
         }
 
         // GET: Admin/Delete/5
         public ActionResult Delete(int? id)
         {
+            ViewBag.Message = "Delete Admin";
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -128,7 +141,7 @@ namespace CarRental.Controllers
             {
                 return HttpNotFound();
             }
-            return View(admin_Tbl);
+            return View("Delete",admin_Tbl);
         }
 
         // POST: Admin/Delete/5

@@ -27,5 +27,24 @@ namespace CarRental.Models
         public string Condition { get; set; }
         public string Notes { get; set; }
         public string id_client { get; set; }
+
+        public Contract() { }
+
+        public Contract(string FIO_Customer, string FIO_Manager, string Car_Brand, string Car_Model, string Car_WIN_Number, string Additional_Options,
+                         DateTime Date_Start, DateTime Date_End, double Price, string Condition, string Notes, string id_client)
+        {
+            this.FIO_Customer = FIO_Customer;
+            this.FIO_Manager = FIO_Manager;
+            this.Car_Brand = Car_Brand;
+            this.Car_Model = Car_Model;
+            this.Car_WIN_Number = Car_WIN_Number;
+            this.Additional_Options = Additional_Options;
+            this.Date_Start = Date_Start;
+            this.Date_End = Date_End;
+            this.Price = Price;
+            this.Condition = Condition;
+            this.Notes = Notes;
+            this.id_client = id_client;
+        } 
     }
 }

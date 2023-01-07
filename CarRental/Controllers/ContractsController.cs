@@ -1,16 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
-using System.Dynamic;
 using System.Linq;
 using System.Net;
-using System.Security.Claims;
-using System.Web;
 using System.Web.Mvc;
 using CarRental.Models;
-using log4net;
-using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
 
 namespace CarRental.Controllers
@@ -110,10 +104,15 @@ namespace CarRental.Controllers
         }
 
         // GET: User Contracts
-        public ActionResult Index()
+        public ActionResult Index(string user_id)
         {
-            var userID = User.Identity.GetUserId().ToString();
-            var Contracts = db.Contract.Where(contract => contract.id_client.Equals(userID));
+            ViewBag.Message = "List Contracts to Customer";
+            var Contracts = db.Contract.Where(contract => contract.id_client.Equals(user_id));
+            if (User != null)
+            {
+                var userID = User.Identity.GetUserId().ToString();
+                Contracts = db.Contract.Where(contract => contract.id_client.Equals(userID));
+            }
 
             var contractActive = Contracts.Where(contr => contr.Condition.Equals("Не подтверждён") 
                                                             || contr.Condition.Equals("Подтверждён") 
@@ -158,12 +157,13 @@ namespace CarRental.Controllers
 
 
             int lenght = Contracts.Count();
-            return View(Contracts.ToList());
+            return View("Index",Contracts.ToList());
         }
 
         // GET: All Contracts
         public ActionResult IndexAll()
         {
+            ViewBag.Message = "Contracts";
             var cars = db.Car_Tbl.ToList();
             List<String> carsBrand = new List<String>();
 
@@ -202,7 +202,7 @@ namespace CarRental.Controllers
             ViewBag.ListBrand = ListBrand1;
             ViewBag.ListClients = ListClients;
 
-            return View(db.Contract.ToList());
+            return View("IndexAll",db.Contract.ToList());
         }
 
 
@@ -238,6 +238,7 @@ namespace CarRental.Controllers
         // GET: Contracts/Details/51
         public ActionResult Details(int? id)
         {
+            ViewBag.Message = "Contract Details";
             Contract contract = db.Contract.Find(id);
 
             string[] subs = contract.Additional_Options.Split(' ');
@@ -249,18 +250,32 @@ namespace CarRental.Controllers
             ViewBag.ifAutoBox = ifAutoBox;
             ViewBag.ifChildChes = ifChildChes;
 
-            var user = db.Customer_Tbl.Where(customer => customer.user_ID.Equals(contract.id_client)).First();
-            var BirthDate = user.BirthDate;
-            var Login = user.Login;
-            var Passport = user.Passport_Data;
-            var LicenseNumber = user.Drivers_License;
-            var Address = user.Address;
+            var user = db.Customer_Tbl.Where(customer => customer.user_ID.Equals(contract.id_client)).FirstOrDefault();
+            if (user != null)
+            {
+                var BirthDate = user.BirthDate;
+                var Login = user.Login;
+                var Passport = user.Passport_Data;
+                var LicenseNumber = user.Drivers_License;
+                var Address = user.Address;
+                var Phone = user.Phone;
 
-            ViewBag.BD = BirthDate;
-            ViewBag.Login = Login;
-            ViewBag.Passport = Passport;
-            ViewBag.LicenseNumber = LicenseNumber;
-            ViewBag.Address = Address;
+                ViewBag.BD = BirthDate;
+                ViewBag.Login = Login;
+                ViewBag.Passport = Passport;
+                ViewBag.LicenseNumber = LicenseNumber;
+                ViewBag.Address = Address;
+                ViewBag.Phone = Phone;
+            }
+            else
+            {
+                ViewBag.BD = "Пользователь был удалён!";
+                ViewBag.Login = "Пользователь был удалён!";
+                ViewBag.Passport = "Пользователь был удалён!";
+                ViewBag.LicenseNumber = "Пользователь был удалён!";
+                ViewBag.Address = "Пользователь был удалён!";
+                ViewBag.Phone = "Пользователь был удалён!";
+            }
 
             var car = db.Car_Tbl.Where(auto => auto.WIN_Number.Equals(contract.Car_WIN_Number)).FirstOrDefault();
             if (car != null)
@@ -307,7 +322,7 @@ namespace CarRental.Controllers
             {
                 return HttpNotFound();
             }
-            return View(contract);
+            return View("Details", contract);
         }
 
 
@@ -404,8 +419,9 @@ namespace CarRental.Controllers
         }
 
         // GET: Contracts/Create
-        public ActionResult Create(int id, string dateStart, string dateEnd)
+        public ActionResult Create(int id, string dateStart, string dateEnd, string used_ID)
         {
+            ViewBag.Message = "Create Contract";
             var car = db.Car_Tbl.Where(auto => auto.id == id).FirstOrDefault();
             var ID = car.id;
             var WIN = car.WIN_Number;
@@ -420,8 +436,12 @@ namespace CarRental.Controllers
             var Price = car.Price_Per_Day;
             var Image = car.Image;
             //double price = (Mode- contract.Date_Start).TotalDays * contract.Price;
-            var userID = User.Identity.GetUserId();
-            var user = db.Customer_Tbl.Where(usr => usr.user_ID.Equals(userID)).FirstOrDefault();
+            var user = db.Customer_Tbl.Where(usr => usr.user_ID.Equals(used_ID)).FirstOrDefault();
+            if (User != null)
+            {
+                var userID = User.Identity.GetUserId();
+                user = db.Customer_Tbl.Where(usr => usr.user_ID.Equals(userID)).FirstOrDefault();
+            }
 
             ViewBag.IfUserDataExist = user == null;
 
@@ -448,7 +468,7 @@ namespace CarRental.Controllers
             ViewBag.Power = Power;
             ViewBag.Price = Price;
             ViewBag.Image = Image;
-            return View();
+            return View("Create");
         }
 
         // POST: Contracts/Create
@@ -462,8 +482,11 @@ namespace CarRental.Controllers
             if (ModelState.IsValid)
             {
                 //double price = (contract.Date_End - contract.Date_Start).TotalDays * contract.Price;
-                string strCurrentUserId = User.Identity.GetUserId().ToString();
-                contract.id_client = strCurrentUserId;
+                if (User != null)
+                {
+                    string strCurrentUserId = User.Identity.GetUserId().ToString();
+                    contract.id_client = strCurrentUserId;
+                }
                 contract.Car_Brand = car.Brand;
                 contract.Car_Model = car.Model;
                 contract.Car_WIN_Number = car.WIN_Number;
@@ -476,21 +499,26 @@ namespace CarRental.Controllers
                 return RedirectToAction("Index");
             }
 
-            return View(contract);
+            ViewBag.Message = "Faild!";
+            return View("Create",contract);
         }
 
         // GET: Contracts/Edit/5
         public ActionResult Edit(int? id)
         {
+            ViewBag.Message = "Edit Contract";
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Contract contract = db.Contract.Find(id);
 
-            var managerID = User.Identity.GetUserId();
+            if (User != null)
+            {
+                var managerID = User.Identity.GetUserId();
 
-            contract.FIO_Manager = db.Manager_Tbl.Where(manager => manager.user_ID.Equals(managerID)).FirstOrDefault().FIO;
+                contract.FIO_Manager = db.Manager_Tbl.Where(manager => manager.user_ID.Equals(managerID)).FirstOrDefault().FIO;
+            }
 
             //ViewBag.UserID = contract.id_client;
 
@@ -498,7 +526,7 @@ namespace CarRental.Controllers
             {
                 return HttpNotFound();
             }
-            return View(contract);
+            return View("Edit",contract);
         }
 
         // POST: Contracts/Edit/5
@@ -514,6 +542,7 @@ namespace CarRental.Controllers
                 db.SaveChanges();
                 return RedirectToAction("IndexAll");
             }
+            ViewBag.Message = "Faile Edit!";
             return RedirectToAction("IndexAll");
         }
 

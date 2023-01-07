@@ -4,5 +4,8 @@ Password: Ugc-RdD-ykL-F3c
 Login: user@mail.ru
 Password: kzRcghGbzUC2L!A
 
+Login: user2@mail.ru
+Password: cp3LVk7REme59ML!
+
 Login: manager@mail.ru
 Passowrd: kzRcghGbzUC2L!A

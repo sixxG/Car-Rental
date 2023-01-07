@@ -126,6 +126,9 @@
     <Compile Include="Controllers\CarControllerTest.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />
     <Compile Include="Controllers\CustomerControllerTest.cs" />
+    <Compile Include="Controllers\ManagerControllerTest.cs" />
+    <Compile Include="Controllers\AdminControllerTest.cs" />
+    <Compile Include="Controllers\ContractsControllerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

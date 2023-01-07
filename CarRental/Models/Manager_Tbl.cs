@@ -19,5 +19,15 @@ namespace CarRental.Models
         public string Login { get; set; }
         public string Password { get; set; }
         public string user_ID { get; set; }
+
+        public Manager_Tbl() { }
+
+        public Manager_Tbl(string FIO, string Login, string Password, string user_ID)
+        {
+            this.FIO = FIO;
+            this.Login = Login;
+            this.Password = Password;
+            this.user_ID = user_ID;
+        }
     }
 }

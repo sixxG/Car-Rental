@@ -130,11 +130,11 @@ namespace CarRental.Controllers
         {
             Customer_Tbl customer_Tbl = db.Customer_Tbl.Find(id);
 
-            var contract = db.Contract.Where(contr => contr.id_client.Equals(customer_Tbl.user_ID)).ToList();
-            for(int i = 0; i < contract.Count(); i++)
-            {
-                db.Contract.Remove(contract[i]);
-            }
+            //var contract = db.Contract.Where(contr => contr.id_client.Equals(customer_Tbl.user_ID)).ToList();
+            //for(int i = 0; i < contract.Count(); i++)
+            //{
+            //    db.Contract.Remove(contract[i]);
+            //}
 
             db.Customer_Tbl.Remove(customer_Tbl);
             db.SaveChanges();
